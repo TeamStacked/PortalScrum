@@ -35,14 +35,15 @@ graph TD
     S2 --> S3[Sprint 3: Certificação e Dashboards]
 ```
 
-<!-- ### Tabela Descritiva das Sprints
-| Período | Documentação da Sprint | Vídeo de Demonstração |
-|:---:|:---:|:---:|
-| **Sprint 1:** 13/04 a 30/04/2026 | [Documentação Sprint 1](./docs/sprint1) | [Assistir no Youtube](https://youtube.com/...) |
-| **Sprint 2:** 04/05 a 21/05/2026 | [Documentação Sprint 2](./docs/sprint2) | [Assistir no Youtube](https://youtube.com/...) |
-| **Sprint 3:** 25/05 a 11/06/2026 | [Documentação Sprint 3](./docs/sprint3) | [Assistir no Youtube](https://youtube.com/...) |
+### Tabela Descritiva das Sprints
 
---- -->
+|             Período              |         Documentação da Sprint          |
+| :------------------------------: | :-------------------------------------: |
+| **Sprint 1:** 13/04 a 30/04/2026 | [Documentação Sprint 1](./docs/sprint1) |
+| **Sprint 2:** 04/05 a 21/05/2026 | [Documentação Sprint 2](./docs/sprint2) |
+| **Sprint 3:** 25/05 a 11/06/2026 | [Documentação Sprint 3](./docs/sprint3) |
+
+---
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -108,17 +109,18 @@ A organização das pastas segue as definições do servidor e scripts de inicia
 
 ---
 
-<!-- ## 👥 Equipe
-*   **Nome Completo 1** - [GitHub](...) - **Papel:** Design Digital (Figma/UI).
-*   **Nome Completo 2** - [GitHub](...) - **Papel:** Engenharia de Software (UML).
-*   **Nome Completo 3** - [GitHub](...) - **Papel:** Banco de Dados (PostgreSQL).
-*   **Nome Completo 4** - [GitHub](...) - **Papel:** Back-end (Segurança/API).
-*   **Nome Completo 5** - [GitHub](...) - **Papel:** Back-end (Infra/Scripts).
-*   **Nome Completo 6** - [GitHub](...) - **Papel:** Front-end (Cadastro).
-*   **Nome Completo 7** - [GitHub](...) - **Papel:** Front-end (Login/Dashboard).
-*   **Nome Completo 8** - [GitHub](...) - **Papel:** Gestão Git e Qualidade (DoR/DoD).
+## 👥 Equipe
 
---- -->
+- **Patricia Rosa Maidana** Product Owner (PO) - [Linkedin](https://www.linkedin.com/in/patricia-rosa-maidana)
+- **Michel Rubens Ferreira da Silva** Scrum Master - [Linkedin](https://www.linkedin.com/in/michelrubens)
+<!-- *   **Nome Completo 3** - [GitHub](...) - **Papel:** Banco de Dados (PostgreSQL).
+- **Nome Completo 4** - [GitHub](...) - **Papel:** Back-end (Segurança/API).
+- **Nome Completo 5** - [GitHub](...) - **Papel:** Back-end (Infra/Scripts).
+- **Nome Completo 6** - [GitHub](...) - **Papel:** Front-end (Cadastro).
+- **Nome Completo 7** - [GitHub](...) - **Papel:** Front-end (Login/Dashboard).
+- **Nome Completo 8** - [GitHub](...) - **Papel:** Gestão Git e Qualidade (DoR/DoD). -->
+
+---
 
 ## 📝 Padrão de Commits e Branches
 
@@ -127,16 +129,28 @@ Para garantir a rastreabilidade com o **GitHub Projects** e as **Issues**, adota
 ### Commits
 
 As mensagens devem referenciar o ID da Issue com `#`:
-`tipo (#id_issue): descrição clara`
-_Exemplo:_ `feat (#1): implementar hash de senha no cadastro`
+
+- `tipo (#id_issue): descrição clara`
+- _Exemplo:_ `feat (#1): implementar hash de senha no cadastro`
 
 ### Branches
 
 As branches devem ser criadas a partir de uma Issue:
-`tipo/id_issue-descrição-breve`
-_Exemplo:_ `feat/1-hash-senha`
 
-**Tipos permitidos:** `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`.
+- `tipo/id_issue-descrição-breve`
+- _Exemplo:_ `feat/1-hash-senha`
+
+**Tipos permitidos:**
+
+- `feat` - Commits do tipo feat indicam que seu trecho de código está incluindo um novo recurso (se relaciona com o MINOR do versionamento semântico).
+- `fix`- Commits do tipo fix indicam que seu trecho de código commitado está solucionando um problema (bug fix), (se relaciona com o PATCH do versionamento semântico).
+- `docs`- Commits do tipo docs indicam que houveram mudanças na documentação, como por exemplo no Readme do seu repositório. (Não inclui alterações em código).
+- `style`- Commits do tipo style indicam que houveram alterações referentes a formatações de código, semicolons, trailing spaces, lint... (Não inclui alterações em código).
+- `refactor` - Commits do tipo refactor referem-se a mudanças devido a refatorações que não alterem sua funcionalidade, como por exemplo, uma alteração no formato como é processada determinada parte da tela, mas que manteve a mesma funcionalidade, ou melhorias de performance devido a um code review.
+- `test`- Commits do tipo test são utilizados quando são realizadas alterações em testes, seja criando, alterando ou excluindo testes unitários. (Não inclui alterações em código).
+- `chore` - Commits do tipo chore indicam atualizações de tarefas de build, configurações de administrador, pacotes... como por exemplo adicionar um pacote no gitignore. (Não inclui alterações em código).
+- `cleanup` - Commits do tipo cleanup são utilizados para remover código comentado, trechos desnecessários ou qualquer outra forma de limpeza do código-fonte, visando aprimorar sua legibilidade e manutenibilidade.
+- `remove` - Commits do tipo remove indicam a exclusão de arquivos, diretórios ou funcionalidades obsoletas ou não utilizadas, reduzindo o tamanho e a complexidade do projeto e mantendo-o mais organizado.
 
 ---
 
