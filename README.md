@@ -142,17 +142,17 @@ As branches devem ser criadas a partir de uma Issue:
 
 **Tipos permitidos:**
 
-| Tipo           | Descrição                                                              | Impacto no Código |
-| :------------- | :--------------------------------------------------------------------- | :---------------- |
-| **`feat`**     | Adição de um novo recurso ou funcionalidade.                           | Sim               |
-| **`fix`**      | Correção de um erro ou bug.                                            | Sim               |
-| **`docs`**     | Alterações apenas na documentação (ex: README).                        | Não               |
-| **`style`**    | Ajustes de formatação, lint, pontos e vírgulas, etc.                   | Não               |
-| **`refactor`** | Mudanças no código que não alteram a funcionalidade (ex: performance). | Sim               |
-| **`test`**     | Criação, alteração ou exclusão de testes unitários.                    | Não               |
-| **`chore`**    | Mudanças em build, configurações, pacotes ou `.gitignore`.             | Não               |
-| **`cleanup`**  | Limpeza de código (remover comentários ou trechos inúteis).            | Sim               |
-| **`remove`**   | Exclusão de arquivos, diretórios ou funções obsoletas.                 | Sim               |
+| Tipo           | Descrição                                                              |
+| :------------- | :--------------------------------------------------------------------- |
+| **`feat`**     | Adição de um novo recurso ou funcionalidade.                           |
+| **`fix`**      | Correção de um erro ou bug.                                            |
+| **`docs`**     | Alterações apenas na documentação (ex: README).                        |
+| **`style`**    | Ajustes de formatação, lint, pontos e vírgulas, etc.                   |
+| **`refactor`** | Mudanças no código que não alteram a funcionalidade (ex: performance). |
+| **`test`**     | Criação, alteração ou exclusão de testes unitários.                    |
+| **`chore`**    | Mudanças em build, configurações, pacotes ou `.gitignore`.             |
+| **`cleanup`**  | Limpeza de código (remover comentários ou trechos inúteis).            |
+| **`remove`**   | Exclusão de arquivos, diretórios ou funções obsoletas.                 |
 
 ---
 
