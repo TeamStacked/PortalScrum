@@ -142,15 +142,17 @@ As branches devem ser criadas a partir de uma Issue:
 
 **Tipos permitidos:**
 
-- `feat` - Commits do tipo feat indicam que seu trecho de código está incluindo um novo recurso (se relaciona com o MINOR do versionamento semântico).
-- `fix`- Commits do tipo fix indicam que seu trecho de código commitado está solucionando um problema (bug fix), (se relaciona com o PATCH do versionamento semântico).
-- `docs`- Commits do tipo docs indicam que houveram mudanças na documentação, como por exemplo no Readme do seu repositório. (Não inclui alterações em código).
-- `style`- Commits do tipo style indicam que houveram alterações referentes a formatações de código, semicolons, trailing spaces, lint... (Não inclui alterações em código).
-- `refactor` - Commits do tipo refactor referem-se a mudanças devido a refatorações que não alterem sua funcionalidade, como por exemplo, uma alteração no formato como é processada determinada parte da tela, mas que manteve a mesma funcionalidade, ou melhorias de performance devido a um code review.
-- `test`- Commits do tipo test são utilizados quando são realizadas alterações em testes, seja criando, alterando ou excluindo testes unitários. (Não inclui alterações em código).
-- `chore` - Commits do tipo chore indicam atualizações de tarefas de build, configurações de administrador, pacotes... como por exemplo adicionar um pacote no gitignore. (Não inclui alterações em código).
-- `cleanup` - Commits do tipo cleanup são utilizados para remover código comentado, trechos desnecessários ou qualquer outra forma de limpeza do código-fonte, visando aprimorar sua legibilidade e manutenibilidade.
-- `remove` - Commits do tipo remove indicam a exclusão de arquivos, diretórios ou funcionalidades obsoletas ou não utilizadas, reduzindo o tamanho e a complexidade do projeto e mantendo-o mais organizado.
+| Tipo           | Descrição                                                              | Impacto no Código |
+| :------------- | :--------------------------------------------------------------------- | :---------------- |
+| **`feat`**     | Adição de um novo recurso ou funcionalidade.                           | Sim               |
+| **`fix`**      | Correção de um erro ou bug.                                            | Sim               |
+| **`docs`**     | Alterações apenas na documentação (ex: README).                        | Não               |
+| **`style`**    | Ajustes de formatação, lint, pontos e vírgulas, etc.                   | Não               |
+| **`refactor`** | Mudanças no código que não alteram a funcionalidade (ex: performance). | Sim               |
+| **`test`**     | Criação, alteração ou exclusão de testes unitários.                    | Não               |
+| **`chore`**    | Mudanças em build, configurações, pacotes ou `.gitignore`.             | Não               |
+| **`cleanup`**  | Limpeza de código (remover comentários ou trechos inúteis).            | Sim               |
+| **`remove`**   | Exclusão de arquivos, diretórios ou funções obsoletas.                 | Sim               |
 
 ---
 
