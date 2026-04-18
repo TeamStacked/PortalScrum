@@ -27,11 +27,22 @@
 .forgot-password > a {
     color: #9CA1A9;
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+.input-box> label {
+    font-size: 1rem;
+}
+
+@media (max-width: 600px) {
+    .inputs {
+        grid-template-columns: 1fr;
+    }
+
+    .input-box> label {
+        font-size: 0.75rem;
+    }
+    .forgot-password > a {
+    font-size: 0.75rem;
+}
 }
