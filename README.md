@@ -12,16 +12,16 @@ O aprendizado de metodologias ágeis, especialmente o framework Scrum, é um pil
 
 O backlog foi organizado para atender aos requisitos funcionais (RF) e não funcionais (RNF) priorizando um MVP funcional.
 
-|    ID    | User Story                                            | Requisitos Relacionados  | Sprint |
-| :------: | ----------------------------------------------------- | :----------------------: | :----: |
-| **US00** | Infraestrutura, Banco de Dados e Documentação Técnica | RNF05, RNF06, RP02, RP04 |   1    |
-| **US01** | Cadastro de Usuário (CPF, Nome, E-mail, Senha)        |       RF01, RNF03        |   1    |
-| **US02** | Autenticação Segura via JWT e Hash de Senha           |       RF02, RNF04        |   1    |
-| **US04** | Motor de Avaliação (10 questões aleatórias 3F/4M/3D)  |     RF03, RF04, RF05     |   2    |
-| **US05** | Gestão de Tentativas (Limite de 2) e Melhor Nota      |     RF06, RF07, RF08     |   2    |
-| **US07** | Registro de Histórico e Auditoria de Exames           |           RF10           |   2    |
-| **US03** | Dashboard de Progresso do Estudante                   |       RF11, RNF01        |   3    |
-| **US06** | Geração de Certificado Final em PDF                   |           RF09           |   3    |
+|    ID    | User Story                                                                                                                                                       | Requisitos Relacionados  | Sprint |
+| :------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------: | :----: |
+| **US00** | Infraestrutura, Banco de Dados e Documentação Técnica                                                                                                            | RNF05, RNF06, RP02, RP04 |   1    |
+| **US01** | **Cadastro de Usuário**: Como novo usuário, quero me cadastrar no portal fornecendo CPF, nome, e-mail e senha para acessar as avaliações.                        |       RF01, RNF03        |   1    |
+| **US02** | **Autenticação Segura**: Como usuário cadastrado, quero realizar login com CPF e senha para manter meu progresso salvo.                                          |       RF02, RNF04        |   1    |
+| **US04** | **Realização de Avaliação por Nível**: Como usuário, quero realizar provas de 10 questões (com mix de dificuldades) para validar meu conhecimento em cada nível. |     RF03, RF04, RF05     |   2    |
+| **US05** | **Gestão de Tentativas e Notas**: Como usuário, quero ter até 2 tentativas por nível, com o sistema retendo minha melhor nota para o cálculo final.              |     RF06, RF07, RF08     |   2    |
+| **US07** | **Auditoria de Histórico**: Como sistema, devo registrar a data/hora e questões de cada tentativa para fins de auditoria.                                        |           RF10           |   2    |
+| **US03** | **Visualização de Progresso**: Como estudante, quero consultar meu progresso, níveis concluídos e notas para saber quanto falta para minha certificação.         |       RF11, RNF01        |   3    |
+| **US06** | **Emissão de Certificado**: Como usuário aprovado, quero gerar um certificado em PDF com meus dados e média final para comprovar minha competência.              |           RF09           |   3    |
 
 ---
 
@@ -37,11 +37,11 @@ graph TD
 
 ### Tabela Descritiva das Sprints
 
-|             Período              |         Documentação da Sprint          |
-| :------------------------------: | :-------------------------------------: |
-| **Sprint 1:** 13/04 a 30/04/2026 | [Documentação Sprint 1](./docs/sprint1) |
-| **Sprint 2:** 04/05 a 21/05/2026 | [Documentação Sprint 2](./docs/sprint2) |
-| **Sprint 3:** 25/05 a 11/06/2026 | [Documentação Sprint 3](./docs/sprint3) |
+|             Período              |           Documentação da Sprint           |
+| :------------------------------: | :----------------------------------------: |
+| **Sprint 1:** 13/04 a 30/04/2026 | [Documentação Sprint 1](./docs/sprint1.md) |
+| **Sprint 2:** 04/05 a 21/05/2026 | [Documentação Sprint 2](./docs/sprint2.md) |
+| **Sprint 3:** 25/05 a 11/06/2026 | [Documentação Sprint 3](./docs/sprint3.md) |
 
 ---
 
@@ -111,14 +111,22 @@ A organização das pastas segue as definições do servidor e scripts de inicia
 
 ## 👥 Equipe
 
-- **Patricia Rosa Maidana** Product Owner (PO) - [Linkedin](https://www.linkedin.com/in/patricia-rosa-maidana)
-- **Michel Rubens Ferreira da Silva** Scrum Master - [Linkedin](https://www.linkedin.com/in/michelrubens)
-<!-- *   **Nome Completo 3** - [GitHub](...) - **Papel:** Banco de Dados (PostgreSQL).
-- **Nome Completo 4** - [GitHub](...) - **Papel:** Back-end (Segurança/API).
-- **Nome Completo 5** - [GitHub](...) - **Papel:** Back-end (Infra/Scripts).
-- **Nome Completo 6** - [GitHub](...) - **Papel:** Front-end (Cadastro).
-- **Nome Completo 7** - [GitHub](...) - **Papel:** Front-end (Login/Dashboard).
-- **Nome Completo 8** - [GitHub](...) - **Papel:** Gestão Git e Qualidade (DoR/DoD). -->
+| <a href="https://github.com/PatyMaidana"><img src="https://github.com/PatyMaidana.png" width="100"></a><br>**Patricia Maidana** | <a href="https://github.com/michelrubens"><img src="https://github.com/michelrubens.png" width="100"></a><br>**Michel Rubens** |
+| :-----------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------: |
+|                                                       Product Owner (PO)                                                        |                                                          Scrum Master                                                          |
+|            [LinkedIn](https://www.linkedin.com/in/patricia-rosa-maidana) • [GitHub](https://github.com/PatyMaidana)             |                [LinkedIn](https://www.linkedin.com/in/michelrubens) • [GitHub](https://github.com/michelrubens)                |
+
+### Dev Team
+
+|                                                                                                   | Integrante                | Papel     |                Contatos                |
+| :-----------------------------------------------------------------------------------------------: | :------------------------ | :-------- | :------------------------------------: |
+| <a href="https://github.com/ThiagoDT/"><img src="https://github.com/ThiagoDT.png" width="50"></a> | **Thiago Dias Francisco** | Developer | [GitHub](https://github.com/ThiagoDT/) |
+
+<!-- | <a href="https://github.com/github_user"><img src="https://github.com/github_user.png" width="50"></a> | **Nome Completo 4** | Developer | [LinkedIn](...) • [GitHub](https://github.com/github_user) |
+| <a href="https://github.com/github_user"><img src="https://github.com/github_user.png" width="50"></a> | **Nome Completo 5** | Developer | [LinkedIn](...) • [GitHub](https://github.com/github_user) |
+| <a href="https://github.com/github_user"><img src="https://github.com/github_user.png" width="50"></a> | **Nome Completo 6** | Developer | [LinkedIn](...) • [GitHub](https://github.com/github_user) |
+| <a href="https://github.com/github_user"><img src="https://github.com/github_user.png" width="50"></a> | **Nome Completo 7** | Developer | [LinkedIn](...) • [GitHub](https://github.com/github_user) |
+| <a href="https://github.com/github_user"><img src="https://github.com/github_user.png" width="50"></a> | **Nome Completo 8** | Developer | [LinkedIn](...) • [GitHub](https://github.com/github_user) | -->
 
 ---
 
