@@ -7,8 +7,10 @@ function validarEmail(email) {
     return regex.test(email);
 }
 
-if (!validarEmail()) {
-    console.log("erro");
-} else {
-    console.log("certo");
+function mascaraCPF(cpf) {
+    return cpf
+        .replace(/\D/g, "")
+        .replace(/(\d{3})(\d)/, "$1.$2")
+        .replace(/(\d{3})(\d)/, "$1.$2")
+        .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
 }
