@@ -1,0 +1,110 @@
+[33mcommit 77067df087512400b80300d911b17fafdabd328d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeat/17-api_cadastro[m[33m, [m[1;31morigin/feat/17-api_cadastro[m[33m, [m[1;31morigin/develop[m[33m)[m
+Merge: 494b221 c96145a
+Author: pedro silva <87823210+phjsilva@users.noreply.github.com>
+Date:   Fri Apr 24 20:50:01 2026 -0300
+
+    Merge pull request #42 from TeamStacked/refactor/estrutura-diretorios
+    
+    Refactor/estrutura diretorios
+
+[33mcommit c96145a65d94d951a80a932182b62945710dd02e[m[33m ([m[1;31morigin/refactor/estrutura-diretorios[m[33m)[m
+Author: Pedro <phjs7626@gmail.com>
+Date:   Fri Apr 24 09:01:54 2026 -0300
+
+    fix: adiciona script.js no index.html
+
+[33mcommit c4b97c6815f657e59ada8619d1afaa34f45888f1[m
+Author: Pedro <phjs7626@gmail.com>
+Date:   Fri Apr 24 08:25:02 2026 -0300
+
+    refactor: reorganiza a estrutura de diretórios
+
+[33mcommit 494b22180f336eefa0c8c254d6705fb24aa123a2[m[33m ([m[1;31morigin/feat/18-feedback-ao-usuário[m[33m, [m[1;31morigin/32-módulo-jwt[m[33m)[m
+Merge: e966ad6 d6c174b
+Author: Michel Rubens <michelrube@gmail.com>
+Date:   Wed Apr 22 21:40:45 2026 -0300
+
+    Merge pull request #39 from TeamStacked/16-htmlcss-de-login
+    
+    16 htmlcss de login
+
+[33mcommit d6c174b9df6dbc09cc3b3b71dae14756f966717e[m
+Author: phjsilva <phjs7626@gmail.com>
+Date:   Fri Apr 17 21:42:57 2026 -0300
+
+    style: ajustei o font-siza das labels para se ajustar melhor em determinado tamanho de tela
+
+[33mcommit e966ad6333e77795c094df0747db4a9651377df2[m
+Merge: eff48b8 7105f33
+Author: PATRICIA ROSA MAIDANA <155653067+PatyMaidana@users.noreply.github.com>
+Date:   Fri Apr 17 21:28:09 2026 -0300
+
+    Merge pull request #37 from TeamStacked/feat/23-diagrama-de-caso-de-uso
+    
+    diagrama de caso de uso
+
+[33mcommit 9e7b3be0eabf862ca06781c4d5c4d2bfc7c29453[m
+Author: phjsilva <phjs7626@gmail.com>
+Date:   Fri Apr 17 21:18:24 2026 -0300
+
+    fiz o html e css da tela de login
+
+[33mcommit 7105f331619bcd8f5074c8b096cc02977e0daf47[m
+Author: Patricia Maidana <patricia.rmaidana@gmail.com>
+Date:   Fri Apr 17 21:09:41 2026 -0300
+
+    diagrama de caso de uso
+
+[33mcommit eff48b8af8135c0f0ae6953589b88c5ba48d0be7[m
+Merge: 16103c3 8691091
+Author: pedro silva <87823210+phjsilva@users.noreply.github.com>
+Date:   Fri Apr 17 20:07:57 2026 -0300
+
+    Merge pull request #36 from TeamStacked/docs/19-configuração-do-repositório
+    
+    Docs/19 configuração do repositório
+
+[33mcommit 8691091f2cbf7f3cc5cf8d4536a57046041fcdf3[m
+Author: Michel Rubens <michelrube@gmail.com>
+Date:   Fri Apr 17 19:59:13 2026 -0300
+
+    docs (#19): Add images and sections for prototype 1.1
+
+[33mcommit e7b32dde02a906ca04edaf78ac05efa7f86d5cea[m
+Author: Michel Rubens <michelrube@gmail.com>
+Date:   Fri Apr 17 19:46:49 2026 -0300
+
+    docs (#19): add prototype 1.1 embed code to documentation
+
+[33mcommit 16103c35ef70b6eb077f3ca3d8692531a4c4885e[m
+Merge: 7f07de8 699e7f4
+Author: Michel Rubens <michelrube@gmail.com>
+Date:   Thu Apr 16 22:42:47 2026 -0300
+
+    Merge pull request #35 from TeamStacked/11-htmlcss-do-cadastro
+    
+    FEAT: 11 htmlcss do cadastro
+
+[33mcommit 699e7f44d2b3bc13269f358f28292cd59e62f182[m
+Author: igorcsouzaa <igorcs1104@gmail.com>
+Date:   Thu Apr 16 22:35:25 2026 -0300
+
+    style: animacoes de inicio mais rapidas
+
+[33mcommit 3e215bfd45be8c1039ed27e144098291ab481caf[m
+Author: igorcsouzaa <igorcs1104@gmail.com>
+Date:   Thu Apr 16 22:08:47 2026 -0300
+
+    feat: implementei tela de cadastro responsiva
+
+[33mcommit 7f07de811fdb0a7600367ab86d82da5c8103bf7f[m
+Author: Michel Rubens <michelrube@gmail.com>
+Date:   Wed Apr 15 23:02:50 2026 -0300
+
+    docs (#19): update README with project description, backlog, and execution instructions
+
+[33mcommit 794483b6f33fe86f200b15de96c18c321466de2d[m
+Author: Igor Corrêa de Souza <100096933+igorcsouzaa@users.noreply.github.com>
+Date:   Thu Apr 9 21:56:26 2026 -0300
+
+    Initial commit
