@@ -1,17 +1,28 @@
 const express = require('express');
+//varialvel que cria as rotas
 const router  = express.Router();
+//variavel que faz a hash
+const bcrypt  = require('bcryptjs');
+//importando função pool do arquivo db.js
 const db      = require('../database/db');
-
+//importando função do arquivo users.js
 const {cadatrarUsuarioBD} = require("../database/users");
 
-//curl -X POST http://localhost:3000/api/cadastro -H "Content-Type: application/json" -d "{\"cpf\":\"320.340.950-10\",\"nome\":\"Daniel\",\"email\":\"daniel@teste.com\",\"senha\":\"1234"\",\"hash\":\"1234"\"}"
+//const { gerarAccessToken, gerarRefreshToken, verificarRefreshToken, autenticar } = require('./jwt');
+
+//curl -X POST http://localhost:3000/api/cadastro -H "Content-Type: application/json" -d "{\"cpf\":\"320.340.950-10\",\"nome\":\"Daniel\",\"email\":\"daniel@teste.com\",\"senha\":\"1234"\"}"
 router.post("/cadastro", async function(req, res){
         const{cpf, nome, email, senha, hash} = req.body;
         try{
+            //caso algum campos esteja vazio
             if (!cpf || !nome || !email || !senha) {
                 return res.status(400).json({ erro: 'Todos os campos são obrigatórios.' });
             }
-            const response = await cadatrarUsuarioBD(cpf,nome,email,senha,hash);
+            //função para criar uma senha hash
+            const senhaHash = await bcrypt.hash(senha, 10);
+            //usando a função para cadastra os dados no banco de dados
+            const response = await cadatrarUsuarioBD(cpf,nome,email,senhaHash,hash);
+            //caso a reposta do banco de dados esteja vazio
             if(response!=""){
                 return res.status(201).json({ mensagem: 'Usuário cadastrado com sucesso.' });
 
@@ -19,41 +30,54 @@ router.post("/cadastro", async function(req, res){
                 return res.status(404).json({ mensagem: 'Não foi possivel cadastrar usuario.' });
             }
         }catch(err){
+            //condição para verificar o erro caso o cadastro ja exista
             if (err.code === '23505') {
                 return res.status(409).json({ erro: 'CPF ou e-mail já cadastrado.' });
             }
-            console.log(err);
             console.error(err);
             return res.status(500).json({ erro: 'Erro interno.' });
         }
 });
+
 /*
-router.post('/cadastro', async (req, res) => {
+router.post('/login', async (req, res) => {
   try {
-    const { cpf, nome, email, senha } = req.body;
-    if (!cpf || !nome || !email || !senha) {
-      return res.status(400).json({ erro: 'Todos os campos são obrigatórios.' });
+    const { cpf, senha } = req.body;
+    if (!cpf || !senha) {
+      return res.status(400).json({ erro: 'CPF e senha são obrigatórios.' });
     }
 
-    const senhaHash = await bcrypt.hash(senha, 10);
-
-    await db.query(
-      'INSERT INTO usuarios (cpf, nome, email, senha_hash) VALUES ($1, $2, $3, $4)',
-      [cpf, nome, email, senhaHash]
+    const resultado = await db.query(
+      'SELECT id, cpf, nome, email, senha_hash FROM usuarios WHERE cpf = $1',
+      [cpf]
     );
 
-    return res.status(201).json({ mensagem: 'Usuário cadastrado com sucesso.' });
+    const usuario = resultado.rows[0];
+    if (!usuario) {
+      return res.status(401).json({ erro: 'CPF ou senha incorretos.' });
+    }
+
+    const senhaCorreta = await bcrypt.compare(senha, usuario.senha_hash);
+    if (!senhaCorreta) {
+      return res.status(401).json({ erro: 'CPF ou senha incorretos.' });
+    }
+
+    const payload = { id: usuario.id, cpf: usuario.cpf, nome: usuario.nome, email: usuario.email };
+    const accessToken  = gerarAccessToken(payload);
+    const refreshToken = gerarRefreshToken(payload);
+
+    await db.query('UPDATE usuarios SET refresh_token = $1 WHERE id = $2', [refreshToken, usuario.id]);
+
+    return res.json({ accessToken, refreshToken });
 
   } catch (err) {
-    if (err.code === '23505') {
-      return res.status(409).json({ erro: 'CPF ou e-mail já cadastrado.' });
-    }
-    console.log(err);
     console.error(err);
     return res.status(500).json({ erro: 'Erro interno.' });
   }
 });
+*/
 
+/*
 router.post('/refresh', async (req, res) => {
   const { refreshToken } = req.body;
   if (!refreshToken) return res.status(400).json({ erro: 'Refresh token não informado.' });

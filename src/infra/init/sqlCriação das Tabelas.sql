@@ -10,7 +10,7 @@ create table usuario(
 	nome_usuario varchar(100)not null,
 	email_usuario varchar(100)unique,
 	senha_usuario varchar(200)not null,
-	certificado_hash varchar(255) not null
+	certificado_hash varchar(255)
 );
 
 create table modulo(
