@@ -8,6 +8,7 @@ dotenv.config({
 });
 
 const PORT = process.env.PORT;
+const userRoutes = require("./routes/user.routes");
 
 const app = express();
 app.use(express.json());
@@ -21,4 +22,8 @@ const pagesPath = path.join(publicPath, "pages");
 const assetsPath = path.join(publicPath, "assets");
 
 app.get("/", express.static(pagesPath));
+app.get("/cadastro", function(req, res){
+    res.sendFile(path.join(pagesPath,"cadastro.html"));
+});
 app.use("/assets", express.static(assetsPath));
+app.use("/api",userRoutes);
