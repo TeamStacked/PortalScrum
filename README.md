@@ -118,15 +118,14 @@ A organização das pastas segue as definições do servidor e scripts de inicia
 
 ### Dev Team
 
-|                                                                                                   | Integrante                | Papel     |                Contatos                |
-| :-----------------------------------------------------------------------------------------------: | :------------------------ | :-------- | :------------------------------------: |
-| <a href="https://github.com/ThiagoDT/"><img src="https://github.com/ThiagoDT.png" width="50"></a> | **Thiago Dias Francisco** | Developer | [GitHub](https://github.com/ThiagoDT/) |
-
-<!-- | <a href="https://github.com/github_user"><img src="https://github.com/github_user.png" width="50"></a> | **Nome Completo 4** | Developer | [LinkedIn](...) • [GitHub](https://github.com/github_user) |
-| <a href="https://github.com/github_user"><img src="https://github.com/github_user.png" width="50"></a> | **Nome Completo 5** | Developer | [LinkedIn](...) • [GitHub](https://github.com/github_user) |
-| <a href="https://github.com/github_user"><img src="https://github.com/github_user.png" width="50"></a> | **Nome Completo 6** | Developer | [LinkedIn](...) • [GitHub](https://github.com/github_user) |
-| <a href="https://github.com/github_user"><img src="https://github.com/github_user.png" width="50"></a> | **Nome Completo 7** | Developer | [LinkedIn](...) • [GitHub](https://github.com/github_user) |
-| <a href="https://github.com/github_user"><img src="https://github.com/github_user.png" width="50"></a> | **Nome Completo 8** | Developer | [LinkedIn](...) • [GitHub](https://github.com/github_user) | -->
+|                                                                                                          | Integrante                       | Papel     |                                                  Contatos                                                   |
+| :------------------------------------------------------------------------------------------------------: | :------------------------------- | :-------- | :---------------------------------------------------------------------------------------------------------: |
+|    <a href="https://github.com/ThiagoDT/"><img src="https://github.com/ThiagoDT.png" width="50"></a>     | **Thiago Dias Francisco**        | Developer |                                   [GitHub](https://github.com/ThiagoDT/)                                    |
+| <a href="https://github.com/igorcsouzaa/"><img src="https://github.com/igorcsouzaa.png" width="50"></a>  | **Igor Corrêa de Souza**         | Developer |  [LinkedIn](https://www.linkedin.com/in/igor-correa-de-souza/) • [GitHub](https://github.com/igorcsouzaa/)  |
+|     <a href="https://github.com/phjsilva"><img src="https://github.com/phjsilva.png" width="50"></a>     | **Pedro Henrique Jose da Silva** | Developer |    [LinkedIn](http://www.linkedin.com/in/pedro-silva-3b5869380) • [GitHub](https://github.com/phjsilva)     |
+| <a href="https://github.com/portug4lucas"><img src="https://github.com/portug4lucas.png" width="50"></a> | **Lucas Portugal Alves**         | Developer | [LinkedIn](http://www.linkedin.com/in/lucas-portugal-09263b362) • [GitHub](https://github.com/portug4lucas) |
+|   <a href="https://github.com/Victorhubb"><img src="https://github.com/Victorhubb.png" width="50"></a>   | **Victor Gomes Coelho**          | Developer |  [LinkedIn](https://www.linkedin.com/in/victor-gomes-699051404/) • [GitHub](https://github.com/Victorhubb)  |
+| <a href="https://github.com/ViniciusGuin"><img src="https://github.com/ViniciusGuin.png" width="50"></a> | **Vinicius Guin Okabe Kenmochi** | Developer |                                  [GitHub](https://github.com/ViniciusGuin)                                  |
 
 ---
 
