@@ -87,7 +87,7 @@ A organização das pastas segue as definições do servidor e scripts de inicia
 
 1. Clone o repositório e instale as dependências:
    ```bash
-   npm install
+   npm install express dotenv bcryptjs
    ```
 2. Configure o arquivo `.env` na raiz do projeto seguindo o modelo:
    ```env
