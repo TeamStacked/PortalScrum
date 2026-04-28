@@ -1,42 +1,47 @@
-const express = require('express');
+const express = require("express");
 //varialvel que cria as rotas
-const router  = express.Router();
+const router = express.Router();
 //variavel que faz a hash
-const bcrypt  = require('bcryptjs');
+const bcrypt = require("bcryptjs");
 //importando função pool do arquivo db.js
-const db      = require('../database/db');
+const db = require("../database/db");
 //importando função do arquivo users.js
-const {cadatrarUsuarioBD} = require("../database/users");
+const { cadatrarUsuarioBD } = require("../database/users");
 
 //const { gerarAccessToken, gerarRefreshToken, verificarRefreshToken, autenticar } = require('./jwt');
 
 //curl -X POST http://localhost:3000/api/cadastro -H "Content-Type: application/json" -d "{\"cpf\":\"320.340.950-10\",\"nome\":\"Daniel\",\"email\":\"daniel@teste.com\",\"senha\":\"1234"\"}"
-router.post("/cadastro", async function(req, res){
-        const{cpf, nome, email, senha, hash} = req.body;
-        try{
-            //caso algum campos esteja vazio
-            if (!cpf || !nome || !email || !senha) {
-                return res.status(400).json({ erro: 'Todos os campos são obrigatórios.' });
-            }
-            //função para criar uma senha hash
-            const senhaHash = await bcrypt.hash(senha, 10);
-            //usando a função para cadastra os dados no banco de dados
-            const response = await cadatrarUsuarioBD(cpf,nome,email,senhaHash,hash);
-            //caso a reposta do banco de dados esteja vazio
-            if(response!=""){
-                return res.status(201).json({ mensagem: 'Usuário cadastrado com sucesso.' });
-
-            }else{
-                return res.status(404).json({ mensagem: 'Não foi possivel cadastrar usuario.' });
-            }
-        }catch(err){
-            //condição para verificar o erro caso o cadastro ja exista
-            if (err.code === '23505') {
-                return res.status(409).json({ erro: 'CPF ou e-mail já cadastrado.' });
-            }
-            console.error(err);
-            return res.status(500).json({ erro: 'Erro interno.' });
-        }
+router.post("/cadastro", async function (req, res) {
+  const { cpf, nome, email, senha, hash } = req.body;
+  try {
+    //caso algum campos esteja vazio
+    if (!cpf || !nome || !email || !senha) {
+      return res
+        .status(400)
+        .json({ erro: "Todos os campos são obrigatórios." });
+    }
+    //função para criar uma senha hash
+    const senhaHash = await bcrypt.hash(senha, 10);
+    //usando a função para cadastra os dados no banco de dados
+    const response = await cadatrarUsuarioBD(cpf, nome, email, senhaHash, hash);
+    //caso a reposta do banco de dados esteja vazio
+    if (response != "") {
+      return res
+        .status(201)
+        .json({ mensagem: "Usuário cadastrado com sucesso." });
+    } else {
+      return res
+        .status(404)
+        .json({ mensagem: "Não foi possivel cadastrar usuario." });
+    }
+  } catch (err) {
+    //condição para verificar o erro caso o cadastro ja exista
+    if (err.code === "23505") {
+      return res.status(409).json({ erro: "CPF ou e-mail já cadastrado." });
+    }
+    console.error(err);
+    return res.status(500).json({ erro: "Erro interno." });
+  }
 });
 
 /*
