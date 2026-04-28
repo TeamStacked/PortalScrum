@@ -44,6 +44,8 @@ router.post("/cadastro", async function (req, res) {
 
 });
 
+module.exports = router;
+
 /*
 router.post('/login', async (req, res) => {
   try {
@@ -102,4 +104,3 @@ router.get('/me', autenticar, (req, res) => {
   return res.json(req.usuario);
 });
 */
-module.exports = router;
