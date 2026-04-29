@@ -27,11 +27,7 @@ const pagesPath = path.join(publicPath, "pages");
 const assetsPath = path.join(publicPath, "assets");
 
 //criando caminho para o index
-app.get("/", express.static(pagesPath));
-//criando caminho para o cadastro
-app.get("/cadastro", function(req, res){
-    res.sendFile(path.join(pagesPath,"cadastro.html"));
-});
+app.use("/", express.static(pagesPath));
 //localizando parte visula do site
 app.use("/assets", express.static(assetsPath));
 //criando api rota
