@@ -46,3 +46,42 @@
     font-size: 0.75rem;
 }
 }
+
+/* Erro de CPF */
+.input-error {
+    border: 1px solid #FC8181 !important;
+    box-shadow: 0 0 8px rgba(252, 129, 129, 0.3);
+}
+
+#name-error {
+    color: #FC8181;
+    font-size: 0.75rem;
+    margin-top: 2px;
+    display: none;
+}
+
+#email-error {
+    color: #FC8181;
+    font-size: 0.75rem;
+    margin-top: 2px;
+    display: none;
+}
+
+#cpf-error {
+    color: #FC8181;
+    font-size: 0.75rem;
+    margin-top: 2px;
+    display: none;
+}
+
+#password-error {
+    color: #FC8181;
+    font-size: 0.75rem;
+    margin-top: 2px;
+    display: none;
+}
+
+.input-error-password:focus {
+    border: 1px solid #FC8181 !important;
+    box-shadow: 0 0 8px rgba(252, 129, 129, 0.5) !important;
+}
