@@ -28,3 +28,6 @@ module.exports = {
     hashPassword,
     verifyPassword,
 };
+
+
+//tudo correto

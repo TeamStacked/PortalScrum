@@ -1,6 +1,8 @@
-const { Router } = require("express");
-const { findUsuarioByCpfAndSenha } = require("../repositories/usuarios.repositories");
-
+const { Router, json } = require("express");
+const {
+    findUsuarioByCpfAndSenha,
+} = require("../repositories/usurio.repositories");
+const { createToken } = require("../utils/jwt");
 const router = Router();
 
 router.post("/login", async function (req, res) {
@@ -9,17 +11,18 @@ router.post("/login", async function (req, res) {
     if (!cpf || !senha) {
         return res
             .status(400)
-            .json({ message: "CPF e senha são obrigatórios." });
+            .json({ message: "CPF e senha são obrigatorios" });
     }
 
     try {
-        const result = await findUsuarioByCpfAndSenha(cpf, senha);
-        return res.status(200).json(result);
-    } catch (e) {
-        return res.status(500).json({
-            message: e.message,
+        const usuario = await findUsuarioByCpfAndSenha(cpf, senha);
+        const token = createToken({ id_usuario: usuario.id_usuario });
+        return res.status(200).json({
+            token,
+            nome: usuario.nome,
         });
+    } catch (e) {
+        return res.status(401).json({ message: "CPF ou senha inválidos" });
     }
 });
-
 module.exports = router;
