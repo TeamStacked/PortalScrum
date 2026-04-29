@@ -1,8 +1,11 @@
 const inputEmail = document.getElementById("email");
 const inputCPF = document.getElementById("cpf");
 const inputPassword = document.getElementById("password");
+const inputName = document.getElementById("name");
 const cpfError = document.getElementById("cpf-error");
 const passwordError = document.getElementById("password-error");
+const emailError = document.getElementById("email-error");
+const nameError = document.getElementById("name-error");
 const form = document.getElementById("form");
 
 function validarEmail(email) {
@@ -46,6 +49,26 @@ function validarCPF(cpf) {
   return resto === parseInt(cpf.substring(10, 11));
 }
 
+function setNameError(show) {
+  if (show) {
+    inputName.classList.add("input-error");
+    nameError.style.display = "block";
+  } else {
+    inputName.classList.remove("input-error");
+    nameError.style.display = "none";
+  }
+}
+
+function setEmailError(show) {
+  if (show) {
+    inputEmail.classList.add("input-error");
+    emailError.style.display = "block";
+  } else {
+    inputEmail.classList.remove("input-error");
+    emailError.style.display = "none";
+  }
+}
+
 function setCPFError(show) {
   if (show) {
     inputCPF.classList.add("input-error");
@@ -66,6 +89,14 @@ function setPasswordError(show) {
   }
 }
 
+inputName && inputName.addEventListener("input", () => {
+  setNameError(false);
+});
+
+inputEmail && inputEmail.addEventListener("input", () => {
+  setEmailError(false);
+});
+
 inputCPF.addEventListener("input", (e) => {
   e.target.value = mascaraCPF(e.target.value);
   setCPFError(false);
@@ -76,9 +107,15 @@ inputPassword.addEventListener("input", () => {
 });
 
 form.addEventListener("submit", (e) => {
+  if (inputName && inputName.value.trim() === "") {
+    e.preventDefault();
+    setNameError(true);
+    return;
+  }
+
   if (inputEmail && !validarEmail(inputEmail.value)) {
     e.preventDefault();
-    alert("Email inválido");
+    setEmailError(true);
     return;
   }
 

@@ -53,6 +53,20 @@
     box-shadow: 0 0 8px rgba(252, 129, 129, 0.3);
 }
 
+#name-error {
+    color: #FC8181;
+    font-size: 0.75rem;
+    margin-top: 2px;
+    display: none;
+}
+
+#email-error {
+    color: #FC8181;
+    font-size: 0.75rem;
+    margin-top: 2px;
+    display: none;
+}
+
 #cpf-error {
     color: #FC8181;
     font-size: 0.75rem;
