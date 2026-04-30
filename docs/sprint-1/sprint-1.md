@@ -16,7 +16,7 @@ Esta sprint focou na criação da base do sistema, incluindo infraestrutura, ban
 
 ## 📦 Sprint Backlog
 
-- US00 - Infraestrutura, Banco de Dados e Documentação Técnica [#8](https://github.com/TeamStacked/PortalScrum/issues/8)
+- **US00 - Infraestrutura, Banco de Dados e Documentação Técnica [#8](https://github.com/TeamStacked/PortalScrum/issues/8)**
   - [x] Configuração do repositório [#19](https://github.com/TeamStacked/PortalScrum/issues/19)
   - [x] Estruturação da documentação [#20](https://github.com/TeamStacked/PortalScrum/issues/20)
   - [x] Gestão de Qualidade (DoR/DoD) [#21](https://github.com/TeamStacked/PortalScrum/issues/21)
@@ -29,7 +29,7 @@ Esta sprint focou na criação da base do sistema, incluindo infraestrutura, ban
   - [x] Automação de Banco [#28](https://github.com/TeamStacked/PortalScrum/issues/28)
   - [x] Prototipagem do sequenciamento de telas [#38](https://github.com/TeamStacked/PortalScrum/issues/38)
 
-- US01 - Cadastro de Usuário [#1](https://github.com/TeamStacked/PortalScrum/issues/1)
+- **US01 - Cadastro de Usuário [#1](https://github.com/TeamStacked/PortalScrum/issues/1)**
   - [x] Prototipagem de Cadastro (Figma) [#10](https://github.com/TeamStacked/PortalScrum/issues/10)
   - [x] HTML/CSS do Cadastro [#11](https://github.com/TeamStacked/PortalScrum/issues/11)
   - [x] Integração de Cadastro (JS) [#12](https://github.com/TeamStacked/PortalScrum/issues/12)
@@ -38,7 +38,7 @@ Esta sprint focou na criação da base do sistema, incluindo infraestrutura, ban
   - [x] Tratamento de Dados LGPD [#30](https://github.com/TeamStacked/PortalScrum/issues/30)
   - [x] Validação de Front-end [#34](https://github.com/TeamStacked/PortalScrum/issues/34)
 
-- US02 - Autenticação Segura [#2](https://github.com/TeamStacked/PortalScrum/issues/2)
+- **US02 - Autenticação Segura [#2](https://github.com/TeamStacked/PortalScrum/issues/2)**
   - [x] Prototipagem de Login (Figma) [#15](https://github.com/TeamStacked/PortalScrum/issues/15)
   - [x] HTML/CSS de Login [#16](https://github.com/TeamStacked/PortalScrum/issues/16)
   - [x] Integração de Login (JS) [#17](https://github.com/TeamStacked/PortalScrum/issues/17)
@@ -85,3 +85,7 @@ Nesta sprint, foram entregues:
 ## 🔜 Próximos Passos
 
 A Sprint 2 focará na implementação do motor de avaliação, gerenciamento de tentativas e notas, e o registro detalhado do histórico de exames para fins de auditoria.
+
+---
+
+🔗 [Ver registros de Daily Meeting desta Sprint](https://github.com/TeamStacked/PortalScrum/issues?q=is%3Aissue%20label%3Adaily%20milestone%3A%22Sprint%201%22)
