@@ -18,14 +18,14 @@
                 <img src="../assets/images/logoBranca.png" alt="Logo STACKED" />
             </div>
             <div class="form">
-                <form action="/api/usuarios/" method="POST" id="form">
+                <form id="form">
                     <div class="inputs">
                         <div class="input-box">
                             <label for="name">NOME COMPLETO</label>
                             <input
                                 type="text"
                                 id="name"
-                                name="name"
+                                name="nome"
                                 class="deactivated"
                             />
                             <span id="name-error">Digite seu nome</span>
@@ -48,17 +48,29 @@
                         </div>
                         <div class="input-box">
                             <label for="email">EMAIL</label>
-                            <input type="email" id="email" name="email" class="deactivated" />
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                class="deactivated"
+                            />
                             <span id="email-error">Email inválido</span>
                         </div>
                         <div class="input-box">
-                            <label for="password">SENHA</label>
-                            <input type="password" id="password" name="password" class="deactivated" />
+                            <label for="password ">SENHA</label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="senha"
+                                class="deactivated"
+                            />
                             <span id="password-error">Digite sua senha</span>
                         </div>
                     </div>
                     <div class="actions">
-                        <button type="submit" class="btn-main">CADASTRE-SE</button>
+                        <button type="submit" class="btn-main">
+                            CADASTRE-SE
+                        </button>
                         <div class="divider">
                             <span>OU</span>
                         </div>
@@ -69,8 +81,9 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </main>
         <script src="../assets/js/authValidators.js"></script>
+        <script src="../assets/js/register.js"></script>
         <script src="../assets/js/script.js"></script>
     </body>
 </html>

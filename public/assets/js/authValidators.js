@@ -9,125 +9,120 @@ const nameError = document.getElementById("name-error");
 const form = document.getElementById("form");
 
 function validarEmail(email) {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(email);
-}
-
-function mascaraCPF(cpf) {
-  return cpf
-    .replace(/\D/g, "")
-    .replace(/(\d{3})(\d)/, "$1.$2")
-    .replace(/(\d{3})(\d)/, "$1.$2")
-    .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
 }
 
 function validarCPF(cpf) {
-  cpf = cpf.replace(/\D/g, "");
+    cpf = cpf.replace(/\D/g, "");
 
-  if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+    if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
 
-  let soma = 0;
-  let resto;
+    let soma = 0;
+    let resto;
 
-  for (let i = 1; i <= 9; i++) {
-    soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
-  }
+    for (let i = 1; i <= 9; i++) {
+        soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+    }
 
-  resto = (soma * 10) % 11;
-  if (resto >= 10) resto = 0;
-  if (resto !== parseInt(cpf.substring(9, 10))) return false;
+    resto = (soma * 10) % 11;
+    if (resto >= 10) resto = 0;
+    if (resto !== parseInt(cpf.substring(9, 10))) return false;
 
-  soma = 0;
+    soma = 0;
 
-  for (let i = 1; i <= 10; i++) {
-    soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
-  }
+    for (let i = 1; i <= 10; i++) {
+        soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+    }
 
-  resto = (soma * 10) % 11;
-  if (resto >= 10) resto = 0;
+    resto = (soma * 10) % 11;
+    if (resto >= 10) resto = 0;
 
-  return resto === parseInt(cpf.substring(10, 11));
+    return resto === parseInt(cpf.substring(10, 11));
 }
 
 function setNameError(show) {
-  if (show) {
-    inputName.classList.add("input-error");
-    nameError.style.display = "block";
-  } else {
-    inputName.classList.remove("input-error");
-    nameError.style.display = "none";
-  }
+    if (show) {
+        inputName.classList.add("input-error");
+        nameError.style.display = "block";
+    } else {
+        inputName.classList.remove("input-error");
+        nameError.style.display = "none";
+    }
 }
 
 function setEmailError(show) {
-  if (show) {
-    inputEmail.classList.add("input-error");
-    emailError.style.display = "block";
-  } else {
-    inputEmail.classList.remove("input-error");
-    emailError.style.display = "none";
-  }
+    if (show) {
+        inputEmail.classList.add("input-error");
+        emailError.style.display = "block";
+    } else {
+        inputEmail.classList.remove("input-error");
+        emailError.style.display = "none";
+    }
 }
 
 function setCPFError(show) {
-  if (show) {
-    inputCPF.classList.add("input-error");
-    cpfError.style.display = "block";
-  } else {
-    inputCPF.classList.remove("input-error");
-    cpfError.style.display = "none";
-  }
+    if (show) {
+        inputCPF.classList.add("input-error");
+        cpfError.style.display = "block";
+    } else {
+        inputCPF.classList.remove("input-error");
+        cpfError.style.display = "none";
+    }
 }
 
 function setPasswordError(show) {
-  if (show) {
-    inputPassword.classList.add("input-error");
-    passwordError.style.display = "block";
-  } else {
-    inputPassword.classList.remove("input-error");
-    passwordError.style.display = "none";
-  }
+    if (show) {
+        inputPassword.classList.add("input-error");
+        passwordError.style.display = "block";
+    } else {
+        inputPassword.classList.remove("input-error");
+        passwordError.style.display = "none";
+    }
 }
 
-inputName && inputName.addEventListener("input", () => {
-  setNameError(false);
-});
+inputName &&
+    inputName.addEventListener("input", () => {
+        setNameError(false);
+    });
 
-inputEmail && inputEmail.addEventListener("input", () => {
-  setEmailError(false);
-});
-
-inputCPF.addEventListener("input", (e) => {
-  e.target.value = mascaraCPF(e.target.value);
-  setCPFError(false);
-});
+inputEmail &&
+    inputEmail.addEventListener("input", () => {
+        setEmailError(false);
+    });
 
 inputPassword.addEventListener("input", () => {
-  setPasswordError(false);
+    setPasswordError(false);
 });
 
-form.addEventListener("submit", (e) => {
-  if (inputName && inputName.value.trim() === "") {
-    e.preventDefault();
-    setNameError(true);
-    return;
-  }
+function validarFormulario() {
+    let valido = true;
 
-  if (inputEmail && !validarEmail(inputEmail.value)) {
-    e.preventDefault();
-    setEmailError(true);
-    return;
-  }
+    if (inputName && inputName.value.trim() === "") {
+        setNameError(true);
+        valido = false;
+    }
 
-  if (inputCPF && !validarCPF(inputCPF.value)) {
-    e.preventDefault();
-    setCPFError(true);
-    return;
-  }
+    if (inputEmail && !validarEmail(inputEmail.value)) {
+        setEmailError(true);
+        valido = false;
+    }
 
-  if (inputPassword && inputPassword.value.trim() === "") {
-    e.preventDefault();
-    setPasswordError(true);
-    return;
-  }
-});
+    if (inputCPF && !validarCPF(inputCPF.value)) {
+        setCPFError(true);
+        valido = false;
+    }
+
+    if (inputPassword && inputPassword.value.trim() === "") {
+        setPasswordError(true);
+        valido = false;
+    }
+
+    if (inputCPF) {
+        inputCPF.value = inputCPF.value.replace(/\D/g, "");
+    }
+
+    return valido;
+}
+
+window.validarFormulario = validarFormulario;
