@@ -2,8 +2,8 @@
 name: '📅 Daily Meeting'
 about: Registro diário de progresso e impedimentos da equipe.
 title: 'Daily - [DATA]'
-labels: 'daily, documentation'
-assignees: ''
+labels: ['daily', 'documentation']
+assignees: michelrubens
 ---
 
 ## 🏛️ Informações Gerais
@@ -15,21 +15,61 @@ assignees: ''
 ## 👥 Presença
 
 - [x] @michelrubens (Facilitador)
-- [ ] Integrante 2
-- [ ] Integrante 3
-- [ ] Integrante 4
+- [ ] @PatyMaidana
+- [ ] @ThiagoDT
+- [ ] @phjsilva
+- [ ] @portug4lucas
+- [ ] @Victorhubb
+- [ ] @igorcsouzaa
+- [ ] @ViniciusGuin
 
 ---
 
 ## 📝 Relato Individual
 
-### **Membro A**
+### **Michel Rubens** @michelrubens
 
 - **O que fiz ontem:**
 - **O que farei hoje:**
 - **Impedimentos:** Nenhum.
 
-### **Membro B**
+### **Patricia Maidana** @PatyMaidana
+
+- **O que fiz ontem:**
+- **O que farei hoje:**
+- **Impedimentos:**
+
+### **Thiago Dias** @ThiagoDT
+
+- **O que fiz ontem:**
+- **O que farei hoje:**
+- **Impedimentos:**
+
+### **Pedro Silva** @phjsilva
+
+- **O que fiz ontem:**
+- **O que farei hoje:**
+- **Impedimentos:**
+
+### **Lucas Portugal** @portug4lucas
+
+- **O que fiz ontem:**
+- **O que farei hoje:**
+- **Impedimentos:**
+
+### **Victor Gomes** @Victorhubb
+
+- **O que fiz ontem:**
+- **O que farei hoje:**
+- **Impedimentos:**
+
+### **Igor Souza** @igorcsouzaa
+
+- **O que fiz ontem:**
+- **O que farei hoje:**
+- **Impedimentos:**
+
+### **Vinicius Guin** @ViniciusGuin
 
 - **O que fiz ontem:**
 - **O que farei hoje:**
