@@ -18,7 +18,7 @@ Esta página será atualizada com os detalhes da Sprint 2 assim que ela for inic
 
 ## 🔜 Próximos Passos
 
-A Sprint 2 focará na implementação do motor de avaliação, gerenciamento de tentativas e notas, e o registro detalhado do histórico de exames para fins de auditoria.
+A Sprint 3 será dedicada à criação do dashboard de progresso do estudante e à funcionalidade de emissão do certificado final em PDF, consolidando a experiência do usuário.
 
 ---
 
