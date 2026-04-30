@@ -180,9 +180,48 @@ body {
     padding: 0 10px;
 }
 
+.container-lgpd {
+  position: relative;
+  display: inline-block;
+}
+
+.botao {
+  width: 20px;
+  height: 20px;
+  border-radius: 40%;
+  border: none;
+  background-color: #00000015;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.tooltip {
+  visibility: hidden;
+  opacity: 0;
+  width: 200px;
+  background-color: #3333334b;
+  color: #ffffffa4;
+  text-align: center;
+  border-radius: 6px;
+  border: solid 1px #000000;
+  padding: 8px;
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: opacity 0.3s;
+}
+
+.container-lgpd:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
 /* Responsividade Mobile */
 @media (max-width: 600px) {
     .inputs {
         grid-template-columns: 1fr;
     }
 }
+
