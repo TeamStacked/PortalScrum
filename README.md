@@ -45,6 +45,14 @@ graph TD
 
 ---
 
+## 📑 Documentação e Gestão
+
+Para acompanhar o progresso diário da equipe, acesse nosso diário de bordo:
+
+- [**Registro de Daily Meetings**](https://github.com/TeamStacked/PortalScrum/issues?q=is%3Aissue+label%3Adaily)
+
+---
+
 ## 🛠️ Tecnologias Utilizadas
 
 O projeto respeita as restrições técnicas de não utilizar frameworks no front-end e garantir persistência robusta:
