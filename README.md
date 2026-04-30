@@ -37,11 +37,11 @@ graph TD
 
 ### Tabela Descritiva das Sprints
 
-|             Período              |           Documentação da Sprint           |
-| :------------------------------: | :----------------------------------------: |
-| **Sprint 1:** 13/04 a 30/04/2026 | [Documentação Sprint 1](./docs/sprint1.md) |
-| **Sprint 2:** 04/05 a 21/05/2026 | [Documentação Sprint 2](./docs/sprint2.md) |
-| **Sprint 3:** 25/05 a 11/06/2026 | [Documentação Sprint 3](./docs/sprint3.md) |
+|             Período              |                Documentação da Sprint                |
+| :------------------------------: | :--------------------------------------------------: |
+| **Sprint 1:** 13/04 a 30/04/2026 | [Documentação Sprint 1](./docs/sprint-1/sprint-1.md) |
+| **Sprint 2:** 04/05 a 21/05/2026 | [Documentação Sprint 2](./docs/sprint-2/sprint-2.md) |
+| **Sprint 3:** 25/05 a 11/06/2026 | [Documentação Sprint 3](./docs/sprint-3/sprint-3.md) |
 
 ---
 
