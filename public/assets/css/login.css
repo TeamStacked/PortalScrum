@@ -52,6 +52,10 @@
 .box-lgpd > label {
     font-size: 0.75rem;
 }
+.tooltip {
+    color: #fff;
+    transform: translateX(-25%);
+}
 }
 
 /* Erro de CPF */
