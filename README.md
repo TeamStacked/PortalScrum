@@ -37,19 +37,18 @@ graph TD
 
 ### Tabela Descritiva das Sprints
 
-|             Período              |                Documentação da Sprint                |
-| :------------------------------: | :--------------------------------------------------: |
-| **Sprint 1:** 13/04 a 30/04/2026 | [Documentação Sprint 1](./docs/sprint-1/sprint-1.md) |
-| **Sprint 2:** 04/05 a 21/05/2026 | [Documentação Sprint 2](./docs/sprint-2/sprint-2.md) |
-| **Sprint 3:** 25/05 a 11/06/2026 | [Documentação Sprint 3](./docs/sprint-3/sprint-3.md) |
+|             Período              |            Documentação da Sprint            |
+| :------------------------------: | :------------------------------------------: |
+| **Sprint 1:** 13/04 a 30/04/2026 | [Sprint Review](./docs/sprint-1/sprint-1.md) |
+| **Sprint 2:** 04/05 a 21/05/2026 | [Sprint Review](./docs/sprint-2/sprint-2.md) |
+| **Sprint 3:** 25/05 a 11/06/2026 | [Sprint Review](./docs/sprint-3/sprint-3.md) |
 
 ---
 
-## 📑 Documentação e Gestão
+## 📑 Gestão Scrum
 
-Para acompanhar o progresso diário da equipe, acesse nosso diário de bordo:
-
-- [**Registro de Daily Meetings**](https://github.com/TeamStacked/PortalScrum/issues?q=is%3Aissue+label%3Adaily)
+- [**Daily Meetings**](https://github.com/TeamStacked/PortalScrum/issues?q=is%3Aissue+label%3Adaily)
+- [**Sprint Retrospectives**](https://github.com/TeamStacked/PortalScrum/issues?q=is%3Aissue%20label%3Aretrospective)
 
 ---
 
@@ -65,20 +64,22 @@ O projeto respeita as restrições técnicas de não utilizar frameworks no fron
 
 ---
 
-<!-- ## 📂 Estrutura do Projeto
-A organização das pastas segue as definições do servidor e scripts de inicialização:
-```text
+## 📂 Estrutura do Projeto
+
+A organização segue o padrão de camadas para garantir separação de responsabilidades e facilitar a manutenção:
+
+```bash
 ├── src/
-│   ├── database/       # Conexão com PostgreSQL (db.js)
-│   ├── infra/          # Scripts de inicialização (run-sql.js e SQLs)
-│   ├── middlewares/    # Middleware de autenticação JWT
-│   ├── repositories/   # Camada de persistência (consultas SQL)
-│   ├── routes/         # Definição dos endpoints da API
-│   ├── utils/          # Funções de JWT e Password Hash
-│   └── server.js       # Ponto de entrada do servidor Node.js
-├── public/             # Front-end: HTML, CSS e JS (Puro)
-├── docs/               # Documentação (DoR, DoD, Diagramas, Manual)
-├── .env                # Configurações sensíveis (não versionado)
+│   ├── database/       # Configuração e conexão com PostgreSQL (db.js)
+│   ├── infra/          # Automação de schema e carga inicial (scripts SQL)
+│   ├── middlewares/    # Filtros de requisição e validação de JWT
+│   ├── repositories/   # Camada de persistência (Queries SQL puras)
+│   ├── routes/         # Definição de rotas e exposição de endpoints
+│   ├── utils/          # Helpers (Criptografia, geradores de token)
+│   └── server.js       # Inicialização do servidor Express
+├── public/             # Assets estáticos: HTML, CSS e JavaScript Vanilla
+├── docs/               # Documentos de processo (DoR, DoD) e Modelagem
+├── .env.example        # Modelo de variáveis de ambiente
 └── README.md
 ```
 
