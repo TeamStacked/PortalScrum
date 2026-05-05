@@ -35,4 +35,17 @@ async function createExame(idUsuario, idModulo, tentativa) {
     return result.rows[0];
 }
 
-module.exports = { contarTentativas, sortearQuestoes, createExame };
+// Persiste as questões sorteadas para auditoria (RF10 - task 19)
+async function persistirQuestoesAuditoria(idExame, idsQuestoes) {
+    const values = idsQuestoes
+        .map((_, i) => `($1, $${i + 2})`)
+        .join(", ");
+    const params = [idExame, ...idsQuestoes];
+    await pool.query(
+        `INSERT INTO public.respostas (id_exame, id_questao)
+         VALUES ${values}`,
+        params
+    );
+}
+
+module.exports = { contarTentativas, sortearQuestoes, createExame, persistirQuestoesAuditoria };
