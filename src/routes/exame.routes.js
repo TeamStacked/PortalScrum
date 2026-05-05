@@ -5,6 +5,8 @@ const {
     sortearQuestoes,
     createExame,
     persistirQuestoesAuditoria,
+    findRespostaByExameEQuestao,
+    inserirResposta,
 } = require("../repositories/exame.repositories");
 
 const router = Router();
@@ -43,6 +45,38 @@ router.post("/", authMiddleware, async function (req, res) {
             tentativa: exame.tentativa,
             questoes,
         });
+    } catch (e) {
+        return res.status(500).json({ message: "Erro interno no servidor" });
+    }
+});
+
+// POST /api/exames/:id/respostas — registra resposta com metadados (tasks 17 e 18)
+router.post("/:id/respostas", authMiddleware, async function (req, res) {
+    const idExame = Number(req.params.id);
+    const { id_questao, resposta, nota } = req.body;
+
+    if (!id_questao || !resposta) {
+        return res.status(400).json({ message: "id_questao e resposta são obrigatórios" });
+    }
+
+    if (!["a", "b", "c", "d"].includes(resposta.toLowerCase())) {
+        return res.status(400).json({ message: "Resposta deve ser a, b, c ou d" });
+    }
+
+    try {
+        const jaRespondida = await findRespostaByExameEQuestao(idExame, id_questao);
+        if (jaRespondida && jaRespondida.resposta !== null) {
+            return res.status(409).json({
+                message: "Questão já respondida neste exame",
+            });
+        }
+
+        const resultado = await inserirResposta(idExame, id_questao, resposta.toLowerCase(), nota);
+        if (!resultado) {
+            return res.status(404).json({ message: "Questão não encontrada neste exame" });
+        }
+
+        return res.status(200).json(resultado);
     } catch (e) {
         return res.status(500).json({ message: "Erro interno no servidor" });
     }
