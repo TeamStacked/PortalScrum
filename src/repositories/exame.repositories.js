@@ -64,4 +64,16 @@ module.exports = {
     createExame,
     persistirQuestoesAuditoria,
     findRespostaByExameEQuestao,
+}
+
+    // Atualiza a resposta com alternativa escolhida e nota (task 17 - metadados)
+async function inserirResposta(idExame, idQuestao, resposta, nota) {
+    const result = await pool.query(
+        `UPDATE public.respostas
+         SET resposta = $3, nota = $4, respondido_em = CURRENT_TIMESTAMP
+         WHERE id_exame = $1 AND id_questao = $2
+         RETURNING *`,
+        [idExame, idQuestao, resposta, nota]
+    );
+    return result.rows[0] || null;
 };
