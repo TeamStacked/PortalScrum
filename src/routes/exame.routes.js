@@ -82,4 +82,29 @@ router.post("/:id/respostas", authMiddleware, async function (req, res) {
     }
 });
 
+// GET /api/exames/:id — consulta exame completo com questões para auditoria (RF10)
+router.get("/:id", authMiddleware, async function (req, res) {
+    const idExame = Number(req.params.id);
+
+    try {
+        const result = await require("../database/db").query(
+            `SELECT e.id_exame, e.tentativa, e.id_modulo,
+                    r.id_questao, r.resposta, r.nota, r.respondido_em
+             FROM public.exames e
+             JOIN public.respostas r ON r.id_exame = e.id_exame
+             WHERE e.id_exame = $1
+             ORDER BY r.id_resposta`,
+            [idExame]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: "Exame não encontrado" });
+        }
+
+        return res.status(200).json(result.rows);
+    } catch (e) {
+        return res.status(500).json({ message: "Erro interno no servidor" });
+    }
+});
+
 module.exports = router;
