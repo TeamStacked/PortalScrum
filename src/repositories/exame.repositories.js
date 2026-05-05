@@ -24,4 +24,15 @@ async function sortearQuestoes(idModulo) {
     return result.rows.map((r) => r.id_questao);
 }
 
-module.exports = { contarTentativas, sortearQuestoes };
+// Cria o registro do exame no banco (task 19)
+async function createExame(idUsuario, idModulo, tentativa) {
+    const result = await pool.query(
+        `INSERT INTO public.exames (id_usuario, id_modulo, tentativa)
+         VALUES ($1, $2, $3)
+         RETURNING *`,
+        [idUsuario, idModulo, tentativa]
+    );
+    return result.rows[0];
+}
+
+module.exports = { contarTentativas, sortearQuestoes, createExame };
