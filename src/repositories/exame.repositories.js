@@ -48,4 +48,20 @@ async function persistirQuestoesAuditoria(idExame, idsQuestoes) {
     );
 }
 
-module.exports = { contarTentativas, sortearQuestoes, createExame, persistirQuestoesAuditoria };
+// Busca resposta já registrada por exame e questão (task 18 - evitar duplicidade)
+async function findRespostaByExameEQuestao(idExame, idQuestao) {
+    const result = await pool.query(
+        `SELECT * FROM public.respostas
+         WHERE id_exame = $1 AND id_questao = $2`,
+        [idExame, idQuestao]
+    );
+    return result.rows[0] || null;
+}
+
+module.exports = {
+    contarTentativas,
+    sortearQuestoes,
+    createExame,
+    persistirQuestoesAuditoria,
+    findRespostaByExameEQuestao,
+};
