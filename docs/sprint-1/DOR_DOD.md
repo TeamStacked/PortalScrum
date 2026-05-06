@@ -1,4 +1,4 @@
-# Definition of Read (DoR) e Definition of Done (DoD)
+# Definition of Ready (DoR) e Definition of Done (DoD) - Sprint 1
 
 ## 📋 Definition of Ready (DoR) - Para iniciar a Sprint
 
