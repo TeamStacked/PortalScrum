@@ -162,36 +162,36 @@ A organização segue o padrão de camadas para garantir separação de responsa
 ## 👥 Equipe
 
 <body>
-        <div align="center">
-                <table>
-                <thead>
-                        <th>Scrum Master</th>
-                        <th>Product Owner</th>
-                        <th>Dev Team</th>
-                        <th>Dev Team</th>
-                        <th>Dev Team</th>
-                        <th>Dev Team</th>
-                <thead>
-                <tbody>
-                        <tr>
-                                <th><a href="https://github.com/michelrubens"><img src="https://github.com/michelrubens.png" width="75px" height="75px"></a></th>
-                                <th><a href="https://github.com/phjsilva"><img src="https://github.com/phjsilva.png" width="75px" height="75px"/></a></th>
-                                <th><a href="https://github.com/portug4lucas"><img src="https://github.com/portug4lucas.png" width="75px" height="75px"/></a></th>
-                                <th><a href="https://github.com/ThiagoDT"><img src="https://github.com/ThiagoDT.png" width="75px" height="75px"/></a></th>
-                                <th><a href="https://github.com/Victorhubb"><img src="https://github.com/Victorhubb.png" width="75px" height="75px"/></a></th>
-                                <th><a href="https://github.com/ViniciusGuin"><img src="https://github.com/ViniciusGuin.png" width="75px" height="75px"/></a></th>
-                        </tr>
-                        <tr>
-                                <th><a href="https://www.linkedin.com/in/michelrubens"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a></th>
-                                <th><a href="http://www.linkedin.com/in/pedro-silva-3b5869380"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a></th>
-                                <th><a href="http://www.linkedin.com/in/lucas-portugal-09263b362"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a></th>
-                                <th></th>
-                                <th><a href="https://www.linkedin.com/in/victor-gomes-699051404/"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a></th>
-                                <th></th>
-                        </tr>
-                <tbody>
-        </table>
-        </div>
+   <div align="center">
+      <table>
+         <thead>
+            <th>Scrum Master</th>
+            <th>Product Owner</th>
+            <th>Dev Team</th>
+            <th>Dev Team</th>
+            <th>Dev Team</th>
+            <th>Dev Team</th>
+         </thead>
+         <tbody>
+            <tr>
+               <th><a href="https://github.com/michelrubens"><img src="https://github.com/michelrubens.png" width="75px" height="75px"></a></th>
+               <th><a href="https://github.com/phjsilva"><img src="https://github.com/phjsilva.png" width="75px" height="75px"/></a></th>
+               <th><a href="https://github.com/portug4lucas"><img src="https://github.com/portug4lucas.png" width="75px" height="75px"/></a></th>
+               <th><a href="https://github.com/ThiagoDT"><img src="https://github.com/ThiagoDT.png" width="75px" height="75px"/></a></th>
+               <th><a href="https://github.com/Victorhubb"><img src="https://github.com/Victorhubb.png" width="75px" height="75px"/></a></th>
+               <th><a href="https://github.com/ViniciusGuin"><img src="https://github.com/ViniciusGuin.png" width="75px" height="75px"/></a></th>
+            </tr>
+            <tr>
+               <th><a href="https://www.linkedin.com/in/michelrubens"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a></th>
+               <th><a href="http://www.linkedin.com/in/pedro-silva-3b5869380"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a></th>
+               <th><a href="http://www.linkedin.com/in/lucas-portugal-09263b362"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a></th>
+               <th></th>
+               <th><a href="https://www.linkedin.com/in/victor-gomes-699051404/"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a></th>
+               <th></th>
+            </tr>
+         </tbody>
+      </table>
+   </div>
 </body>
 
 ## 📝 Padrão de Commits e Branches
