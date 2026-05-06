@@ -15,12 +15,10 @@ assignees: michelrubens
 ## 👥 Presença
 
 - [x] @michelrubens (Facilitador)
-- [ ] @PatyMaidana
 - [ ] @ThiagoDT
 - [ ] @phjsilva
 - [ ] @portug4lucas
 - [ ] @Victorhubb
-- [ ] @igorcsouzaa
 - [ ] @ViniciusGuin
 
 ---
@@ -33,47 +31,35 @@ assignees: michelrubens
 - **O que farei hoje:**
 - **Impedimentos:** Nenhum.
 
-### **Patricia Maidana** @PatyMaidana
-
-- **O que fiz ontem:**
-- **O que farei hoje:**
-- **Impedimentos:**
-
 ### **Thiago Dias** @ThiagoDT
 
 - **O que fiz ontem:**
 - **O que farei hoje:**
-- **Impedimentos:**
+- **Impedimentos:** Nenhum.
 
 ### **Pedro Silva** @phjsilva
 
 - **O que fiz ontem:**
 - **O que farei hoje:**
-- **Impedimentos:**
+- **Impedimentos:** Nenhum.
 
 ### **Lucas Portugal** @portug4lucas
 
 - **O que fiz ontem:**
 - **O que farei hoje:**
-- **Impedimentos:**
+- **Impedimentos:** Nenhum.
 
 ### **Victor Gomes** @Victorhubb
 
 - **O que fiz ontem:**
 - **O que farei hoje:**
-- **Impedimentos:**
-
-### **Igor Souza** @igorcsouzaa
-
-- **O que fiz ontem:**
-- **O que farei hoje:**
-- **Impedimentos:**
+- **Impedimentos:** Nenhum.
 
 ### **Vinicius Guin** @ViniciusGuin
 
 - **O que fiz ontem:**
 - **O que farei hoje:**
-- **Impedimentos:**
+- **Impedimentos:** Nenhum.
 
 ---
 
