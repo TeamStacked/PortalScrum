@@ -3,10 +3,8 @@
 ## 1. Identificação
 
 - **Nome do Caso de Uso:** Cadastrar Usuário
-- **ID:** UC-01
 - **Ator(es):** Visitante
 - **Descrição:** Permite que um visitante crie uma conta no sistema para acessar os módulos e realizar avaliações.
-- **Prioridade:** Alta
 
 ---
 
