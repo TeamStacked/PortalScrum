@@ -58,15 +58,7 @@ async function findRespostaByExameEQuestao(idExame, idQuestao) {
     return result.rows[0] || null;
 }
 
-module.exports = {
-    contarTentativas,
-    sortearQuestoes,
-    createExame,
-    persistirQuestoesAuditoria,
-    findRespostaByExameEQuestao,
-}
-
-    // Atualiza a resposta com alternativa escolhida e nota (task 17 - metadados)
+//  CORRIGIDO: função estava declarada fora do module.exports, nunca era exportada
 async function inserirResposta(idExame, idQuestao, resposta, nota) {
     const result = await pool.query(
         `UPDATE public.respostas
@@ -76,4 +68,28 @@ async function inserirResposta(idExame, idQuestao, resposta, nota) {
         [idExame, idQuestao, resposta, nota]
     );
     return result.rows[0] || null;
+}
+
+//  NOVO: busca exame completo com questões para auditoria (RF10)
+async function findExameById(idExame) {
+    const result = await pool.query(
+        `SELECT e.id_exame, e.tentativa, e.id_modulo,
+                r.id_questao, r.resposta, r.nota, r.respondido_em
+         FROM public.exames e
+         JOIN public.respostas r ON r.id_exame = e.id_exame
+         WHERE e.id_exame = $1
+         ORDER BY r.id_resposta`,
+        [idExame]
+    );
+    return result.rows;
+}
+
+module.exports = {
+    contarTentativas,
+    sortearQuestoes,
+    createExame,
+    persistirQuestoesAuditoria,
+    findRespostaByExameEQuestao,
+    inserirResposta,   //  CORRIGIDO: adicionado ao exports
+    findExameById,     //  NOVO: adicionado ao exports
 };
