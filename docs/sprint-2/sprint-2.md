@@ -19,7 +19,7 @@ Esta sprint focou na implementação do motor de avaliação, gerenciamento de t
 
 - **US00 - Infraestrutura, Banco de Dados e Documentação Técnica**
   - [ ] Finalização do Diagrama de Sequência (Fluxo de Avaliação) [#66](https://github.com/TeamStacked/PortalScrum/issues/66)
-  - [ ] Refatoração do Diagrama de Caso de Uso [#67](https://github.com/TeamStacked/PortalScrum/issues/67)
+  - [x] Refatoração do Diagrama de Caso de Uso [#67](https://github.com/TeamStacked/PortalScrum/issues/67)
   - [ ] Refatoração do Diagrama de Classe [#68](https://github.com/TeamStacked/PortalScrum/issues/68)
   - [ ] Registro da documentação da Sprint 2 [#69](https://github.com/TeamStacked/PortalScrum/issues/69)
   - [ ] Vídeo do Incremento da Sprint 2 (YouTube) [#70](https://github.com/TeamStacked/PortalScrum/issues/70)
