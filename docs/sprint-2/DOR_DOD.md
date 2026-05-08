@@ -25,4 +25,4 @@ Uma User Story só é considerada "Pronta" se atender aos critérios abaixo:
 | US00 | Infraestrutura, Banco de Dados e Documentação Técnica | [ ] | Diagramas atualizados (Sequência, Caso de Uso, Classe); Relatório sprint-2.md concluído; Vídeo postado no YouTube. |
 | US04 | Realização de Avaliação por Nível | [ ] | Interface responsiva funcional; API de próxima questão retornando mix correto (3 Fáceis, 4 Médias, 3 Difíceis). |
 | US05 | Gestão de Tentativas e Notas | [ ] | Persistência de respostas validada; Bloqueio de 3ª tentativa (403); Maior nota persistida na tabela de exames. |
-| US07 | Auditoria de Histórico | [ ] | Metadados de tempo e exame registrados; Prevenção de duplicidade (409); Auditoria de sorteio garantida (RF10). |
+| US07 | Auditoria de Histórico | [x] | Metadados de tempo e exame registrados; Prevenção de duplicidade (409); Auditoria de sorteio garantida (RF10). |
