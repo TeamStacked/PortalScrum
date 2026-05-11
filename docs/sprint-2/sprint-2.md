@@ -25,7 +25,7 @@ Esta sprint focou na implementação do motor de avaliação, gerenciamento de t
   - [ ] Vídeo do Incremento da Sprint 2 (YouTube) [#70](https://github.com/TeamStacked/PortalScrum/issues/70)
 
 - **US04 - Realização de Avaliação por Nível**
-  - [ ] Prototipagem da Tela de Exame (Figma) [#72](https://github.com/TeamStacked/PortalScrum/issues/72)
+  - [x] Prototipagem da Tela de Exame (Figma) [#72](https://github.com/TeamStacked/PortalScrum/issues/72)
   - [ ] HTML/CSS da Tela de Exame (Responsivo) [#73](https://github.com/TeamStacked/PortalScrum/issues/73)
   - [ ] Função findProximaQuestaoByUsuario com Mix de Dificuldade [#74](https://github.com/TeamStacked/PortalScrum/issues/74)
   - [ ] Rota GET /api/questoes/proxima-questao [#75](https://github.com/TeamStacked/PortalScrum/issues/75)
@@ -38,7 +38,7 @@ Esta sprint focou na implementação do motor de avaliação, gerenciamento de t
   - [ ] Cálculo automático da melhor nota por nível e persistência [#80](https://github.com/TeamStacked/PortalScrum/issues/80)
   - [ ] Feedback visual de conclusão de exame e progresso [#81](https://github.com/TeamStacked/PortalScrum/issues/81)
 
-- **US07 - Auditoria de Histórico**
+- **US07 - Auditoria de Histórico** ✅
   - [x] Registro de metadados na tabela de respostas (Data/Hora e ID do Exame) [#82](https://github.com/TeamStacked/PortalScrum/issues/82)
   - [x] Função findRespostaByExameEQuestao para evitar duplicidade [#83](https://github.com/TeamStacked/PortalScrum/issues/83)
   - [x] Persistência das questões sorteadas para fins de auditoria [#84](https://github.com/TeamStacked/PortalScrum/issues/84)

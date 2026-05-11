@@ -99,8 +99,8 @@ O projeto respeita as restrições técnicas de não utilizar frameworks no fron
 - **Front-end:** HTML5, CSS3 e JavaScript (Puro/Vanilla).
 - **Back-end:** Node.js para exposição de APIs.
 - **Banco de Dados:** PostgreSQL (Uso de DDL e DML explícitos).
-- **Segurança:** Autenticação via JWT e criptografia de senhas com Scrypt.
-- **Design:** Figma para prototipação e Astah para diagramação UML.
+- **Segurança:** Autenticação via JWT e criptografia de senhas com bcryptjs.
+- **Design:** [Figma (Protótipo v3.0)](https://www.figma.com/design/0bTrNLRC1tZpu0w7mzCNjs/Sem-t%C3%ADtulo?node-id=0-1&t=t5hZpchIfgTqTZC2-1) para prototipação e Astah para diagramação UML.
 
 ---
 
