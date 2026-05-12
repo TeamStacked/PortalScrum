@@ -1,9 +1,5 @@
 const { Router } = require('express')
 const {
-  findProximaQuestaoByUsuario,
-  findQuestaoDoExameByUsuario,
-  findRespostaByExameEQuestao,
-  inserirRespostaQuestao,
   usuarioConcluiuModuloAtual,
   findModuloAtualByUsuario,
   findOutroGrupoAleatorio,
@@ -17,109 +13,6 @@ const {
 const authMiddleware = require('../middlewares/auth.middleware')
 
 const router = Router()
-
-/*
------------------------------------
-  POST /api/questoes/resposta
------------------------------------
-curl -X POST http://localhost:3000/api/questoes/responder \
- -H "Content-Type: application/json" \
- -H "Authorization: Bearer SEU_TOKEN" \
- -d '{"id_exame":"11","id_questao":"21","resposta":"c"}'
------------------------------------
-*/
-router.post('/responder', authMiddleware, async function (req, res) {
-  try {
-    const { id_exame, id_questao, resposta } = req.body
-
-    const respostaNormalizada = resposta.trim().toLowerCase()
-
-    const questao = await findQuestaoDoExameByUsuario(
-      req.usuario.id_usuario,
-      id_exame,
-      id_questao
-    )
-
-    if (!questao) {
-      return res.status(404).json({ message: 'Questão não encontrada.' })
-    }
-
-    const respostaExistente = await findRespostaByExameEQuestao(
-      id_exame,
-      id_questao
-    )
-
-    if (respostaExistente) {
-      return res.status(409).json({ message: 'Resposta já registrada.' })
-    }
-
-    const nota = questao.alternativa_correta === respostaNormalizada ? 1 : 0
-
-    const respostaInserida = await inserirRespostaQuestao(
-      id_exame,
-      id_questao,
-      respostaNormalizada,
-      nota
-    )
-
-    // Verifica se concluiu o módulo atual
-    const concluido = await usuarioConcluiuModuloAtual(req.usuario.id_usuario)
-
-    let proximoEstado = null
-
-    if (concluido) {
-      const moduloAtual = await findModuloAtualByUsuario(req.usuario.id_usuario)
-
-      // Verifica se ainda tem tentativa disponível neste módulo
-      const tentativasUsadas = moduloAtual.tentativa
-      const temTentativaDisponivel = tentativasUsadas < 2
-
-      if (temTentativaDisponivel) {
-        // Não avança automaticamente — usuário pode querer usar a 2ª tentativa
-        proximoEstado = {
-          status: 'modulo_concluido',
-          pode_tentar_novamente: true
-        }
-      } else {
-        // Usou as 2 tentativas — avança para o próximo módulo automaticamente
-        const proximoModulo = await findProximoModuloByUsuario(
-          req.usuario.id_usuario
-        )
-
-        if (proximoModulo) {
-          const grupo = await findOutroGrupoAleatorio(
-            req.usuario.id_usuario,
-            proximoModulo
-          )
-
-          if (!grupo) {
-            return res.status(500).json({
-              message: 'Nenhum grupo disponível para o próximo módulo.'
-            })
-          }
-
-          await insertProximoModulo(
-            moduloAtual.id_exame,
-            proximoModulo,
-            grupo,
-            1
-          )
-          proximoEstado = { status: 'proximo_modulo_desbloqueado' }
-        } else {
-          // Não há próximo módulo — concluiu todos os 5 níveis
-          proximoEstado = { status: 'todos_modulos_concluidos' }
-        }
-      }
-    }
-
-    return res.status(201).json({
-      ...respostaInserida,
-      proximo_estado: proximoEstado
-    })
-  } catch (error) {
-    return res.status(500).json({ message: error.message })
-  }
-})
 
 /* 
 -----------------------------------
