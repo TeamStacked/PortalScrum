@@ -41,6 +41,14 @@ function validarCPF(cpf) {
     return resto === parseInt(cpf.substring(10, 11));
 }
 
+function mascaraCPF(valor) {
+    valor = valor.replace(/\D/g, "");
+    valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
+    valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
+    valor = valor.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    return valor;
+}
+
 function setNameError(show) {
     if (show) {
         inputName.classList.add("input-error");
@@ -95,6 +103,12 @@ inputPassword.addEventListener("input", () => {
     setPasswordError(false);
 });
 
+inputCPF &&
+    inputCPF.addEventListener("input", () => {
+        inputCPF.value = mascaraCPF(inputCPF.value);
+        setCPFError(false);
+    });
+
 function validarFormulario() {
     let valido = true;
 
@@ -116,10 +130,6 @@ function validarFormulario() {
     if (inputPassword && inputPassword.value.trim() === "") {
         setPasswordError(true);
         valido = false;
-    }
-
-    if (inputCPF) {
-        inputCPF.value = inputCPF.value.replace(/\D/g, "");
     }
 
     return valido;

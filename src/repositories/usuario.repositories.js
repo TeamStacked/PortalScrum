@@ -1,4 +1,4 @@
-const { Result } = require("pg");
+ const { Result } = require("pg");
 const pool = require("../database/db");
 const { randomBytes } = require("crypto");
 const { hashPassword, verifyPassword } = require("../utils/password");
@@ -69,10 +69,13 @@ async function insertExame(client, idModulo, idUsuario, grupo, tentativa) {
 async function createUsuarios(nome, email, cpf, senha) {
     const client = await pool.connect();
 
+    // remove pontos e traço antes de salvar no banco
+    const cpfLimpo = cpf.replace(/\D/g, "");
+
     try {
         await client.query("BEGIN");
 
-        const usuario = await insertUsuarios(client, nome, email, cpf, senha);
+        const usuario = await insertUsuarios(client, nome, email, cpfLimpo, senha);
 
         const modulo = await findPrimeiroModulo(client);
         if (!modulo) {
@@ -166,11 +169,14 @@ async function updateUsuarioSenha(idUsuario, senha) {
 }
 
 async function findUsuarioByCpfAndSenha(cpf, senha) {
+    // remove máscara também na busca por CPF
+    const cpfLimpo = cpf.replace(/\D/g, "");
+
     const result = await pool.query(
         `SELECT id_usuario,nome,email,cpf,senha
         FROM usuarios
         WHERE cpf = $1`,
-        [cpf],
+        [cpfLimpo],
     );
 
     const usuario = result.rows[0];

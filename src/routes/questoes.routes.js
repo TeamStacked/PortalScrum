@@ -1,0 +1,273 @@
+const { Router } = require('express')
+const {
+  findProximaQuestaoByUsuario,
+  usuarioConcluiuModuloAtual,
+  findModuloAtualByUsuario,
+  findOutroGrupoAleatorio,
+  insertProximaTentativa,
+  findProximoModuloByUsuario,
+  insertProximoModulo,
+  countQuestoesRespondidasByUsuario,
+  findModulosRespondidosByUsuario,
+  jaExiste
+} = require('../respositories/questoes.repositories')
+const authMiddleware = require('../middlewares/auth.middleware')
+
+const router = Router()
+
+/*
+-----------------------------------
+  GET /api/questoes/proxima-questao
+-----------------------------------
+curl -X GET http://localhost:3000/api/questoes/proxima-questao \
+-H "Authorization: Bearer SEU_TOKEN"
+-----------------------------------
+*/
+router.get('/proxima-questao', authMiddleware, async function (req, res) {
+  try {
+    const questao = await findProximaQuestaoByUsuario(req.usuario.id_usuario)
+
+    if (!questao) {
+      return res
+        .status(404)
+        .json({ message: 'Nenhuma questão pendente encontrada.' })
+    }
+    return res.status(200).json({
+      ...questao,
+      imagem: questao.imagem ? `/imagens/questoes/${questao.imagem}` : null
+    })
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+})
+
+/* 
+-----------------------------------
+  PATCH /api/questoes/proxima-tentativa
+-----------------------------------
+curl -X PATCH http://localhost:3000/api/questoes/proxima-tentativa \ 
+  -H "Authorization: Bearer SEU_TOKEN" 
+-----------------------------------
+*/
+router.patch('/proxima-tentativa', authMiddleware, async function (req, res) {
+  try {
+    const concluido = await usuarioConcluiuModuloAtual(req.usuario.id_usuario)
+    if (!concluido) {
+      return res.status(409).json({
+        message: 'Você ainda não concluiu todas as questões do módulo atual.'
+      })
+    }
+
+    const modulo = await findModuloAtualByUsuario(req.usuario.id_usuario)
+
+    if (!modulo) {
+      return res.status(404).json({
+        message: 'Módulo atual não encontrado.'
+      })
+    }
+
+    if (modulo.tentativa >= 2) {
+      return res.status(409).json({
+        message: 'Limite de 2 tentativas atingido.'
+      })
+    }
+
+    const grupo = await findOutroGrupoAleatorio(
+      req.usuario.id_usuario,
+      modulo.id_modulo
+    )
+
+    if (!grupo) {
+      return res.status(404).json({
+        message: 'Nenhum grupo alternativo disponível para este módulo.'
+      })
+    }
+
+    const exame = await insertProximaTentativa(
+      modulo.id_exame,
+      grupo,
+      modulo.tentativa + 1
+    )
+
+    if (!exame) {
+      return res.status(404).json({
+        message: 'Exame não encontrado para atualização.'
+      })
+    }
+
+    return res.status(200).json(exame)
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+})
+
+/* >>>>> NÃO ESQUECER DE REMOVER ESTA ROTA DEPOIS
+-----------------------------------
+  PATCH /api/questoes/proximo-modulo
+-----------------------------------
+curl -X PATCH http://localhost:3000/api/questoes/proximo-modulo \ 
+  -H "Authorization: Bearer SEU_TOKEN" 
+-----------------------------------
+*/
+router.patch('/proximo-modulo', authMiddleware, async function (req, res) {
+  try {
+    const concluido = await usuarioConcluiuModuloAtual(req.usuario.id_usuario)
+    if (!concluido) {
+      return res.status(409).json({
+        message: 'Você ainda não concluiu todas as questões do módulo atual.'
+      })
+    }
+
+    const moduloAtual = await findModuloAtualByUsuario(req.usuario.id_usuario)
+
+    if (!moduloAtual) {
+      return res.status(404).json({
+        message: 'Módulo atual não encontrado.'
+      })
+    }
+
+    const modulo = await findProximoModuloByUsuario(req.usuario.id_usuario)
+
+    if (!modulo) {
+      return res.status(404).json({
+        message: 'Você concluiu todos os módulos.'
+      })
+    }
+
+    const grupo = await findOutroGrupoAleatorio(req.usuario.id_usuario, modulo)
+
+    if (!grupo) {
+      return res.status(404).json({
+        message: 'Nenhum grupo alternativo disponível para este módulo.'
+      })
+    }
+
+    const exame = await insertProximoModulo(
+      moduloAtual.id_exame,
+      modulo,
+      grupo,
+      1
+    )
+
+    if (!exame) {
+      return res.status(404).json({
+        message: 'Exame não encontrado para atualização.'
+      })
+    }
+
+    return res.status(200).json(exame)
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+})
+
+/*
+------------------------------------------
+  GET /api/questoes/progresso
+------------------------------------------
+curl -X GET http://localhost:3000/api/questoes/progresso \
+  -H "Authorization: Bearer SEU_TOKEN" \
+  -H "Content-Type: application/json"
+------------------------------------------
+*/
+
+router.get('/progresso', authMiddleware, async function (req, res) {
+  const total = await countQuestoesRespondidasByUsuario(req.usuario.id_usuario)
+  return res.status(200).json({ respondidas: total, total: 50 })
+})
+
+/* 
+------------------------------------------
+  GET /api/questoes/modulos-respondidos
+------------------------------------------
+curl -X GET http://localhost:3000/api/questoes/modulos-respondidos \ 
+  -H "Authorization: Bearer SEU_TOKEN" 
+------------------------------------------
+*/
+router.get('/modulos-respondidos', authMiddleware, async function (req, res) {
+  try {
+    const modulos = await findModulosRespondidosByUsuario(
+      req.usuario.id_usuario
+    )
+
+    return res.status(200).json(modulos)
+  } catch (e) {
+    return res.status(500).json({
+      message: 'erro interno do servidor'
+    })
+  }
+})
+
+/*
+------------------------------------------
+  GET /api/questoes/modulo-atual
+------------------------------------------
+curl -X GET http://localhost:3000/api/questoes/modulo-atual \
+  -H "Authorization: Bearer SEU_TOKEN"
+------------------------------------------
+*/
+router.get('/modulo-atual', authMiddleware, async function (req, res) {
+  try {
+    const modulo = await findModuloAtualByUsuario(req.usuario.id_usuario)
+    if (!modulo) {
+      return res.status(404).json({ message: 'Nenhum módulo em andamento.' })
+    }
+    return res.status(200).json(modulo)
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+})
+
+/*
+------------------------------------------
+  PATCH /api/questoes/pular-tentativa
+------------------------------------------
+curl -X PATCH http://localhost:3000/api/questoes/pular-tentativa \
+  -H "Authorization: Bearer SEU_TOKEN"
+------------------------------------------
+*/
+router.patch('/pular-tentativa', authMiddleware, async function (req, res) {
+  try {
+    const moduloAtual = await findModuloAtualByUsuario(req.usuario.id_usuario)
+    if (!moduloAtual) {
+      return res.status(404).json({ message: 'Módulo atual não encontrado.' })
+    }
+
+    const proximoModulo = await findProximoModuloByUsuario(
+      req.usuario.id_usuario
+    )
+    if (!proximoModulo) {
+      return res
+        .status(404)
+        .json({ message: 'Você já concluiu todos os módulos.' })
+    }
+
+    const existe = await jaExiste(req.usuario.id_usuario, proximoModulo)
+
+    if (existe.rows.length > 0) {
+      return res.status(409).json({ message: 'Próximo módulo já foi criado.' })
+    }
+
+    const grupo = await findOutroGrupoAleatorio(
+      req.usuario.id_usuario,
+      proximoModulo
+    )
+    if (!grupo) {
+      return res
+        .status(500)
+        .json({ message: 'Nenhum grupo disponível para o próximo módulo.' })
+    }
+
+    const exame = await insertProximoModulo(
+      moduloAtual.id_exame,
+      proximoModulo,
+      grupo,
+      1
+    )
+    return res.status(200).json(exame)
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+})
+
+module.exports = router
