@@ -1,4 +1,4 @@
-const { Router } = require('express')
+const { Router } = require('express');
 const {
   findProximaQuestaoByUsuario,
   usuarioConcluiuModuloAtual,
@@ -7,13 +7,16 @@ const {
   insertProximaTentativa,
   findProximoModuloByUsuario,
   insertProximoModulo,
+  findQuestaoDoExameByUsuario,
+  findRespostaByExameEQuestao,
   countQuestoesRespondidasByUsuario,
   findModulosRespondidosByUsuario,
+  inserirRespostaQuestao,
   jaExiste
-} = require('../respositories/questoes.repositories')
-const authMiddleware = require('../middlewares/auth.middleware')
+} = require('../repositories/questoes.repositories');
+const authMiddleware = require('../middlewares/auth.middleware');
 
-const router = Router()
+const router = Router();
 
 /*
 -----------------------------------
@@ -39,7 +42,48 @@ router.get('/proxima-questao', authMiddleware, async function (req, res) {
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }
-})
+});
+
+
+//inserir resposta
+/*
+curl -X POST http://localhost:3000/api/questoes/responder \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer TOKEN" \
+-d '{"id_exame":"1","id_questao":"21","resposta":"c"}'
+*/
+router.post("/responder", authMiddleware, async function (req, res) {
+  try {
+    const { id_exame, id_questao, resposta } = req.body;
+    const respostaNormalizada = resposta.trim().toLowerCase();
+    const questao = await findQuestaoDoExameByUsuario(req.usuario.id_usuario,
+    id_exame, id_questao);
+    if (!questao) {
+      return res.status(404).json({
+      message: "questão não encontrada para este exame",
+      });
+    }
+    const respostaExistente = await findRespostaByExameEQuestao(
+    id_exame,
+    id_questao,
+    );
+    if (respostaExistente) {
+      return res.status(409).json({
+      message: "questão já respondida",
+      });
+    }
+    const nota = questao.alternativa_correta === respostaNormalizada ? 1 : 0;
+    const respostaInserida = await inserirRespostaQuestao(id_exame, id_questao,
+    respostaNormalizada,nota);
+    return res.status(201).json(respostaInserida);
+  } catch (e) {
+      return res.status(500).json({
+      message: `erro interno do servido `
+      });
+  }
+});
+
+
 
 /* 
 -----------------------------------
@@ -99,7 +143,7 @@ router.patch('/proxima-tentativa', authMiddleware, async function (req, res) {
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }
-})
+});
 
 /* >>>>> NÃO ESQUECER DE REMOVER ESTA ROTA DEPOIS
 -----------------------------------
@@ -157,9 +201,9 @@ router.patch('/proximo-modulo', authMiddleware, async function (req, res) {
 
     return res.status(200).json(exame)
   } catch (error) {
-    return res.status(500).json({ message: error.message })
+    return res.status(500).json({ message: error.message });
   }
-})
+});
 
 /*
 ------------------------------------------
