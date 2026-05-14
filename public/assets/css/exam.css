@@ -1,0 +1,135 @@
+.exam-shell {
+    max-width: 820px;
+    margin: 0 auto;
+}
+.auth-page {
+    display: grid;
+    min-height: 100vh;
+    place-items: center;
+    padding: 42px 16px;
+}
+.question-card {
+    padding: clamp(24px, 5vw, 44px);
+    margin-bottom: 24px;
+}
+.question-card h2 {
+    margin: 14px 0 26px;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+}
+.answers {
+    display: grid;
+    gap: 14px;
+}
+.answer-option {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 14px;
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    background: rgba(255, 255, 255, 0.04);
+    text-align: left;
+}
+.answer-option:hover,
+.answer-option.is-selected {
+    border-color: var(--primary);
+}
+.answer-option.is-selected {
+    background: rgba(139, 92, 246, 0.12);
+}
+.answer-radio {
+    display: grid;
+    width: 24px;
+    height: 24px;
+    flex: 0 0 auto;
+    place-items: center;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+}
+.answer-option.is-selected .answer-radio {
+    border-color: var(--primary);
+    background: var(--primary);
+}
+.answer-option.is-selected .answer-radio::after {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #fff;
+    content: "";
+}
+.exam-nav,
+.question-jumps {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.exam-nav {
+    justify-content: space-between;
+}
+.question-jumps {
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.jump-button {
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    font-size: 0.82rem;
+}
+.jump-button.is-current {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: #fff;
+}
+.jump-button.is-answered:not(.is-current) {
+    border-color: rgba(16, 185, 129, 0.42);
+    background: rgba(16, 185, 129, 0.28);
+    color: #fff;
+}
+.timer {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 12px;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.05);
+    font-weight: 800;
+}
+.result-card {
+    width: min(100%, 680px);
+    padding: clamp(28px, 5vw, 46px);
+    text-align: center;
+}
+.result-icon {
+    display: grid;
+    width: 96px;
+    height: 96px;
+    place-items: center;
+    border-radius: 50%;
+    margin: 0 auto 22px;
+    font-size: 2.5rem;
+    font-weight: 900;
+}
+.result-icon.success {
+    background: rgba(16, 185, 129, 0.18);
+    color: var(--success);
+}
+.result-icon.danger {
+    background: rgba(239, 68, 68, 0.18);
+    color: var(--destructive);
+}
+.result-score {
+    margin: 24px 0 8px;
+    font-size: clamp(4rem, 12vw, 6rem);
+    font-weight: 900;
+    line-height: 1;
+}
+@media (max-width: 720px) {
+    .exam-nav {
+        align-items: stretch;
+        flex-direction: column;
+    }
+}
