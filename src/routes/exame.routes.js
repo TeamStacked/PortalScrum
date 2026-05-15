@@ -25,7 +25,7 @@ router.post("/", authMiddleware, async function (req, res) {
     const totalTentativas = await contarTentativas(idUsuario, id_modulo);
  
     if (totalTentativas >= 2) {
-      return res.status(403).json({
+      return res.status(409).json({
         message: "Limite de 2 tentativas por módulo atingido",
       });
     }
