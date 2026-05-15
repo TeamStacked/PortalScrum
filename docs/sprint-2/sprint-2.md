@@ -26,15 +26,15 @@ Esta sprint focou na implementação do motor de avaliação, gerenciamento de t
 
 - **US04 - Realização de Avaliação por Nível**
   - [x] Prototipagem da Tela de Exame (Figma) [#72](https://github.com/TeamStacked/PortalScrum/issues/72)
-  - [ ] HTML/CSS da Tela de Exame (Responsivo) [#73](https://github.com/TeamStacked/PortalScrum/issues/73)
+  - [x] HTML/CSS da Tela de Exame (Responsivo) [#73](https://github.com/TeamStacked/PortalScrum/issues/73)
   - [x] Função findProximaQuestaoByUsuario com Mix de Dificuldade [#74](https://github.com/TeamStacked/PortalScrum/issues/74)
   - [x] Rota GET /api/questoes/proxima-questao [#75](https://github.com/TeamStacked/PortalScrum/issues/75)
   - [ ] Integração Front-end para exibição dinâmica de questões [#76](https://github.com/TeamStacked/PortalScrum/issues/76)
 
 - **US05 - Gestão de Tentativas e Notas**
-  - [ ] Função inserirRespostaQuestao e findQuestaoDoExameByUsuario [#77](https://github.com/TeamStacked/PortalScrum/issues/77)
-  - [ ] Rota POST /api/questoes/responder [#78](https://github.com/TeamStacked/PortalScrum/issues/78)
-  - [ ] Lógica de validação e bloqueio de tentativas (Máximo 2 por nível) [#79](https://github.com/TeamStacked/PortalScrum/issues/79)
+  - [x] Função inserirRespostaQuestao e findQuestaoDoExameByUsuario [#77](https://github.com/TeamStacked/PortalScrum/issues/77)
+  - [x] Rota POST /api/questoes/responder [#78](https://github.com/TeamStacked/PortalScrum/issues/78)
+  - [x] Lógica de validação e bloqueio de tentativas (Máximo 2 por nível) [#79](https://github.com/TeamStacked/PortalScrum/issues/79)
   - [ ] Cálculo automático da melhor nota por nível e persistência [#80](https://github.com/TeamStacked/PortalScrum/issues/80)
   - [ ] Feedback visual de conclusão de exame e progresso [#81](https://github.com/TeamStacked/PortalScrum/issues/81)
 
