@@ -20,7 +20,7 @@ app.use("/assets", express.static(assetsPath));
 app.use("/api", router);
 
 app.use(function (req, res) {
-    res.redirect("/not-found.html");
+    res.redirect("/404.html");
 });
 app.listen(PORT, function () {
     console.log(`http://localhost:${PORT}`);

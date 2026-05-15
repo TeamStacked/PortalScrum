@@ -27,5 +27,5 @@ form &&
 
         alert("Login realizado!");
         localStorage.setItem("token", result.token);
-        window.location.href = "/home.html";
+        window.location.href = "/hub.html";
     });
