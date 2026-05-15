@@ -146,6 +146,7 @@ A organização segue o padrão de camadas para garantir separação de responsa
    POSTGRES_DB=abp
    POSTGRES_PORT=5432
    JWT_SECRET=sua_chave_secreta
+   DEFAULT_EXPIRES_IN_SECONDS=1800
    ```
 3. Inicialize as tabelas do banco de dados e a carga de dados inicial:
    ```bash
