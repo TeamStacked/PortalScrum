@@ -1,255 +1,225 @@
-(function () {
-    var questionBank = [
-        [
-            "O que e Scrum?",
-            [
-                "Um framework para desenvolvimento de software",
-                "Uma metodologia agil para gestao de projetos complexos",
-                "Uma linguagem de programacao",
-                "Uma ferramenta de tarefas",
-            ],
-            1,
-        ],
-        [
-            "Quais sao os tres pilares do Scrum?",
-            [
-                "Planejamento, Execucao e Controle",
-                "Transparencia, Inspecao e Adaptacao",
-                "Analise, Design e Implementacao",
-                "Sprint, Daily e Review",
-            ],
-            1,
-        ],
-        [
-            "Qual e o papel do Scrum Master?",
-            [
-                "Gerenciar o time",
-                "Definir funcionalidades",
-                "Facilitar o Scrum e remover impedimentos",
-                "Escrever codigo",
-            ],
-            2,
-        ],
-        [
-            "O que e uma Sprint?",
-            [
-                "Uma reuniao diaria",
-                "Um periodo fixo para gerar incremento",
-                "Um documento",
-                "Uma tecnica de estimativa",
-            ],
-            1,
-        ],
-        [
-            "Quem e responsavel pelo Product Backlog?",
-            [
-                "Scrum Master",
-                "Time de Desenvolvimento",
-                "Product Owner",
-                "Stakeholders",
-            ],
-            2,
-        ],
-        [
-            "Qual e a duracao tipica de uma Daily Scrum?",
-            ["5 minutos", "15 minutos", "30 minutos", "1 hora"],
-            1,
-        ],
-        [
-            "O que e um incremento?",
-            [
-                "Uma nova funcionalidade",
-                "Soma dos itens completados que atendem a Definition of Done",
-                "Um bug corrigido",
-                "Uma documentacao",
-            ],
-            1,
-        ],
-        [
-            "Qual evento ocorre ao final da Sprint?",
-            [
-                "Sprint Planning",
-                "Daily Scrum",
-                "Sprint Review e Sprint Retrospective",
-                "Backlog Refinement",
-            ],
-            2,
-        ],
-        [
-            "Qual e o tamanho ideal de um time Scrum?",
-            [
-                "3 a 5 pessoas",
-                "5 a 9 pessoas",
-                "10 a 15 pessoas",
-                "Mais de 15 pessoas",
-            ],
-            1,
-        ],
-        [
-            "O que define a Definition of Done?",
-            [
-                "Quando a Sprint termina",
-                "Criterios para considerar um incremento completo",
-                "A data de entrega",
-                "Story points completados",
-            ],
-            1,
-        ],
-    ];
-    var currentQuestion = 0;
-    var answers = {};
-    var timeLeft = 1800;
-    var timerId = null;
-    var moduleId = 1;
-    function formatTime(seconds) {
-        return (
-            String(Math.floor(seconds / 60)).padStart(2, "0") +
-            ":" +
-            String(seconds % 60).padStart(2, "0")
-        );
+;(function () {
+  let questaoAtual = null
+  let currentQuestion = 0
+  let totalQuestoes = 10
+
+  let timeLeft = 1800
+  let timerId = null
+
+  // ─────────────────────────────────────────────
+  // Utils
+  // ─────────────────────────────────────────────
+  function formatTime(seconds) {
+    return (
+      String(Math.floor(seconds / 60)).padStart(2, '0') +
+      ':' +
+      String(seconds % 60).padStart(2, '0')
+    )
+  }
+
+  function updateHeader() {
+    document.querySelector('[data-question-count]').textContent =
+      `Questão ${Math.min(currentQuestion + 1, totalQuestoes)} de ${totalQuestoes}`
+
+    document.querySelector('[data-exam-progress]').style.width =
+      `${(currentQuestion / totalQuestoes) * 100}%`
+
+    // document.querySelector('[data-timer]').textContent = formatTime(timeLeft)
+  }
+
+  // ─────────────────────────────────────────────
+  // Renderizar questão
+  // ─────────────────────────────────────────────
+  function renderQuestion() {
+    if (!questaoAtual) return
+
+    const shell = document.querySelector('[data-question-shell]')
+
+    shell.innerHTML = `
+      <div class="eyebrow">
+        Questão ${currentQuestion + 1}
+      </div>
+
+      <h2>${questaoAtual.enunciado}</h2>
+
+      ${
+        questaoAtual.imagem
+          ? `
+            <img
+              src="${questaoAtual.imagem}"
+              class="question-image"
+              alt="Imagem da questão"
+            />
+          `
+          : ''
+      }
+
+      <div class="answers">
+        ${['a', 'b', 'c', 'd']
+          .map((letra) => {
+            const texto = questaoAtual[`alternativa_${letra}`]
+
+            if (!texto) return ''
+
+            return `
+              <button
+                class="answer-option"
+                data-answer="${letra}"
+              >
+                <span class="answer-radio"></span>
+                <span>${texto}</span>
+              </button>
+            `
+          })
+          .join('')}
+      </div>
+    `
+
+    shell.querySelectorAll('[data-answer]').forEach((button) => {
+      button.addEventListener('click', async function () {
+        const letraSelecionada = button.dataset.answer
+
+        // evita múltiplos cliques
+        shell.querySelectorAll('[data-answer]').forEach((btn) => {
+          btn.disabled = true
+        })
+
+        button.classList.add('is-selected')
+
+        await responderQuestao(letraSelecionada)
+      })
+    })
+
+    updateHeader()
+  }
+
+  // ─────────────────────────────────────────────
+  // Buscar próxima questão
+  // ─────────────────────────────────────────────
+  async function carregarQuestao() {
+    try {
+      const res = await apiFetch('/api/questoes/proxima-questao')
+
+      if (!res) return
+
+      // terminou prova
+      if (res.status === 404) {
+        finalizarAvaliacao()
+        return
+      }
+
+      const questao = await res.json()
+
+      questaoAtual = questao
+
+      renderQuestion()
+    } catch (err) {
+      console.error('Erro ao carregar questão:', err)
+
+      mostrarErro('Não foi possível carregar a próxima questão.')
     }
-    function updateHeader() {
-        document.querySelector("[data-question-count]").textContent =
-            "Questao " + (currentQuestion + 1) + " de " + questionBank.length;
-        document.querySelector("[data-exam-progress]").style.width =
-            ((currentQuestion + 1) / questionBank.length) * 100 + "%";
-        document.querySelector("[data-timer]").textContent =
-            formatTime(timeLeft);
+  }
+
+  // ─────────────────────────────────────────────
+  // Responder questão
+  // ─────────────────────────────────────────────
+  async function responderQuestao(letraSelecionada) {
+    try {
+      const res = await apiFetch('/api/questoes/responder', {
+        method: 'POST',
+        body: JSON.stringify({
+          id_exame: questaoAtual.id_exame,
+          id_questao: questaoAtual.id_questao,
+          resposta: letraSelecionada
+        })
+      })
+
+      if (!res) return
+
+      const data = await res.json()
+
+      console.log('Resposta registrada:', data)
+
+      currentQuestion++
+
+      updateHeader()
+
+      // pequena pausa visual
+      setTimeout(async () => {
+        await carregarQuestao()
+      }, 500)
+    } catch (err) {
+      console.error('Erro ao responder questão:', err)
+
+      mostrarErro('Erro ao registrar resposta.')
     }
-    function renderQuestion() {
-        var question = questionBank[currentQuestion];
-        var shell = document.querySelector("[data-question-shell]");
-        shell.innerHTML =
-            '<div class="eyebrow">Questao ' +
-            (currentQuestion + 1) +
-            "</div><h2>" +
-            question[0] +
-            '</h2><div class="answers">' +
-            question[1]
-                .map(function (option, index) {
-                    return (
-                        '<button class="answer-option ' +
-                        (answers[currentQuestion] === index
-                            ? "is-selected"
-                            : "") +
-                        '" data-answer="' +
-                        index +
-                        '"><span class="answer-radio" aria-hidden="true"></span><span>' +
-                        option +
-                        "</span></button>"
-                    );
-                })
-                .join("") +
-            "</div>";
-        shell.querySelectorAll("[data-answer]").forEach(function (button) {
-            button.addEventListener("click", function () {
-                answers[currentQuestion] = Number(button.dataset.answer);
-                renderQuestion();
-                renderJumps();
-            });
-        });
-        document.querySelector("[data-prev-question]").disabled =
-            currentQuestion === 0;
-        document
-            .querySelector("[data-next-question]")
-            .classList.toggle(
-                "hidden",
-                currentQuestion === questionBank.length - 1,
-            );
-        document
-            .querySelector("[data-finish-exam]")
-            .classList.toggle(
-                "hidden",
-                currentQuestion !== questionBank.length - 1,
-            );
-        document.querySelector("[data-finish-exam]").disabled =
-            Object.keys(answers).length < questionBank.length;
-        updateHeader();
-    }
-    function renderJumps() {
-        var jumps = document.querySelector("[data-question-jumps]");
-        jumps.innerHTML = questionBank
-            .map(function (_, index) {
-                return (
-                    '<button class="jump-button ' +
-                    (index === currentQuestion ? "is-current" : "") +
-                    (answers[index] !== undefined ? " is-answered" : "") +
-                    '" data-jump="' +
-                    index +
-                    '">' +
-                    (index + 1) +
-                    "</button>"
-                );
-            })
-            .join("");
-        jumps.querySelectorAll("[data-jump]").forEach(function (button) {
-            button.addEventListener("click", function () {
-                currentQuestion = Number(button.dataset.jump);
-                renderQuestion();
-                renderJumps();
-            });
-        });
-    }
-    function finishExam() {
-        clearInterval(timerId);
-        var correct = questionBank.reduce(function (total, question, index) {
-            return total + (answers[index] === question[2] ? 1 : 0);
-        }, 0);
-        var grade = Math.round((correct / questionBank.length) * 100);
-        var modules = ScrumStore.getModules();
-        var index = modules.findIndex(function (module) {
-            return module.id === moduleId;
-        });
-        if (index >= 0) {
-            modules[index].tentativasUsadas += 1;
-            modules[index].nota = grade;
-            if (grade >= 70) {
-                modules[index].status = "concluido";
-                if (modules[index + 1])
-                    modules[index + 1].status = "disponivel";
-            }
-            ScrumStore.saveModules(modules);
-        }
-        ScrumStore.saveResult({
-            nota: grade,
-            acertos: correct,
-            total: questionBank.length,
-            moduloId: moduleId,
-        });
-        window.location.href = "resultado.html";
-    }
-    document.addEventListener("DOMContentLoaded", function () {
-        if (!ScrumStore.requireAuth()) return;
-        moduleId = Number(
-            new URLSearchParams(window.location.search).get("modulo") || 1,
-        );
-        document
-            .querySelector("[data-prev-question]")
-            .addEventListener("click", function () {
-                if (currentQuestion > 0) {
-                    currentQuestion--;
-                    renderQuestion();
-                    renderJumps();
-                }
-            });
-        document
-            .querySelector("[data-next-question]")
-            .addEventListener("click", function () {
-                if (currentQuestion < questionBank.length - 1) {
-                    currentQuestion++;
-                    renderQuestion();
-                    renderJumps();
-                }
-            });
-        document
-            .querySelector("[data-finish-exam]")
-            .addEventListener("click", finishExam);
-        renderQuestion();
-        renderJumps();
-        timerId = setInterval(function () {
-            timeLeft--;
-            updateHeader();
-            if (timeLeft <= 0) finishExam();
-        }, 1000);
-    });
-})();
+  }
+
+  // ─────────────────────────────────────────────
+  // Finalizar avaliação
+  // ─────────────────────────────────────────────
+  function finalizarAvaliacao() {
+    clearInterval(timerId)
+
+    document.querySelector('[data-question-shell]').innerHTML = `
+      <div class="exam-finished">
+        <h2>Avaliação concluída!</h2>
+        <p>
+          Suas respostas foram registradas com sucesso.
+        </p>
+
+        <button
+          class="primary-button"
+          onclick="window.location.href='resultado.html'"
+        >
+          Ver Resultado
+        </button>
+      </div>
+    `
+
+    document.querySelector('[data-exam-progress]').style.width = '100%'
+
+    document.querySelector('[data-question-count]').textContent =
+      'Avaliação concluída'
+  }
+
+  // ─────────────────────────────────────────────
+  // Erro
+  // ─────────────────────────────────────────────
+  function mostrarErro(msg) {
+    document.querySelector('[data-question-shell]').innerHTML = `
+      <div class="exam-error">
+        <h2>Erro</h2>
+        <p>${msg}</p>
+      </div>
+    `
+  }
+
+  // ─────────────────────────────────────────────
+  // Timer
+  // ─────────────────────────────────────────────
+  function iniciarTimer() {
+    timerId = setInterval(() => {
+      timeLeft--
+
+      updateHeader()
+
+      if (timeLeft <= 0) {
+        clearInterval(timerId)
+
+        finalizarAvaliacao()
+      }
+    }, 1000)
+  }
+
+  // ─────────────────────────────────────────────
+  // Init
+  // ─────────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', async function () {
+    updateHeader()
+
+    iniciarTimer()
+
+    await carregarQuestao()
+  })
+})()

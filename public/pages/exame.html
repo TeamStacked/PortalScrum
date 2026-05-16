@@ -1,67 +1,57 @@
 <!doctype html>
 <html lang="pt-BR">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Prova | Portal Scrum</title>
-        <link rel="stylesheet" href="../assets/css/base.css" />
-        <link rel="stylesheet" href="../assets/css/exam.css" />
-        <script src="../assets/js/storage.js" defer></script>
-        <script src="../assets/js/exam.js" defer></script>
-    </head>
-    <body>
-        <div class="page">
-            <header class="site-header">
-                <div class="container header-row">
-                    <div class="header-title">
-                        <span class="brand-mark">P</span>
-                        <span>
-                            <strong>Prova de Certificacao Scrum</strong>
-                            <span data-question-count>Questao 1 de 10</span>
-                        </span>
-                    </div>
-               <!-- <div class="timer">
-                        <span aria-hidden="true">O</span
-                        ><span data-timer>30:00</span>
-                    </div> -->
-                </div>
-                <div class="top-progress">
-                    <div class="progress-bar" data-exam-progress></div>
-                </div>
-            </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-            <main class="container app-layout">
-                <section class="exam-shell">
-                    <article
-                        class="card question-card"
-                        data-question-shell
-                    ></article>
-                    <nav class="exam-nav" aria-label="Navegacao da prova">
-                        <button
-                            class="button button-outline"
-                            type="button"
-                            data-prev-question
-                        >
-                            &lt; Anterior
-                        </button>
-                        <div class="question-jumps" data-question-jumps></div>
-                        <button
-                            class="button button-primary"
-                            type="button"
-                            data-next-question
-                        >
-                            Próxima &gt;
-                        </button>
-                        <button
-                            class="button button-primary hidden"
-                            type="button"
-                            data-finish-exam
-                        >
-                            Finalizar
-                        </button>
-                    </nav>
-                </section>
-            </main>
+    <title>Prova | Portal Scrum</title>
+
+    <link rel="stylesheet" href="../assets/css/base.css" />
+    <link rel="stylesheet" href="../assets/css/exam.css" />
+
+    <!-- apiFetch -->
+    <script src="../assets/js/api.js" defer></script>
+
+    <!-- exame -->
+    <script src="../assets/js/exam.js" defer></script>
+  </head>
+
+  <body>
+    <div class="page">
+      <header class="site-header">
+        <div class="container header-row">
+          <div class="header-title">
+            <span class="brand-mark">P</span>
+
+            <span>
+              <strong>Prova de Certificação Scrum</strong>
+
+              <span data-question-count> Questão 1 de 10 </span>
+            </span>
+          </div>
+
+          <!-- TIMER -->
+          <!--
+                    <div class="timer">
+                        <span data-timer>30:00</span>
+                    </div>
+                    -->
         </div>
-    </body>
+
+        <!-- BARRA DE PROGRESSO -->
+        <div class="top-progress">
+          <div class="progress-bar" data-exam-progress></div>
+        </div>
+      </header>
+
+      <main class="container app-layout">
+        <section class="exam-shell">
+          <!-- QUESTÃO -->
+          <article class="card question-card" data-question-shell>
+            <div class="loading-state">Carregando questão...</div>
+          </article>
+        </section>
+      </main>
+    </div>
+  </body>
 </html>

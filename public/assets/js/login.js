@@ -10,7 +10,7 @@ form &&
       senha: inputPassword.value
     }
 
-    const response = await fetch('http://localhost:3000/api/auth/login', {
+    const response = await fetch('/api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -27,16 +27,6 @@ form &&
 
     alert('Login realizado!')
     localStorage.setItem('token', result.token)
-
-    // Sincroniza a sessão da API com o que o ScrumStore (Mock) espera
-    localStorage.setItem(
-      'scrum-user',
-      JSON.stringify({
-        name: result.nome,
-        email: inputCPF.value, // Usando o CPF como identificador local
-        profilePhoto: ''
-      })
-    )
 
     window.location.href = '/hub.html'
   })
