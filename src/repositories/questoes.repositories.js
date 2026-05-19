@@ -351,6 +351,67 @@ async function jaExiste(idUsuario, idModulo) {
   return result
 }
 
+async function findResultadoExameAtualByUsuario(
+  usuarioId,
+  idExame = null,
+  idModulo = null
+) {
+  if (idExame) {
+    return findResultadoExame(idExame, usuarioId)
+  }
+
+  const ultimo = await findUltimoExameFinalizado(usuarioId, idModulo)
+  if (!ultimo) return null
+
+  return findResultadoExame(ultimo.id_exame, usuarioId)
+}
+
+async function findResultadoExame(idExame, usuarioId) {
+  const exame = await findExamePorIdParaUsuario(idExame, usuarioId)
+  if (!exame) return null
+
+  const result = await pool.query(
+    `
+      SELECT
+        e.id_exame,
+        e.id_modulo,
+        m.titulo,
+        e.grupo,
+        e.tentativa,
+        COUNT(q.id_questao)::int AS total,
+        COUNT(r.id_resposta)::int AS respondidas,
+        COALESCE(SUM(r.nota), 0)::int AS acertos,
+        CASE
+          WHEN COUNT(q.id_questao) > 0
+          THEN ROUND((COALESCE(SUM(r.nota), 0)::numeric / COUNT(q.id_questao)) * 100)::int
+          ELSE 0
+        END AS nota,
+        (
+          COUNT(r.id_resposta) >= COUNT(q.id_questao)
+          AND COUNT(q.id_questao) = ${QUESTOES_POR_TENTATIVA}
+        ) AS concluido
+      FROM exames e
+      INNER JOIN modulos m ON m.id_modulo = e.id_modulo
+      INNER JOIN questoes q
+        ON q.id_modulo = e.id_modulo
+        AND q.grupo IS NOT DISTINCT FROM e.grupo
+      LEFT JOIN respostas r
+        ON r.id_exame = e.id_exame
+        AND r.id_questao = q.id_questao
+      WHERE e.id_exame = $1
+        AND e.id_usuario = $2
+      GROUP BY e.id_exame, e.id_modulo, m.titulo, e.grupo, e.tentativa
+    `,
+    [idExame, usuarioId]
+  )
+
+  return result.rows[0] || null
+}
+
+async function sincronizarDesbloqueioModulos(usuarioId) {
+  return findExamesByUsuario(usuarioId)
+}
+
 module.exports = {
   findProximaQuestaoByUsuario,
   findQuestaoDoExameByUsuario,
@@ -365,5 +426,8 @@ module.exports = {
   findExamesByUsuario,
   countQuestoesRespondidasByUsuario,
   findModulosRespondidosByUsuario,
-  jaExiste
+  jaExiste,
+  findResultadoExameAtualByUsuario,
+  findResultadoExame,
+  sincronizarDesbloqueioModulos
 }
