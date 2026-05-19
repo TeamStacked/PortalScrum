@@ -9,9 +9,14 @@ const {
   inserirResposta,
   findExameById, 
 } = require("../repositories/exame.repositories");
+const {
+  findResultadoExameAtualByUsuario,
+  findResultadoExame,
+  sincronizarDesbloqueioModulos
+} = require('../repositories/questoes.repositories')
  
 const router = Router();
- 
+
 // POST /api/exames — cria exame, sorteia e persiste questões para auditoria
 router.post("/", authMiddleware, async function (req, res) {
   const idUsuario = req.usuario.id_usuario;
@@ -121,6 +126,56 @@ router.get("/:id", authMiddleware, async function (req, res) {
     return res.status(500).json({ message: "Erro interno no servidor" });
   }
 });
+
+router.get('/resultado-atual', authMiddleware, async function (req, res) {
+  try {
+    const idExame = req.query.id_exame ? Number(req.query.id_exame) : null
+    const idModulo = req.query.modulo ? Number(req.query.modulo) : null
+
+    const resultado = await findResultadoExameAtualByUsuario(
+      req.usuario.id_usuario,
+      idExame,
+      idModulo
+    )
+
+    if (!resultado) {
+      return res.status(404).json({ message: 'Nenhum exame encontrado.' })
+    }
+
+    if (!resultado.concluido) {
+      return res.status(409).json({
+        message: 'Esta tentativa ainda nao foi finalizada.',
+        id_exame: resultado.id_exame,
+        id_modulo: resultado.id_modulo
+      })
+    }
+
+    return res.status(200).json(resultado)
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+})
+
+router.get('/resultado/:idExame', authMiddleware, async function (req, res) {
+  try {
+    const idExame = Number(req.params.idExame)
+    const resultado = await findResultadoExame(idExame, req.usuario.id_usuario)
+
+    if (!resultado) {
+      return res.status(404).json({ message: 'Exame nao encontrado.' })
+    }
+
+    if (!resultado.concluido) {
+      return res.status(409).json({
+        message: 'Esta tentativa ainda nao foi finalizada.'
+      })
+    }
+
+    return res.status(200).json(resultado)
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+})
  
 module.exports = router;
  
