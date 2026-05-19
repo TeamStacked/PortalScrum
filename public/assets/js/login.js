@@ -10,23 +10,27 @@ form &&
       senha: inputPassword.value
     }
 
-    const response = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
 
-    const result = await response.json()
+      const result = await response.json()
 
-    if (!response.ok) {
-      alert(result.message)
-      return
+      if (!response.ok) {
+        alert(result.message)
+        return
+      }
+
+      localStorage.setItem('token', result.token)
+
+      window.location.href = '/hub.html'
+    } catch (error) {
+      console.error(error)
+      alert('Erro ao conectar com o servidor')
     }
-
-    alert('Login realizado!')
-    localStorage.setItem('token', result.token)
-
-    window.location.href = '/hub.html'
   })

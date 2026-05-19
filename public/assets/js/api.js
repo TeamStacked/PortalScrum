@@ -11,18 +11,18 @@ function tokenValido() {
   }
 }
 
-// Para páginas autenticadas (painel, perfil, etc.)
+// Para pÃ¡ginas autenticadas (painel, perfil, etc.)
 function requireAuth() {
   if (!tokenValido()) {
     localStorage.removeItem('token')
-    window.location.href = '/login'
+    window.location.href = '/login.html'
   }
 }
 
-// Para páginas públicas (login, cadastro, index)
+// Para pÃ¡ginas pÃºblicas (login, cadastro, index)
 function requireGuest() {
   if (tokenValido()) {
-    window.location.href = '/painel'
+    window.location.href = '/hub.html'
   }
 }
 
@@ -42,7 +42,7 @@ async function apiFetch(url, options = {}) {
 
   if (response.status === 401) {
     localStorage.removeItem('token')
-    window.location.href = '/login'
+    window.location.href = '/login.html'
     return
   }
 
