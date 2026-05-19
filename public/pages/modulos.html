@@ -6,14 +6,16 @@
         <title>Modulos | Portal Scrum</title>
         <link rel="stylesheet" href="../assets/css/base.css" />
         <link rel="stylesheet" href="../assets/css/app.css" />
+        <script src="../assets/js/theme.js" defer></script>
         <script src="../assets/js/storage.js" defer></script>
+        <script src="../assets/js/api.js" defer></script>
         <script src="../assets/js/ui.js" defer></script>
         <script src="../assets/js/modules.js" defer></script>
     </head>
     <body>
         <div class="page">
             <header class="site-header">
-                <div class="container header-row">
+                <div class="container header-row header-row--modules">
                     <div class="header-title header-title-spaced">
                         <button
                             class="icon-button"
@@ -23,13 +25,19 @@
                         >
                             &lt;
                         </button>
-                        <span class="brand-mark">S</span>
+                        <img
+                            class="brand-logo"
+                            src="../assets/images/logoBranca.png"
+                            alt="Logo STACKED"
+                            width="42"
+                            height="42"
+                        />
                         <span>
                             <strong>Portal Scrum</strong>
                             <span>Sistema de Certificacao</span>
                         </span>
                     </div>
-                    <div>
+                    <div class="header-progress">
                         <p class="muted">Progresso Geral</p>
                         <strong data-module-count>0/5 Modulos</strong>
                     </div>

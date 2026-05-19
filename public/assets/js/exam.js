@@ -1,255 +1,316 @@
-(function () {
-    var questionBank = [
-        [
-            "O que e Scrum?",
-            [
-                "Um framework para desenvolvimento de software",
-                "Uma metodologia agil para gestao de projetos complexos",
-                "Uma linguagem de programacao",
-                "Uma ferramenta de tarefas",
-            ],
-            1,
-        ],
-        [
-            "Quais sao os tres pilares do Scrum?",
-            [
-                "Planejamento, Execucao e Controle",
-                "Transparencia, Inspecao e Adaptacao",
-                "Analise, Design e Implementacao",
-                "Sprint, Daily e Review",
-            ],
-            1,
-        ],
-        [
-            "Qual e o papel do Scrum Master?",
-            [
-                "Gerenciar o time",
-                "Definir funcionalidades",
-                "Facilitar o Scrum e remover impedimentos",
-                "Escrever codigo",
-            ],
-            2,
-        ],
-        [
-            "O que e uma Sprint?",
-            [
-                "Uma reuniao diaria",
-                "Um periodo fixo para gerar incremento",
-                "Um documento",
-                "Uma tecnica de estimativa",
-            ],
-            1,
-        ],
-        [
-            "Quem e responsavel pelo Product Backlog?",
-            [
-                "Scrum Master",
-                "Time de Desenvolvimento",
-                "Product Owner",
-                "Stakeholders",
-            ],
-            2,
-        ],
-        [
-            "Qual e a duracao tipica de uma Daily Scrum?",
-            ["5 minutos", "15 minutos", "30 minutos", "1 hora"],
-            1,
-        ],
-        [
-            "O que e um incremento?",
-            [
-                "Uma nova funcionalidade",
-                "Soma dos itens completados que atendem a Definition of Done",
-                "Um bug corrigido",
-                "Uma documentacao",
-            ],
-            1,
-        ],
-        [
-            "Qual evento ocorre ao final da Sprint?",
-            [
-                "Sprint Planning",
-                "Daily Scrum",
-                "Sprint Review e Sprint Retrospective",
-                "Backlog Refinement",
-            ],
-            2,
-        ],
-        [
-            "Qual e o tamanho ideal de um time Scrum?",
-            [
-                "3 a 5 pessoas",
-                "5 a 9 pessoas",
-                "10 a 15 pessoas",
-                "Mais de 15 pessoas",
-            ],
-            1,
-        ],
-        [
-            "O que define a Definition of Done?",
-            [
-                "Quando a Sprint termina",
-                "Criterios para considerar um incremento completo",
-                "A data de entrega",
-                "Story points completados",
-            ],
-            1,
-        ],
-    ];
-    var currentQuestion = 0;
-    var answers = {};
-    var timeLeft = 1800;
-    var timerId = null;
-    var moduleId = 1;
-    function formatTime(seconds) {
-        return (
-            String(Math.floor(seconds / 60)).padStart(2, "0") +
-            ":" +
-            String(seconds % 60).padStart(2, "0")
-        );
+;(function () {
+  let exameAtual = null
+  let questoes = []
+  let respostas = {}
+  let currentQuestion = 0
+  let salvando = false
+
+  function queryParam(name) {
+    return new URLSearchParams(window.location.search).get(name)
+  }
+
+  function updateHeader() {
+    const totalQuestoes = questoes.length || 1
+    const count = document.querySelector('[data-question-count]')
+    const progress = document.querySelector('[data-exam-progress]')
+
+    if (count) {
+      count.textContent = `Questao ${currentQuestion + 1} de ${totalQuestoes}`
     }
-    function updateHeader() {
-        document.querySelector("[data-question-count]").textContent =
-            "Questao " + (currentQuestion + 1) + " de " + questionBank.length;
-        document.querySelector("[data-exam-progress]").style.width =
-            ((currentQuestion + 1) / questionBank.length) * 100 + "%";
-        document.querySelector("[data-timer]").textContent =
-            formatTime(timeLeft);
+
+    if (progress) {
+      progress.style.width = `${((currentQuestion + 1) / totalQuestoes) * 100}%`
     }
-    function renderQuestion() {
-        var question = questionBank[currentQuestion];
-        var shell = document.querySelector("[data-question-shell]");
-        shell.innerHTML =
-            '<div class="eyebrow">Questao ' +
-            (currentQuestion + 1) +
-            "</div><h2>" +
-            question[0] +
-            '</h2><div class="answers">' +
-            question[1]
-                .map(function (option, index) {
-                    return (
-                        '<button class="answer-option ' +
-                        (answers[currentQuestion] === index
-                            ? "is-selected"
-                            : "") +
-                        '" data-answer="' +
-                        index +
-                        '"><span class="answer-radio" aria-hidden="true"></span><span>' +
-                        option +
-                        "</span></button>"
-                    );
-                })
-                .join("") +
-            "</div>";
-        shell.querySelectorAll("[data-answer]").forEach(function (button) {
-            button.addEventListener("click", function () {
-                answers[currentQuestion] = Number(button.dataset.answer);
-                renderQuestion();
-                renderJumps();
-            });
-        });
-        document.querySelector("[data-prev-question]").disabled =
-            currentQuestion === 0;
-        document
-            .querySelector("[data-next-question]")
-            .classList.toggle(
-                "hidden",
-                currentQuestion === questionBank.length - 1,
-            );
-        document
-            .querySelector("[data-finish-exam]")
-            .classList.toggle(
-                "hidden",
-                currentQuestion !== questionBank.length - 1,
-            );
-        document.querySelector("[data-finish-exam]").disabled =
-            Object.keys(answers).length < questionBank.length;
-        updateHeader();
+  }
+
+  function questaoAtual() {
+    return questoes[currentQuestion]
+  }
+
+  function normalizarDificuldade(valor) {
+    return String(valor || '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .trim()
+  }
+
+  function rotuloDificuldade(valor) {
+    const nivel = normalizarDificuldade(valor)
+    if (nivel.includes('facil')) return 'Facil'
+    if (nivel.includes('dificil')) return 'Dificil'
+    if (nivel.includes('medio') || nivel.includes('media')) return 'Medio'
+    return valor ? String(valor) : 'N/A'
+  }
+
+  function classeDificuldade(valor) {
+    const nivel = normalizarDificuldade(valor)
+    if (nivel.includes('facil')) return 'easy'
+    if (nivel.includes('dificil')) return 'hard'
+    return 'medium'
+  }
+
+  function renderQuestion() {
+    const questao = questaoAtual()
+    const shell = document.querySelector('[data-question-shell]')
+
+    if (!questao || !shell) return
+
+    const respostaSelecionada = respostas[questao.id_questao]
+    const dificuldadeClasse = classeDificuldade(questao.dificuldade)
+    const dificuldadeRotulo = rotuloDificuldade(questao.dificuldade)
+
+    shell.innerHTML = `
+      <div class="question-card-top">
+        <div class="eyebrow">
+          Questão ${currentQuestion + 1} de ${questoes.length}
+        </div>
+        <span class="difficulty-badge difficulty-${dificuldadeClasse}" title="Dificuldade: ${dificuldadeRotulo}">
+          ${dificuldadeRotulo}
+        </span>
+      </div>
+
+      <h2>${questao.enunciado}</h2>
+
+      ${
+        questao.imagem
+          ? `
+            <img
+              src="${questao.imagem}"
+              class="question-image"
+              alt="Imagem da questao"
+            />
+          `
+          : ''
+      }
+
+      <div class="answers">
+        ${['a', 'b', 'c', 'd']
+          .map((letra) => {
+            const texto = questao[`alternativa_${letra}`]
+            if (!texto) return ''
+            return `
+              <button
+                class="answer-option ${respostaSelecionada === letra ? 'is-selected' : ''}"
+                data-answer="${letra}"
+                type="button"
+              >
+                <span class="answer-radio"></span>
+                <span>${texto}</span>
+              </button>
+            `
+          })
+          .join('')}
+      </div>
+
+      <div class="exam-nav section-tight">
+        <button class="button button-outline" type="button" data-prev-question>
+          Voltar questao
+        </button>
+        <button class="button button-primary" type="button" data-next-question>
+          ${currentQuestion === questoes.length - 1 ? 'Finalizar exame' : 'Proxima questao'}
+        </button>
+      </div>
+    `
+
+    shell.querySelectorAll('[data-answer]').forEach((button) => {
+      button.addEventListener('click', function () {
+        respostas[questao.id_questao] = button.dataset.answer
+        renderQuestion()
+      })
+    })
+
+    const prevButton = shell.querySelector('[data-prev-question]')
+    const nextButton = shell.querySelector('[data-next-question]')
+
+    prevButton.disabled = currentQuestion === 0 || salvando
+    nextButton.disabled = salvando
+
+    prevButton.addEventListener('click', function () {
+      if (currentQuestion === 0) return
+      currentQuestion--
+      renderQuestion()
+    })
+
+    nextButton.addEventListener('click', async function () {
+      await avancarQuestao()
+    })
+
+    updateHeader()
+  }
+
+  async function carregarExame() {
+    try {
+      const idExame = queryParam('id_exame')
+      const modulo = queryParam('modulo')
+      let url = '/api/questoes/exame-atual'
+
+      if (idExame) {
+        url += '?id_exame=' + encodeURIComponent(idExame)
+      } else if (modulo) {
+        url += '?modulo=' + encodeURIComponent(modulo)
+      }
+
+      const res = await apiFetch(url)
+
+      if (!res) return
+
+      if (res.status === 404) {
+        mostrarErro(
+          'Nenhum exame em andamento. Volte aos modulos e inicie a prova.'
+        )
+        return
+      }
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        mostrarErro(data.message || 'Nao foi possivel carregar o exame.')
+        return
+      }
+
+      exameAtual = await res.json()
+      questoes = exameAtual.questoes || []
+      respostas = questoes.reduce((acc, questao) => {
+        if (questao.resposta) acc[questao.id_questao] = questao.resposta
+        return acc
+      }, {})
+
+      if (!questoes.length) {
+        mostrarErro('Nenhuma questao foi encontrada para este exame.')
+        return
+      }
+
+      if (modulo && Number(exameAtual.id_modulo) !== Number(modulo)) {
+        mostrarErro('O exame carregado nao corresponde ao modulo selecionado.')
+        return
+      }
+
+      const primeiraPendente = questoes.findIndex(
+        (questao) => !respostas[questao.id_questao]
+      )
+
+      if (primeiraPendente === -1) {
+        finalizarAvaliacao()
+        return
+      }
+
+      currentQuestion = primeiraPendente
+      renderQuestion()
+    } catch (err) {
+      console.error('Erro ao carregar exame:', err)
+      mostrarErro('Nao foi possivel carregar o exame.')
     }
-    function renderJumps() {
-        var jumps = document.querySelector("[data-question-jumps]");
-        jumps.innerHTML = questionBank
-            .map(function (_, index) {
-                return (
-                    '<button class="jump-button ' +
-                    (index === currentQuestion ? "is-current" : "") +
-                    (answers[index] !== undefined ? " is-answered" : "") +
-                    '" data-jump="' +
-                    index +
-                    '">' +
-                    (index + 1) +
-                    "</button>"
-                );
-            })
-            .join("");
-        jumps.querySelectorAll("[data-jump]").forEach(function (button) {
-            button.addEventListener("click", function () {
-                currentQuestion = Number(button.dataset.jump);
-                renderQuestion();
-                renderJumps();
-            });
-        });
+  }
+
+  async function salvarRespostaAtual() {
+    const questao = questaoAtual()
+    const resposta = respostas[questao.id_questao]
+
+    if (!resposta) {
+      mostrarAviso('Selecione uma alternativa antes de continuar.')
+      return false
     }
-    function finishExam() {
-        clearInterval(timerId);
-        var correct = questionBank.reduce(function (total, question, index) {
-            return total + (answers[index] === question[2] ? 1 : 0);
-        }, 0);
-        var grade = Math.round((correct / questionBank.length) * 100);
-        var modules = ScrumStore.getModules();
-        var index = modules.findIndex(function (module) {
-            return module.id === moduleId;
-        });
-        if (index >= 0) {
-            modules[index].tentativasUsadas += 1;
-            modules[index].nota = grade;
-            if (grade >= 70) {
-                modules[index].status = "concluido";
-                if (modules[index + 1])
-                    modules[index + 1].status = "disponivel";
-            }
-            ScrumStore.saveModules(modules);
-        }
-        ScrumStore.saveResult({
-            nota: grade,
-            acertos: correct,
-            total: questionBank.length,
-            moduloId: moduleId,
-        });
-        window.location.href = "resultado.html";
+
+    try {
+      salvando = true
+      renderQuestion()
+
+      const res = await apiFetch('/api/questoes/responder', {
+        method: 'POST',
+        body: JSON.stringify({
+          id_exame: exameAtual.id_exame,
+          id_questao: questao.id_questao,
+          resposta
+        })
+      })
+
+      if (!res) return false
+
+      const data = await res.json().catch(() => ({}))
+
+      if (!res.ok) {
+        mostrarErro(data.message || 'Erro ao registrar resposta.')
+        return false
+      }
+
+      questao.resposta = resposta
+      questao.nota = data.nota_questao
+
+      return true
+    } catch (err) {
+      console.error('Erro ao salvar resposta:', err)
+      mostrarErro('Erro ao registrar resposta.')
+      return false
+    } finally {
+      salvando = false
     }
-    document.addEventListener("DOMContentLoaded", function () {
-        if (!ScrumStore.requireAuth()) return;
-        moduleId = Number(
-            new URLSearchParams(window.location.search).get("modulo") || 1,
-        );
-        document
-            .querySelector("[data-prev-question]")
-            .addEventListener("click", function () {
-                if (currentQuestion > 0) {
-                    currentQuestion--;
-                    renderQuestion();
-                    renderJumps();
-                }
-            });
-        document
-            .querySelector("[data-next-question]")
-            .addEventListener("click", function () {
-                if (currentQuestion < questionBank.length - 1) {
-                    currentQuestion++;
-                    renderQuestion();
-                    renderJumps();
-                }
-            });
-        document
-            .querySelector("[data-finish-exam]")
-            .addEventListener("click", finishExam);
-        renderQuestion();
-        renderJumps();
-        timerId = setInterval(function () {
-            timeLeft--;
-            updateHeader();
-            if (timeLeft <= 0) finishExam();
-        }, 1000);
-    });
-})();
+  }
+
+  async function avancarQuestao() {
+    const salvo = await salvarRespostaAtual()
+    if (!salvo) return
+
+    if (currentQuestion < questoes.length - 1) {
+      currentQuestion++
+      renderQuestion()
+      return
+    }
+
+    finalizarAvaliacao()
+  }
+
+  function finalizarAvaliacao() {
+    if (!exameAtual?.id_exame) {
+      window.location.href = 'modulos.html'
+      return
+    }
+
+    const progress = document.querySelector('[data-exam-progress]')
+    const count = document.querySelector('[data-question-count]')
+
+    if (progress) progress.style.width = '100%'
+    if (count) count.textContent = 'Avaliacao concluida'
+
+    window.location.href =
+      'resultado.html?id_exame=' + encodeURIComponent(exameAtual.id_exame)
+  }
+
+  function mostrarAviso(msg) {
+    const shell = document.querySelector('[data-question-shell]')
+    if (!shell) return
+
+    const alerta = shell.querySelector('[data-exam-alert]')
+    if (alerta) {
+      alerta.textContent = msg
+      return
+    }
+
+    const div = document.createElement('div')
+    div.className = 'alert alert-error is-visible'
+    div.dataset.examAlert = 'true'
+    div.textContent = msg
+    shell.appendChild(div)
+  }
+
+  function mostrarErro(msg) {
+    const shell = document.querySelector('[data-question-shell]')
+    if (!shell) return
+
+    shell.innerHTML = `
+      <div class="exam-error">
+        <h2>Erro</h2>
+        <p>${msg}</p>
+        <a class="button button-primary" href="modulos.html">Voltar aos modulos</a>
+      </div>
+    `
+  }
+
+  document.addEventListener('DOMContentLoaded', async function () {
+    if (!tokenValido()) {
+      requireAuth()
+      return
+    }
+
+    await carregarExame()
+  })
+})()
