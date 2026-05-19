@@ -77,26 +77,6 @@ async function createUsuarios(nome, email, cpf, senha) {
 
     const usuario = await insertUsuarios(client, nome, email, cpfLimpo, senha)
 
-    const modulo = await findPrimeiroModulo(client)
-    if (!modulo) {
-      throw new Error('Nenhum módulo cadastrado')
-    }
-
-    const grupo = await findGrupoAleatorio(client, modulo.id_modulo)
-    if (!grupo) {
-      throw new Error(
-        'Nenhum grupo cadastrado para inicializar exame do usuário'
-      )
-    }
-
-    await insertExame(
-      client,
-      modulo.id_modulo,
-      usuario.id_usuario,
-      grupo.grupo,
-      1
-    )
-
     await client.query('COMMIT')
 
     return {

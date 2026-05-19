@@ -58,10 +58,8 @@ function getCertificatePeriod(modulosConcluidos) {
     .flatMap((tentativa) => [tentativa.inicioEm, tentativa.fimEm])
     .filter(Boolean)
     .map((value) => new Date(value))
-    .filter(
-      (date) =>
-        !Number.isNaN(date.getTime()).sort((a, b) => a.getTime() - b.getTime())
-    )
+    .filter((date) => !Number.isNaN(date.getTime()))
+    .sort((a, b) => a.getTime() - b.getTime())
 
   return {
     inicioEm: dates[0]?.toISOString() || null,
@@ -92,7 +90,7 @@ async function findCertificadoByHash(certificadoHash) {
     let moduloConcluido = false
 
     for (const tentativa of modulo.notasTentativas) {
-      if (tentativa.concluida) {
+      if (tentativa.concluida && Number(tentativa.nota) >= 70) {
         moduloConcluido = true
         break
       }
@@ -107,7 +105,7 @@ async function findCertificadoByHash(certificadoHash) {
     return {
       indisponivel: true,
       motivo:
-        'Certificado indisponível: Conclusão de todos os módulos obrigatória.'
+        'Certificado indisponÃƒÂ­vel: ConclusÃƒÂ£o de todos os mÃƒÂ³dulos obrigatÃƒÂ³ria.'
     }
   }
 

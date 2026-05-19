@@ -1,4 +1,4 @@
-const { Router } = require('express') //  CORRIGIDO: removido 'json' que não era usado
+const { Router } = require('express') 
 const {
   createUsuarios,
   updateUsuarioCPF,
@@ -6,7 +6,7 @@ const {
   updateUsuarioNome,
   updateUsuarioEmail,
   updateUsuarioSenha
-} = require('../repositories/usuario.repositories') //  CORRIGIDO: typo 'usurio' → 'usuario'
+} = require('../repositories/usuario.repositories') 
 const authMiddleware = require('../middlewares/auth.middleware')
 
 const router = Router()
@@ -63,7 +63,6 @@ router.patch('/cpf', authMiddleware, async function (req, res) {
   const idUsuario = req.usuario.id_usuario
   const { cpf } = req.body
 
-  //  CORRIGIDO: removido console.log(req.body) que expunha dados sensíveis
   if (!cpf) {
     return res.status(400).json({ message: 'CPF obrigatório' })
   }
