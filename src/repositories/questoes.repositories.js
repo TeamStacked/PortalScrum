@@ -408,6 +408,10 @@ async function findResultadoExame(idExame, usuarioId) {
   return result.rows[0] || null
 }
 
+async function sincronizarDesbloqueioModulos(usuarioId) {
+  return findExamesByUsuario(usuarioId)
+}
+
 module.exports = {
   findProximaQuestaoByUsuario,
   findQuestaoDoExameByUsuario,
@@ -424,5 +428,6 @@ module.exports = {
   findModulosRespondidosByUsuario,
   jaExiste,
   findResultadoExameAtualByUsuario,
-  findResultadoExame
+  findResultadoExame,
+  sincronizarDesbloqueioModulos
 }
