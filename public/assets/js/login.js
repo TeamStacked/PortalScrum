@@ -1,31 +1,36 @@
 form &&
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault()
 
-        const valido = window.validarFormulario();
+    const valido = window.validarFormulario()
 
-        if (!valido) return;
-        const data = {
-            cpf: inputCPF.value,
-            senha: inputPassword.value,
-        };
+    if (!valido) return
+    const data = {
+      cpf: inputCPF.value,
+      senha: inputPassword.value
+    }
 
-        const response = await fetch("http://localhost:3000/api/auth/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        });
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
 
-        const result = await response.json();
+      const result = await response.json()
 
-        if (!response.ok) {
-            alert(result.message);
-            return;
-        }
+      if (!response.ok) {
+        alert(result.message)
+        return
+      }
 
-        alert("Login realizado!");
-        localStorage.setItem("token", result.token);
-        window.location.href = "/home.html";
-    });
+      localStorage.setItem('token', result.token)
+
+      window.location.href = '/hub.html'
+    } catch (error) {
+      console.error(error)
+      alert('Erro ao conectar com o servidor')
+    }
+  })

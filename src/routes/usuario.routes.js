@@ -1,177 +1,187 @@
-const { Router, json } = require("express");
+const { Router } = require('express') 
 const {
-    createUsuarios,
-    updateUsuarioCPF,
-    findUsuarioById,
-    updateUsuarioNome,
-    updateUsuarioEmail,
-    updateUsuarioSenha,
-} = require("../repositories/usurio.repositories");
-const authMiddleware = require("../middlewares/auth.middleware");
+  createUsuarios,
+  updateUsuarioCPF,
+  findUsuarioById,
+  updateUsuarioNome,
+  updateUsuarioEmail,
+  updateUsuarioSenha
+} = require('../repositories/usuario.repositories') 
+const authMiddleware = require('../middlewares/auth.middleware')
 
-const router = Router();
+const router = Router()
 
+// POST /api/usuarios — cria novo usuário
+router.post('/', async (req, res) => {
+  const { nome, email, cpf, senha } = req.body
 
-router.post("/", async (req, res) => {
-    const { nome, email, cpf, senha } = req.body;
-    if (!nome || !email || !cpf || !senha) {
-        return res.status(400).json({
-            message: "Nome, email, cpf e senha são obrigatórios",
-        });
+  if (!nome || !email || !cpf || !senha) {
+    return res.status(400).json({
+      message: 'Nome, email, CPF e senha são obrigatórios'
+    })
+  }
+
+  if (senha.trim().length < 6) {
+    return res.status(400).json({
+      message: 'Senha deve ter pelo menos 6 caracteres'
+    })
+  }
+
+  try {
+    const result = await createUsuarios(nome, email, cpf, senha)
+    return res.status(201).json(result)
+  } catch (e) {
+    console.error('[POST /usuarios]', e) //  CORRIGIDO: log do erro
+    if (e && e.code === '23505') {
+      return res.status(409).json({
+        message: 'Já existe usuário com os dados informados'
+      })
+    }
+    return res.status(500).json({ message: 'Erro interno no servidor' })
+  }
+})
+
+/*
+-----------------------------------
+  GET /api/usuarios/me
+-----------------------------------
+curl -X GET http://localhost:3000/api/usuarios/me \
+  -H "Authorization: Bearer SEU_TOKEN_AQUI" \
+  -H "Content-Type: application/json"
+-----------------------------------
+*/
+router.get('/me', authMiddleware, async function (req, res) {
+  const usuario = await findUsuarioById(req.usuario.id_usuario)
+  if (!usuario) {
+    return res.status(404).json({ message: 'Usuário não encontrado.' })
+  }
+  return res.status(200).json(usuario)
+})
+
+// PATCH /api/usuarios/cpf — atualiza CPF do usuário autenticado
+router.patch('/cpf', authMiddleware, async function (req, res) {
+  const idUsuario = req.usuario.id_usuario
+  const { cpf } = req.body
+
+  if (!cpf) {
+    return res.status(400).json({ message: 'CPF obrigatório' })
+  }
+
+  try {
+    const result = await updateUsuarioCPF(idUsuario, cpf)
+
+    if (!result) {
+      return res.status(404).json({ message: 'Usuário não encontrado' })
     }
 
-    if (senha.trim().length < 6) {
-        return res.status(400).json({
-            message: "Senha deve ter pelo menos 6 caracteres",
-        });
+    const usuario = await findUsuarioById(result.id_usuario)
+    return res.status(200).json(usuario)
+  } catch (e) {
+    console.error('[PATCH /usuarios/cpf]', e) //  CORRIGIDO: log do erro
+    if (e && e.code === '23505') {
+      return res.status(409).json({
+        message: 'Já existe usuário com o CPF informado'
+      })
+    }
+    return res.status(500).json({ message: 'Erro interno no servidor' })
+  }
+})
+
+// PATCH /api/usuarios/nome — atualiza nome do usuário autenticado
+router.patch('/nome', authMiddleware, async function (req, res) {
+  const idUsuario = req.usuario.id_usuario
+  const { nome } = req.body
+
+  if (!nome) {
+    return res.status(400).json({ message: 'Nome obrigatório' })
+  }
+
+  try {
+    const result = await updateUsuarioNome(idUsuario, nome)
+
+    if (!result) {
+      return res.status(404).json({ message: 'Usuário não encontrado' })
     }
 
-    try {
-        const result = await createUsuarios(nome, email, cpf, senha);
-        res.send(result);
-    } catch (e) {
-        if (e && e.code === "23505") {
-            return res.status(409).json({
-                message: "Já existe usuário com os dados informados",
-            });
-        }
+    const usuario = await findUsuarioById(result.id_usuario)
+    return res.status(200).json(usuario)
+  } catch (e) {
+    console.error('[PATCH /usuarios/nome]', e)
+    return res.status(500).json({ message: 'Erro interno no servidor' })
+  }
+})
 
-        return res.status(500).json({
-            message: "Erro interno no servidor",
-        });
-    }
-});
+// PATCH /api/usuarios/email — atualiza email do usuário autenticado
+router.patch('/email', authMiddleware, async function (req, res) {
+  const idUsuario = req.usuario.id_usuario
+  const { email } = req.body
 
-router.patch("/cpf", authMiddleware, async function (req, res) {
-      const idUsuario = req.usuario.id_usuario;
-       console.log(req.body)
-    const { cpf } = req.body;
-    if (!cpf) {
-        return res.status(400).json({ message: "CPF obrigatorio" });
-    }
+  // removido console.log(req.body) que expunha dados sensíveis
+  if (!email) {
+    return res.status(400).json({ message: 'E-mail obrigatório' })
+  }
 
-    try {
-        const result = await updateUsuarioCPF(idUsuario, cpf);
-        if (!result) {
-            return res.status(404).json({ message: "usuário não encontrado" });
-        }
+  try {
+    const result = await updateUsuarioEmail(idUsuario, email)
 
-        const usuario = await findUsuarioById(result.id_usuario);
-        return res.status(200).json(usuario);
-    } catch (e) {
-        if (e && e.code === "23505") {
-            return res.status(409).json({
-                message: "Já existe usuário com o CPF informado",
-            });
-        }
-
-        return res.status(500).json({
-            message: "Erro interno no servidor",
-        });
-    }
-});
-
-router.patch("/nome", authMiddleware, async function (req, res) {
-    const idUsuario = req.usuario.id_usuario;
-    const  {nome}  = req.body;
-    if (!nome) {
-        return res.status(400).json({ message: "CPF obrigatorio" });
+    if (!result) {
+      return res.status(404).json({ message: 'Usuário não encontrado' })
     }
 
-    try {
-        const result = await updateUsuarioNome(idUsuario, nome);
-        if (!result) {
-            return res.status(404).json({ message: "usuário não encontrado" });
-        }
-
-        const usuario = await findUsuarioById(result.id_usuario);
-        return res.status(200).json(usuario);
-    } catch (e) {
-        return res.status(500).json({
-            message: "Erro interno no servidor",
-        });
+    const usuario = await findUsuarioById(result.id_usuario)
+    return res.status(200).json(usuario)
+  } catch (e) {
+    console.error('[PATCH /usuarios/email]', e)
+    if (e && e.code === '23505') {
+      return res.status(409).json({
+        message: 'Já existe usuário com o e-mail informado'
+      })
     }
-});
-router.patch("/email", authMiddleware, async function (req, res) {
-      const idUsuario = req.usuario.id_usuario;
-       console.log(req.body)
-    const { email } = req.body;
-    if (!email) {
-        return res.status(400).json({ message: "CPF obrigatorio" });
-    }
+    return res.status(500).json({ message: 'Erro interno no servidor' })
+  }
+})
 
+// PATCH /api/usuarios/senha — atualiza senha do usuário autenticado
+router.patch('/senha', authMiddleware, async function (req, res) {
+  const idUsuario = req.usuario.id_usuario
 
-    try {
-        const result = await updateUsuarioEmail(idUsuario, email);
-        if (!result) {
-            return res.status(404).json({ message: "usuário não encontrado" });
-        }
+  // (o authMiddleware já garante que req.usuario.id_usuario existe)
 
-        const usuario = await findUsuarioById(result.id_usuario);
-        return res.status(200).json(usuario);
-    } catch (e) {
-        if (e && e.code === "23505") {
-            return res.status(409).json({
-                message: "Já existe usuário com o email informado",
-            });
-        }
+  const { senha } = req.body
 
-        return res.status(500).json({
-            message: "Erro interno no servidor",
-        });
-    }
-});
+  if (!senha) {
+    return res.status(400).json({ message: 'Senha obrigatória' })
+  }
 
-router.patch("/senha", authMiddleware, async function (req, res) {
-    const idUsuario = req.usuario.id_usuario;
-    if (!idUsuario) {
-        return res.status(400).json({ message: "idUsuario invalido" });
+  if (senha.trim().length < 6) {
+    return res.status(400).json({
+      message: 'Senha deve ter pelo menos 6 caracteres'
+    })
+  }
+
+  try {
+    const result = await updateUsuarioSenha(idUsuario, senha)
+
+    if (!result) {
+      return res.status(404).json({ message: 'Usuário não encontrado' })
     }
 
-    const { senha } = req.body;
-    if (!senha) {
-        return res.status(400).json({ message: "senha obrigatorio" });
-    }
-    if (senha.trim().length < 6) {
-        return res.status(400).json({
-            message: "Senha deve ter pelo menos 6 caracteres",
-        });
-    }
+    const usuario = await findUsuarioById(result.id_usuario)
+    return res.status(200).json(usuario)
+  } catch (e) {
+    console.error('[PATCH /usuarios/senha]', e)
+    return res.status(500).json({ message: 'Erro interno no servidor' })
+  }
+})
 
-    try {
-        const result = await updateUsuarioSenha(idUsuario, senha);
-        if (!result) {
-            return res.status(404).json({ message: "usuário não encontrado" });
-        }
+function getIdUsuario(params) {
+  const usuarioId = Number(params.id)
 
-        const usuario = await findUsuarioById(result.id_usuario);
-        return res.status(200).json(usuario);
-    } catch (e) {
-        if (e && e.code === "23505") {
-            return res.status(409).json({
-                message: "Já existe usuário com o senha informado",
-            });
-        }
+  if (!Number.isInteger(usuarioId) || usuarioId <= 0) {
+    return null
+  }
 
-        return res.status(500).json({
-            message: "Erro interno no servidor",
-        });
-    }
-});
-
-function getidUsuario(params) {
-    const idUsuario = Number(params.idUsuario);
-
-    if (!Number.isInteger(idUsuario) || idUsuario <= 0) {
-        return null;
-    }
-    return idUsuario;
+  return usuarioId
 }
 
-module.exports = router;
-
-
-
-
-
-//  curl -X POST http://localhost:3000/api   -H "Content-Type: application/json"   -d '{"cpf":"56659497809","nome":"Pedro","email":"pedro@teste.com","senha":"123456"}'
+module.exports = router
