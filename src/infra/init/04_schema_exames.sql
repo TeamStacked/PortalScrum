@@ -15,3 +15,7 @@ CREATE TABLE IF NOT EXISTS public.exames (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 );
+
+CREATE INDEX IF NOT EXISTS idx_exames_usuario
+  ON public.exames (id_usuario);
+
