@@ -7,3 +7,9 @@
 
 ## Tela de Avaliações e Confirmação - Estimativa de tempo gasto - 21/05 - 30 Minutos
 <img width="1020" height="303" alt="image" src="https://github.com/user-attachments/assets/3b67dd0b-d2ed-4349-8270-29f56850cd53" />
+
+## Tela de Avaliações e Conclusão - Estimativa de tempo gasto - 25/05 - 1h 
+<img width="1023" height="298" alt="image" src="https://github.com/user-attachments/assets/b7282190-0fd4-49af-b4de-598860040322" />
+
+## Tela de Dashboard de inicio - Estimativa de tempo gasto - 25/05 - 2h
+<img width="510" height="562" alt="image" src="https://github.com/user-attachments/assets/b3647d97-741f-4bc5-b2e2-a2df9719f009" />
