@@ -24,4 +24,4 @@ CREATE INDEX IF NOT EXISTS idx_respostas_questao
   ON public.respostas (id_questao);
 
 CREATE INDEX IF NOT EXISTS idx_resposta_exame_questao
-  ON public.respostas (id_exame, id_questao)
+  ON public.respostas (id_exame, id_questao);
