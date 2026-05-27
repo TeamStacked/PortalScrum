@@ -13,3 +13,6 @@
 
 ## Tela de Dashboard de inicio - Estimativa de tempo gasto - 25/05 - 2h
 <img width="510" height="562" alt="image" src="https://github.com/user-attachments/assets/b3647d97-741f-4bc5-b2e2-a2df9719f009" />
+
+## Tela de Dashboard caso tenha acertado ou errado - Estimativa de tempo gasto 26/05 - 1h
+<img width="985" height="583" alt="image" src="https://github.com/user-attachments/assets/b59b16cf-1e82-46fe-b054-9eebd8380bd8" />
