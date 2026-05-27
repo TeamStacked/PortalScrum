@@ -24,16 +24,16 @@ A Sprint 3 teve como foco a finalização do MVP da plataforma Portal Scrum, com
 
 ### Issues relacionadas
 
-- [#118](https://github.com/TeamStacked/PortalScrum/issues/118) — Indexação do Banco para Performance
-- [#119](https://github.com/TeamStacked/PortalScrum/issues/119) — Refatoração de Consistência JWT
-- [#120](https://github.com/TeamStacked/PortalScrum/issues/120) — Refatorar arquitetura do back-end para padrão Controller/Service
-- [#126](https://github.com/TeamStacked/PortalScrum/issues/126) — Middleware: Bloqueio de Login/Cadastro
-- [#128](https://github.com/TeamStacked/PortalScrum/issues/128) — Carga de Dados Final (Seed Real)
-- [#136](https://github.com/TeamStacked/PortalScrum/issues/136) — Cleanup Final e Code Review
-- [#137](https://github.com/TeamStacked/PortalScrum/issues/137) — Teste de Responsividade (RNF01)
-- [#138](https://github.com/TeamStacked/PortalScrum/issues/138) — Atualização do Manual do Usuário
-- [#139](https://github.com/TeamStacked/PortalScrum/issues/139) — Vídeo de Demonstração Final
-- [#140](https://github.com/TeamStacked/PortalScrum/issues/140) — Planning e Relatório da Sprint 3
+[ ] — Indexação do Banco para Performance [#118](https://github.com/TeamStacked/PortalScrum/issues/118)
+[ ] — Refatoração de Consistência JWT [#119](https://github.com/TeamStacked/PortalScrum/issues/119)
+[ ] — Refatorar arquitetura do back-end para padrão Controller/Service [#120](https://github.com/TeamStacked/PortalScrum/issues/120)
+[ ] — Middleware: Bloqueio de Login/Cadastro [#126](https://github.com/TeamStacked/PortalScrum/issues/126)
+[ ] — Carga de Dados Final (Seed Real) [#128](https://github.com/TeamStacked/PortalScrum/issues/128)
+[ ] — Cleanup Final e Code Review [#136](https://github.com/TeamStacked/PortalScrum/issues/136)
+[ ] — Teste de Responsividade (RNF01) [#137](https://github.com/TeamStacked/PortalScrum/issues/137)
+[ ] — Atualização do Manual do Usuário [#138](https://github.com/TeamStacked/PortalScrum/issues/138)
+[ ] — Vídeo de Demonstração Final [#139](https://github.com/TeamStacked/PortalScrum/issues/139)
+[ ] — Planning e Relatório da Sprint 3 [#140](https://github.com/TeamStacked/PortalScrum/issues/140)
 
 ### O que foi desenvolvido
 
@@ -64,13 +64,13 @@ Durante esta etapa foram realizadas melhorias estruturais e de qualidade no sist
 
 ### Issues relacionadas
 
-- [#117](https://github.com/TeamStacked/PortalScrum/issues/117) — Prototipagem do Dashboard
-- [#121](https://github.com/TeamStacked/PortalScrum/issues/121) — HTML/CSS do Dashboard do Usuário
-- [#122](https://github.com/TeamStacked/PortalScrum/issues/122) — Lógica de Cálculo de Progresso (RF11)
-- [#125](https://github.com/TeamStacked/PortalScrum/issues/125) — Gráfico de Progresso (JS Puro)
-- [#129](https://github.com/TeamStacked/PortalScrum/issues/129) — Rota API `GET /api/progresso`
-- [#133](https://github.com/TeamStacked/PortalScrum/issues/133) — Integração Front-end Dashboard
-- [#134](https://github.com/TeamStacked/PortalScrum/issues/134) — Integração Link para Certificado
+[ ] — Prototipagem do Dashboard [#117](https://github.com/TeamStacked/PortalScrum/issues/117)
+[ ] — HTML/CSS do Dashboard do Usuário [#121](https://github.com/TeamStacked/PortalScrum/issues/121)
+[ ] — Lógica de Cálculo de Progresso (RF11) [#122](https://github.com/TeamStacked/PortalScrum/issues/122)
+[ ] — Gráfico de Progresso (JS Puro) [#125](https://github.com/TeamStacked/PortalScrum/issues/125)
+[ ] — Rota API `GET /api/progresso` [#129](https://github.com/TeamStacked/PortalScrum/issues/129)
+[ ] — Integração Front-end Dashboard [#133](https://github.com/TeamStacked/PortalScrum/issues/133)
+[ ] — Integração Link para Certificado [#134](https://github.com/TeamStacked/PortalScrum/issues/134)
 
 ### O que foi desenvolvido
 
@@ -99,13 +99,13 @@ As funcionalidades incluem:
 
 ### Issues relacionadas
 
-- [#123](https://github.com/TeamStacked/PortalScrum/issues/123) — Cálculo da Média Final (RF08)
-- [#124](https://github.com/TeamStacked/PortalScrum/issues/124) — Design do Certificado (Template)
-- [#127](https://github.com/TeamStacked/PortalScrum/issues/127) — Lógica de Geração de Hash Único
-- [#130](https://github.com/TeamStacked/PortalScrum/issues/130) — Validação de Emissão de Certificado
-- [#131](https://github.com/TeamStacked/PortalScrum/issues/131) — Rota Pública `GET /certificado/:hash`
-- [#132](https://github.com/TeamStacked/PortalScrum/issues/132) — HTML/CSS do Certificado (Impressão)
-- [#135](https://github.com/TeamStacked/PortalScrum/issues/135) — Lógica de Geração PDF/Print View
+[ ] — Cálculo da Média Final (RF08) [#123](https://github.com/TeamStacked/PortalScrum/issues/123)
+[ ] — Design do Certificado (Template) [#124](https://github.com/TeamStacked/PortalScrum/issues/124)
+[ ] — Lógica de Geração de Hash Único [#127](https://github.com/TeamStacked/PortalScrum/issues/127)
+[ ] — Validação de Emissão de Certificado [#130](https://github.com/TeamStacked/PortalScrum/issues/130)
+[ ] — Rota Pública `GET /certificado/:hash` [#131](https://github.com/TeamStacked/PortalScrum/issues/131)
+[ ] — HTML/CSS do Certificado (Impressão) [#132](https://github.com/TeamStacked/PortalScrum/issues/132)
+[ ] — Lógica de Geração PDF/Print View [#135](https://github.com/TeamStacked/PortalScrum/issues/135)
 
 ### O que foi desenvolvido
 
