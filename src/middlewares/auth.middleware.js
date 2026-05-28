@@ -27,13 +27,21 @@ async function authMiddleware(req, res, next) {
 
 async function BlockAuthMiddleware(req, res, next) {
     const cookie = req.cookies?.token;
+    console.log(cookie)
     if (!cookie) {
-        return next();
+        return next()
     }
     try {
+        const token = verifyToken(cookie)
+        console.log(verifyToken(cookie));
+        if(!token){
+            return next()
+        }
         return res.redirect('/hub.html');
+        
     } catch (e) {
         console.log(e.message)
+
         return res.redirect('/index.html');
     }
 }

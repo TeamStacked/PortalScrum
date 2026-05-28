@@ -29,7 +29,6 @@ const imagensQuestoesPath = path.join(
   'seed-data',
   'imagens'
 )
-
 app.use(express.static(pagesPrivatePath))
 app.use('/assets', express.static(assetsPath))
 app.use('/css', express.static(cssPath))
@@ -47,6 +46,7 @@ app.get("/", BlockAuthMiddleware, (req, res)=>{
       )
     );
 })
+
 
 app.get("/login.html",  (req, res)=>{
     res.sendFile(
