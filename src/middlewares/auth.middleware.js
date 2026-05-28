@@ -2,19 +2,13 @@ const { verifyToken } = require("../utils/jwt");
 const { findUsuarioById } = require("../repositories/usuario.repositories");
 
 async function authMiddleware(req, res, next) {
-    const authorization = req.headers.authorization;
+    const cookie = req.cookies?.token;
 
-    if (!authorization) {
+    if (!cookie) {
         return res.status(401).json({ message: "token não informado" });
     }
-
-    const [type, token] = authorization.split(" ");
-
-    if (type !== "Bearer" || !token) {
-        return res.status(401).json({ message: "token inválido" });
-    }
     try {
-        const payload = verifyToken(token);
+        const payload = verifyToken(cookie);
 
         const usuario = await findUsuarioById(payload.id_usuario);
         if (!usuario) {
@@ -31,4 +25,20 @@ async function authMiddleware(req, res, next) {
     }
 }
 
-module.exports = authMiddleware;
+async function BlockAuthMiddleware(req, res, next) {
+    const cookie = req.cookies?.token;
+    if (!cookie) {
+        return next();
+    }
+    try {
+        return res.redirect('/hub.html');
+    } catch (e) {
+        console.log(e.message)
+        return res.redirect('/index.html');
+    }
+}
+
+module.exports = {
+    authMiddleware,
+    BlockAuthMiddleware
+};
