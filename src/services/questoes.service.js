@@ -12,11 +12,15 @@ const {
     findExamePorIdParaUsuario,
     inserirRespostaQuestao,
     atualizarRespostaQuestao,
-    calcularNotaResposta,
-    normalizarAlternativa,
-    NOTA_MINIMA_APROVACAO,
     findExamesByUsuario
   } = require('../repositories/questoes.repositories')
+
+const {
+  calcularNotaResposta,
+  normalizarAlternativa,
+  NOTA_MINIMA_APROVACAO
+} = require('../utils/calcule')
+
   const { createHttpError } = require('../utils/http-error')
   
   function mapQuestoesResponse(exame) {
