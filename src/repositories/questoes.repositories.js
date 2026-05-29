@@ -1,3 +1,4 @@
+const pool = require('../database/db')
 const {
   QUESTOES_POR_TENTATIVA,
   NOTA_MINIMA_APROVACAO,
