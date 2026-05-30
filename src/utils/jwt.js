@@ -20,7 +20,13 @@ function verifyToken(token) {
     return jwt.verify(token, process.env.JWT_SECRET);
 }
 
+function deletarToken(res){
+    res.clearCookie('token');
+    return res.redirect('/')
+}
+
 module.exports = {
     createToken,
     verifyToken,
+    deletarToken
 };

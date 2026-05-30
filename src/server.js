@@ -5,7 +5,7 @@ require('dotenv').config({
 })
 const path = require('path')
 const router = require('./routes')
-const {BlockAuthMiddleware} = require('./middlewares/auth.middleware')
+const {blockAuthMiddleware} = require('./middlewares/auth.middleware')
 
 const PORT = process.env.PORT
 const app = express()
@@ -38,7 +38,7 @@ app.use('/imagens/questoes', express.static(imagensQuestoesPath))
 
 app.use('/api', router)
 
-app.get("/", BlockAuthMiddleware, (req, res)=>{
+app.get("/", blockAuthMiddleware, (req, res)=>{
     res.sendFile(
       path.join(
         pagesPublicPath,
@@ -57,7 +57,7 @@ app.get("/login.html",  (req, res)=>{
     );
 })
 
-app.get("/cadastro.html",  (req, res)=>{
+app.get("/cadastro.html",   (req, res)=>{
     res.sendFile(
       path.join(
         pagesPublicPath,
@@ -66,8 +66,18 @@ app.get("/cadastro.html",  (req, res)=>{
     );
 })
 
+app.get("/404",  (req, res)=>{
+    res.sendFile(
+      path.join(
+        pagesPublicPath,
+        '404.html'
+      )
+    );
+})
+
+
 app.use(function (req, res) {
-  res.redirect('/404.html')
+  res.redirect('/404')
 })
 app.listen(PORT, function () {
   console.log(`Rodando em: http://localhost:${PORT}`)

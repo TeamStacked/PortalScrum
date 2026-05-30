@@ -1,7 +1,7 @@
 const {
   findUsuarioByCpfAndSenha,
 } = require("../repositories/usuario.repositories");
-const { createToken } = require("../utils/jwt");
+const { createToken, deletarToken} = require("../utils/jwt");
 const { createHttpError } = require("../utils/http-error");
 
 async function loginUsuario({ cpf, senha } = {}, res) {
@@ -28,7 +28,15 @@ async function loginUsuario({ cpf, senha } = {}, res) {
     throw error;
   }
 }
+async function logoutUsuario(res) {
+    try{
+      return deletarToken(res)
+    }catch(error){
+      throw createHttpError(401, "Erro em sair ")
+    }
+}
 
 module.exports = {
+  logoutUsuario,
   loginUsuario,
 };

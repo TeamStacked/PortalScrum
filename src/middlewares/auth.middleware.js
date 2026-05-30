@@ -25,15 +25,13 @@ async function authMiddleware(req, res, next) {
     }
 }
 
-async function BlockAuthMiddleware(req, res, next) {
+async function blockAuthMiddleware(req, res, next) {
     const cookie = req.cookies?.token;
-    console.log(cookie)
     if (!cookie) {
         return next()
     }
     try {
         const token = verifyToken(cookie)
-        console.log(verifyToken(cookie));
         if(!token){
             return next()
         }
@@ -41,12 +39,11 @@ async function BlockAuthMiddleware(req, res, next) {
         
     } catch (e) {
         console.log(e.message)
-
-        return res.redirect('/index.html');
+        return res.redirect('/');
     }
 }
 
 module.exports = {
     authMiddleware,
-    BlockAuthMiddleware
+    blockAuthMiddleware
 };
