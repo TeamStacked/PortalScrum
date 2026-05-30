@@ -5,3 +5,7 @@
 ### Paletas de cores e recursos utilizados - Estimativa de tempo gasto - 28/05 - 30 minutos
 
 <img width="1295" height="577" alt="image" src="https://github.com/user-attachments/assets/4c056634-2522-4c0d-88d7-7f920122561b" />
+
+### Atualização das paletas de cores e recursos utilizados - Estimativa de tempo gasto - 29/05 - 40 Minutos
+
+<img width="1320" height="663" alt="image" src="https://github.com/user-attachments/assets/ad1d3170-0c2e-462e-9cf4-43421c55387b" />
