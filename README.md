@@ -153,6 +153,21 @@ A organização segue o padrão de camadas para garantir separação de responsa
    ```bash
    npm run db:init
    ```
+   #### Carga manual do seed (caso o `db:init` falhe por permissão)
+
+ Se o comando `npm run db:init` retornar erro de permissão no `COPY`, execute via psql:
+
+```bash
+& "C:\Program Files\PostgreSQL\15\bin\psql.exe" -U postgres -d abp -c "\copy public.modulos (id_modulo, titulo) FROM 'caminho/seed-data/modulos.csv' WITH (FORMAT csv, HEADER true, DELIMITER ';', ENCODING 'UTF8')"
+
+& "C:\Program Files\PostgreSQL\15\bin\psql.exe" -U postgres -d abp -c "\copy public.questoes (id_questao, id_modulo, grupo, numero, dificuldade, enunciado, alternativa_correta, alternativa_a, alternativa_b, alternativa_c, alternativa_d, imagem) FROM 'caminho/seed-data/questoes.csv' WITH (FORMAT csv, HEADER true, DELIMITER ';', ENCODING 'UTF8')"
+```
+
+Para verificar se o seed foi carregado corretamente, execute o script:
+
+```bash
+src/infra/init/verify_seed.sql
+```
 4. Execute o servidor:
    ```bash
    npm run dev
