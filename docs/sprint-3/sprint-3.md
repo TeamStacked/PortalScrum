@@ -24,9 +24,9 @@ A Sprint 3 teve como foco a finalização do MVP da plataforma Portal Scrum, com
 
 ### Issues relacionadas
 
-[ ] — Indexação do Banco para Performance [#118](https://github.com/TeamStacked/PortalScrum/issues/118)
-[ ] — Refatoração de Consistência JWT [#119](https://github.com/TeamStacked/PortalScrum/issues/119)
-[ ] — Refatorar arquitetura do back-end para padrão Controller/Service [#120](https://github.com/TeamStacked/PortalScrum/issues/120)
+[X] — Indexação do Banco para Performance [#118](https://github.com/TeamStacked/PortalScrum/issues/118)
+[X] — Refatoração de Consistência JWT [#119](https://github.com/TeamStacked/PortalScrum/issues/119)
+[X] — Refatorar arquitetura do back-end para padrão Controller/Service [#120](https://github.com/TeamStacked/PortalScrum/issues/120)
 [ ] — Middleware: Bloqueio de Login/Cadastro [#126](https://github.com/TeamStacked/PortalScrum/issues/126)
 [ ] — Carga de Dados Final (Seed Real) [#128](https://github.com/TeamStacked/PortalScrum/issues/128)
 [ ] — Cleanup Final e Code Review [#136](https://github.com/TeamStacked/PortalScrum/issues/136)
@@ -64,9 +64,9 @@ Durante esta etapa foram realizadas melhorias estruturais e de qualidade no sist
 
 ### Issues relacionadas
 
-[ ] — Prototipagem do Dashboard [#117](https://github.com/TeamStacked/PortalScrum/issues/117)
-[ ] — HTML/CSS do Dashboard do Usuário [#121](https://github.com/TeamStacked/PortalScrum/issues/121)
-[ ] — Lógica de Cálculo de Progresso (RF11) [#122](https://github.com/TeamStacked/PortalScrum/issues/122)
+[X] — Prototipagem do Dashboard [#117](https://github.com/TeamStacked/PortalScrum/issues/117)
+[X] — HTML/CSS do Dashboard do Usuário [#121](https://github.com/TeamStacked/PortalScrum/issues/121)
+[X] — Lógica de Cálculo de Progresso (RF11) [#122](https://github.com/TeamStacked/PortalScrum/issues/122)
 [ ] — Gráfico de Progresso (JS Puro) [#125](https://github.com/TeamStacked/PortalScrum/issues/125)
 [ ] — Rota API `GET /api/progresso` [#129](https://github.com/TeamStacked/PortalScrum/issues/129)
 [ ] — Integração Front-end Dashboard [#133](https://github.com/TeamStacked/PortalScrum/issues/133)
@@ -100,7 +100,7 @@ As funcionalidades incluem:
 ### Issues relacionadas
 
 [ ] — Cálculo da Média Final (RF08) [#123](https://github.com/TeamStacked/PortalScrum/issues/123)
-[ ] — Design do Certificado (Template) [#124](https://github.com/TeamStacked/PortalScrum/issues/124)
+[X] — Design do Certificado (Template) [#124](https://github.com/TeamStacked/PortalScrum/issues/124)
 [ ] — Lógica de Geração de Hash Único [#127](https://github.com/TeamStacked/PortalScrum/issues/127)
 [ ] — Validação de Emissão de Certificado [#130](https://github.com/TeamStacked/PortalScrum/issues/130)
 [ ] — Rota Pública `GET /certificado/:hash` [#131](https://github.com/TeamStacked/PortalScrum/issues/131)
