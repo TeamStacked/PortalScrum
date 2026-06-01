@@ -2,6 +2,9 @@ const pool = require('../database/db')
 const {
   findModulosRespondidosByUsuario
 } = require('../repositories/questoes.repositories')
+const {
+  NOTA_MINIMA_APROVACAO
+} = require('../utils/calcule')
 
 async function findUsuarioByCertificadoHash(certificadoHash) {
   const result = await pool.query(
@@ -90,8 +93,8 @@ async function findCertificadoByHash(certificadoHash) {
     let moduloConcluido = false
 
     for (const tentativa of modulo.notasTentativas) {
-      if (tentativa.concluida && Number(tentativa.nota) >= 70) {
-        moduloConcluido = true
+ if (tentativa.concluida && Number(tentativa.nota) >= NOTA_MINIMA_APROVACAO) {
+          moduloConcluido = true
         break
       }
     }
