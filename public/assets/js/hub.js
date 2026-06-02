@@ -56,9 +56,10 @@
         document.querySelector("[data-open-profile]").addEventListener("click", function () {
             window.location.href = "perfil.html";
         });
-        document.querySelector("[data-logout]").addEventListener("click", function () {
+        document.querySelector("[data-logout]").addEventListener("click", async function () {
             localStorage.removeItem("token");
-            window.location.href = "index.html";
+             
+            window.location.href = "api/auth/logout";
         });
     });
 })();
