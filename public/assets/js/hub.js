@@ -60,8 +60,5 @@
             localStorage.removeItem("token");
             window.location.href = "index.html";
         });
-        document.querySelector("[data-help]").addEventListener("click", function () {
-            alert("Use Fazer Prova para iniciar os modulos. Acompanhe seu progresso no dashboard e edite seus dados no perfil.");
-        });
     });
 })();
