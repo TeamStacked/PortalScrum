@@ -132,6 +132,45 @@ async function findCertificadoByHash(certificadoHash) {
   }
 }
 
+async function findProgressoByUsuarioId(idUsuario) {
+  const modulosRows = await findModulos()
+  const tentativas = await findModulosRespondidosByUsuario(idUsuario)
+  const tentativasByModulo = groupTentativasByModulo(tentativas)
+  const modulos = []
+  const modulosConcluidos = []
+
+  for (const moduloRow of modulosRows) {
+    const idModulo = Number(moduloRow.id_modulo)
+    const tentativasDoModulo = tentativasByModulo.get(idModulo) || []
+    const modulo = mapModulo(moduloRow, tentativasDoModulo)
+
+    modulos.push(modulo)
+
+    let moduloConcluido = false
+
+    for (const tentativa of modulo.notasTentativas) {
+      if (tentativa.concluida && Number(tentativa.nota) >= NOTA_MINIMA_APROVACAO) {
+        moduloConcluido = true
+        break
+      }
+    }
+
+    if (moduloConcluido) {
+      modulosConcluidos.push(modulo)
+    }
+  }
+
+  if (!modulos.length || modulosConcluidos.length !== modulos.length) {
+    return {
+      indisponivel: true,
+      motivo: 'Certificado indisponivel pois nao foi concluido todos os modulos.'
+    }
+  }
+
+ return null
+}
+
 module.exports = {
-  findCertificadoByHash
+  findCertificadoByHash,
+  findProgressoByUsuarioId
 }
