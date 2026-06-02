@@ -13,6 +13,11 @@ Payload esperado: { "cpf": "12345678900", "senha": "123456" }
 Resposta 200: { "token": "jwt", "nome": "Nome do aluno" }
 Codigos possiveis: 200, 400, 401, 500
 */
+
+
 router.post('/login', authController.login)
+
+//http://localhost:3000/api/auth/logout
+router.get('/logout', authController.logout)
 
 module.exports = router
