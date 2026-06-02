@@ -5,7 +5,7 @@
         2: "Scrum Master, Product Owner e Time",
         3: "Sprints, Daily, Review e Retrospectiva",
         4: "Product Backlog e Sprint Backlog",
-        5: "Prova completa de certificacao",
+        5: "Finalização de conceitos sobre o Scrum",
     };
 
     function attemptsUsed(module) {
