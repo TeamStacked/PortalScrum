@@ -31,7 +31,15 @@ const { findUsuarioById } = require('../repositories/usuario.repositories')
     if (!usuario) {
       throw createHttpError(404, 'Usuario nao encontrado.')
     }
+    const bloqueio = await findProgressoByUsuarioId(idUsuario)
+
+    if (bloqueio?.indisponivel) {
+      throw createHttpError(403, bloqueio.motivo)
+    }
+    
+    return { certificadoHash: usuario.certificado_hash }
   }
   module.exports = {
-    buscarCertificadoPorHash
+    buscarCertificadoPorHash,
+    emitirCertificado
   }
