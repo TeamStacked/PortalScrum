@@ -136,6 +136,7 @@ async function findCertificadoByHash(certificadoHash) {
   }
   
   const periodo = getCertificatePeriod(modulosConcluidos)
+  const mediaFinal = await gerarMediaFinal(usuario.id_usuario)
   return {
     aluno: {
       nome: usuario.nome,
