@@ -155,16 +155,22 @@ A organização segue o padrão de camadas para garantir separação de responsa
    ```
    #### Carga manual do seed (caso o `db:init` falhe por permissão)
 
- Se o comando `npm run db:init` retornar erro de permissão no `COPY`, execute via psql:
+Se o comando `npm run db:init` retornar erro de permissão no `COPY`, execute via psql:
 
 ```bash
-& "C:\Program Files\PostgreSQL\15\bin\psql.exe" -U postgres -d abp -c "\copy public.modulos (id_modulo, titulo) FROM 'caminho/seed-data/modulos.csv' WITH (FORMAT csv, HEADER true, DELIMITER ';', ENCODING 'UTF8')"
+& "C:\Program Files\PostgreSQL\15\bin\psql.exe" -U postgres -d abp -c "\copy public.modulos (id_modulo, titulo) FROM '<caminho_do_projeto>/src/infra/init/seed-data/modulos.csv' WITH (FORMAT csv, HEADER true, DELIMITER ';', ENCODING 'UTF8')"
 
-& "C:\Program Files\PostgreSQL\15\bin\psql.exe" -U postgres -d abp -c "\copy public.questoes (id_questao, id_modulo, grupo, numero, dificuldade, enunciado, alternativa_correta, alternativa_a, alternativa_b, alternativa_c, alternativa_d, imagem) FROM 'caminho/seed-data/questoes.csv' WITH (FORMAT csv, HEADER true, DELIMITER ';', ENCODING 'UTF8')"
+& "C:\Program Files\PostgreSQL\15\bin\psql.exe" -U postgres -d abp -c "\copy public.questoes (id_questao, id_modulo, grupo, numero, dificuldade, enunciado, alternativa_correta, alternativa_a, alternativa_b, alternativa_c, alternativa_d, imagem) FROM '<caminho_do_projeto>/src/infra/init/seed-data/questoes.csv' WITH (FORMAT csv, HEADER true, DELIMITER ';', ENCODING 'UTF8')"
 ```
+
+> **Atenção:** substitua `<caminho_do_projeto>` pelo caminho absoluto da pasta do projeto na sua máquina.
+> Exemplo: `C:/Users/SEU_USUARIO/Desktop/PortalScrum`
 
 Para verificar se o seed foi carregado corretamente, execute o script:
 
+```bash
+src/infra/init/verify_seed.sql
+```
 ```bash
 src/infra/init/verify_seed.sql
 ```
