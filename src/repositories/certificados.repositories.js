@@ -8,7 +8,7 @@ const {
 
 async function findUsuarioByCertificadoHash(certificadoHash) {
   const result = await pool.query(
-    `SELECT id_usuario, nome, cpf, certificado_hash
+    `SELECT id_usuario, nome, cpf, email,certificado_hash
       FROM usuarios 
       WHERE certificado_hash = $1`,
     [certificadoHash]
@@ -140,7 +140,8 @@ async function findCertificadoByHash(certificadoHash) {
   return {
     aluno: {
       nome: usuario.nome,
-      cpf: usuario.cpf
+      cpf: usuario.cpf,
+      email:usuario.email
     },
     certificado: {
       certificadoHash: usuario.certificado_hash,
