@@ -70,6 +70,29 @@ function getCertificatePeriod(modulosConcluidos) {
   }
 }
 
+async function gerarMediaFinal(id_usuario){
+  
+  
+  try{
+    const response = await pool.query(`SELECT ROUND(AVG(r.nota) * 100, 2) AS media_certificado
+                              FROM exames e
+                              JOIN respostas r
+                                  ON r.id_exame = e.id_exame
+                              WHERE e.id_usuario =${id_usuario}`)
+  if(!response){
+
+    return {"message":"Certificado inexistente"};
+    
+  }
+  return response.rows[0];
+  
+
+  }catch(error){
+    return {"message":"erro do servidor"}
+  }
+
+}
+
 async function findCertificadoByHash(certificadoHash) {
   const usuario = await findUsuarioByCertificadoHash(certificadoHash)
 
@@ -111,9 +134,8 @@ async function findCertificadoByHash(certificadoHash) {
         'Certificado indisponÃƒÂ­vel: ConclusÃƒÂ£o de todos os mÃƒÂ³dulos obrigatÃƒÂ³ria.'
     }
   }
-
+  
   const periodo = getCertificatePeriod(modulosConcluidos)
-
   return {
     aluno: {
       nome: usuario.nome,
@@ -129,6 +151,7 @@ async function findCertificadoByHash(certificadoHash) {
     progresso: {
       modulosConcluidos
     }
+
   }
 }
 
