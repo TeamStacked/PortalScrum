@@ -151,7 +151,8 @@ async function findCertificadoByHash(certificadoHash) {
     },
     progresso: {
       modulosConcluidos
-    }
+    },
+    mediaFinal: parseFloat(mediaFinal.media_certificado)
 
   }
 }
