@@ -71,8 +71,6 @@ function getCertificatePeriod(modulosConcluidos) {
 }
 
 async function gerarMediaFinal(id_usuario){
-  
-  
   try{
     const response = await pool.query(`SELECT ROUND(AVG(r.nota) * 100, 2) AS media_certificado
                               FROM exames e
@@ -116,9 +114,9 @@ async function findCertificadoByHash(certificadoHash) {
     let moduloConcluido = false
 
     for (const tentativa of modulo.notasTentativas) {
- if (tentativa.concluida && Number(tentativa.nota) >= NOTA_MINIMA_APROVACAO) {
+      if (tentativa.concluida && Number(tentativa.nota) >= NOTA_MINIMA_APROVACAO) {
           moduloConcluido = true
-        break
+          break
       }
     }
 
@@ -131,7 +129,7 @@ async function findCertificadoByHash(certificadoHash) {
     return {
       indisponivel: true,
       motivo:
-        'Certificado indisponÃƒÂ­vel: ConclusÃƒÂ£o de todos os mÃƒÂ³dulos obrigatÃƒÂ³ria.'
+        'Certificado indisponivél: Conclusão de todos os módulos obrigatória.'
     }
   }
   
@@ -154,7 +152,6 @@ async function findCertificadoByHash(certificadoHash) {
       modulosConcluidos
     },
     mediaFinal: parseFloat(mediaFinal.media_certificado)
-
   }
 }
 
