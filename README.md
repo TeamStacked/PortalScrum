@@ -136,7 +136,7 @@ A organização segue o padrão de camadas para garantir separação de responsa
 
 1. Clone o repositório e instale as dependências:
    ```bash
-   npm install express dotenv bcryptjs
+   npm i
    ```
 2. Configure o arquivo `.env` na raiz do projeto seguindo o modelo:
    ```env
