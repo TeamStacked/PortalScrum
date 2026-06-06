@@ -77,7 +77,7 @@ const {
       const result = await config.executar(idUsuario, valor)
   
       if (!result) {
-        throw createHttpError(404, 'Usuario nao encontrado')
+        throw createHttpError(404, 'Usuario não encontrado')
       }
   
       return buscarUsuarioLogado(result.id_usuario)
