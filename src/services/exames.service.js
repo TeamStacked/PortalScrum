@@ -31,7 +31,7 @@ const {
     const resultado = await findResultadoExame(idExame, idUsuario)
   
     validarResultado(resultado, {
-      notFoundMessage: 'Exame nao encontrado.',
+      notFoundMessage: 'Exame não encontrado.',
       incluirDetalhesConflito: false
     })
     return resultado
@@ -55,7 +55,7 @@ const {
   
       throw createHttpError(
         409,
-        'Esta tentativa ainda nao foi finalizada.',
+        'Esta tentativa ainda não foi finalizada.',
         details
       )
     }
