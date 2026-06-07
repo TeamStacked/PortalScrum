@@ -49,6 +49,7 @@ const normalizeModule = (module) => {
     tentativas: 2,
   };
 };
+
 // Calcula as estatísticas gerais a partir da lista de módulos
 const stats = (modules) => {
   // módulos com status "concluido"
@@ -98,6 +99,7 @@ const buildTasks = (modules, user, average) => {
 
   return tasks;
 };
+
 // Aplica a largura das barras de progresso via data-width (necessário porque CSS não lê atributos diretamente)
 const updateProgressBars = (containerSelector) => {
   document
@@ -214,3 +216,31 @@ const renderDashboard = (user, modules) => {
   renderTasks(modules, user, data.average);
   renderCertificateCta(modules, data);
 };
+
+// Busca JSON de uma URL usando a função apiFetch já existente no projeto
+const fetchJson = async (url) => {
+  const response = await apiFetch(url);
+  if (!response) return null;
+  if (!response.ok) throw new Error("Nao foi possivel carregar os dados.");
+  return response.json();
+};
+
+// Ponto de entrada: executa quando o HTML termina de carregar
+document.addEventListener("DOMContentLoaded", async () => {
+  // redireciona para login se o token não for válido
+  if (!tokenValido()) {
+    requireAuth();
+    return;
+  }
+
+  try {
+    // busca dados do usuário e lista de módulos em paralelo
+    const user = await fetchJson("/api/usuarios/me");
+    const modules = (await fetchJson("/api/exames")).map(normalizeModule);
+    renderDashboard(user, modules);
+  } catch (error) {
+    // exibe mensagem de erro na seção de status caso algo falhe
+    $(selectors.dashboardStatus).innerHTML = `
+      <div class="alert alert-error is-visible">${error.message}</div>`;
+  }
+});
