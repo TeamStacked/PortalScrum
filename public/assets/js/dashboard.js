@@ -1,54 +1,54 @@
-(function () {
-    var PASSING_AVERAGE = 70;
+// Nota mínima para considerar um módulo aprovado
+const PASSING_AVERAGE = 70;
 
-    var selectors = {
-        modulesComplete: "[data-modules-complete]",
-        bestGrade: "[data-best-grade]",
-        lastGrade: "[data-last-grade]",
-        averageGrade: "[data-average-grade]",
-        generalProgress: "[data-general-progress]",
-        generalPercent: "[data-general-percent]",
-        dashboardProgress: "[data-dashboard-progress]",
-        dashboardStatus: "[data-dashboard-status]",
-        taskSummary: "[data-task-summary]",
-        taskPercent: "[data-task-percent]",
-        taskBar: "[data-task-bar]",
-        taskList: "[data-task-list]",
-        certificateCta: "[data-certificate-cta]",
-    };
+// Mapa de seletores CSS usados para acessar elementos do HTML
+const selectors = {
+  modulesComplete: "[data-modules-complete]",
+  bestGrade: "[data-best-grade]",
+  lastGrade: "[data-last-grade]",
+  averageGrade: "[data-average-grade]",
+  generalProgress: "[data-general-progress]",
+  generalPercent: "[data-general-percent]",
+  dashboardProgress: "[data-dashboard-progress]",
+  dashboardStatus: "[data-dashboard-status]",
+  taskSummary: "[data-task-summary]",
+  taskPercent: "[data-task-percent]",
+  taskBar: "[data-task-bar]",
+  taskList: "[data-task-list]",
+  certificateCta: "[data-certificate-cta]",
+};
 
-    function $(selector) {
-        return document.querySelector(selector);
-    }
+// Atalho para document.querySelector
+const $ = (selector) => document.querySelector(selector);
 
-    function formatPercent(value) {
-        return Math.round(value) + "%";
-    }
+// Arredonda e formata um número como percentual (ex: 75 → "75%")
+const formatPercent = (value) => Math.round(value) + "%";
 
-    function clampPercent(value) {
-        var numericValue = Number(value || 0);
-        return Math.max(0, Math.min(100, numericValue));
-    }
+// Garante que o valor fique entre 0 e 100
+const clampPercent = (value) => Math.max(0, Math.min(100, Number(value || 0)));
 
-    function normalizeModule(module) {
-        var bestGrade = Number(module.melhor_nota || 0);
-        var lastGrade = Number(module.ultima_nota || 0);
+// Converte o objeto cru da API para o formato usado pelo dashboard
+const normalizeModule = (module) => {
+  const bestGrade = Number(module.melhor_nota || 0);
+  const lastGrade = Number(module.ultima_nota || 0);
 
-        return {
-            id: Number(module.nivel),
-            nome: module.titulo || "Modulo " + module.nivel,
-            status: module.status,
-            nota: bestGrade || null,
-            ultimaNota: lastGrade,
-            percentualAcertos: clampPercent(bestGrade || lastGrade),
-            tentativasUsadas: Math.max(
-                Number(module.tentativas_iniciadas || 0),
-                Number(module.tentativas_usadas || 0),
-                Number(module.maior_tentativa || 0)
-            ),
-            tentativas: 2,
-        };
-    }
+  return {
+    id: Number(module.nivel),
+    nome: module.titulo || "Modulo " + module.nivel,
+    status: module.status,
+    // melhor nota válida, ou null se ainda não tem nota
+    nota: bestGrade || null,
+    ultimaNota: lastGrade,
+    percentualAcertos: clampPercent(bestGrade || lastGrade),
+    // usa o maior valor entre os três campos de tentativas que a API retorna
+    tentativasUsadas: Math.max(
+      Number(module.tentativas_iniciadas || 0),
+      Number(module.tentativas_usadas || 0),
+      Number(module.maior_tentativa || 0)
+    ),
+    tentativas: 2,
+  };
+};
 
     function stats(modules) {
         var complete = modules.filter(function (module) { return module.status === "concluido"; }).length;
