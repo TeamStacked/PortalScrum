@@ -64,7 +64,7 @@ const {
   
   function validarRespostaPayload({ id_exame, id_questao, resposta } = {}) {
     if (!id_exame || !id_questao || !resposta) {
-      throw createHttpError(400, 'Exame, questao e resposta sao obrigatorios.')
+      throw createHttpError(400, 'Exame, questão e resposta sao obrigatorios.')
     }
   
     const respostaNormalizada = normalizarAlternativa(resposta)
@@ -83,7 +83,7 @@ const {
     const exame = await findExamePorIdParaUsuario(id_exame, idUsuario)
   
     if (!exame) {
-      throw createHttpError(404, 'Exame nao encontrado.')
+      throw createHttpError(404, 'Exame não encontrado.')
     }
   
     const questao = await findQuestaoDoExameByUsuario(
@@ -93,7 +93,7 @@ const {
     )
   
     if (!questao) {
-      throw createHttpError(404, 'Questao nao pertence a este exame ou modulo.')
+      throw createHttpError(404, 'Questão nao pertence a este exame ou modulo.')
     }
   
     const nota = calcularNotaResposta(
@@ -179,7 +179,6 @@ const {
           'Nenhuma tentativa finalizada encontrada para este modulo.'
         )
       }
-  
       idExameReferencia = ultimo.id_exame
     }
   
