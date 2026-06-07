@@ -29,7 +29,7 @@ const { findUsuarioById } = require('../repositories/usuario.repositories')
     const usuario = await findUsuarioById(idUsuario)
   
     if (!usuario) {
-      throw createHttpError(404, 'Usuario nao encontrado.')
+      throw createHttpError(404, 'Usuario não encontrado.')
     }
     const bloqueio = await findProgressoByUsuarioId(idUsuario)
 
