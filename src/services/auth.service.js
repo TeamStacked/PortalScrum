@@ -6,7 +6,7 @@ const { createHttpError } = require("../utils/http-error");
 
 async function loginUsuario({ cpf, senha } = {}, res) {
   if (!cpf || !senha) {
-    throw createHttpError(400, "CPF e senha sao obrigatorios");
+    throw createHttpError(400, "CPF e senha são obrigatorios");
   }
 
   try {

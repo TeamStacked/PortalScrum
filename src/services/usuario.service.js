@@ -20,7 +20,7 @@ const {
   
   async function criarUsuario({ nome, email, cpf, senha } = {}) {
     if (!nome || !email || !cpf || !senha) {
-      throw createHttpError(400, 'Nome, email, CPF e senha sao obrigatorios')
+      throw createHttpError(400, 'Nome, email, CPF e senha são obrigatorios')
     }
   
     validarSenha(senha)
@@ -31,7 +31,7 @@ const {
     const usuario = await findUsuarioById(idUsuario)
   
     if (!usuario) {
-      throw createHttpError(404, 'Usuario nao encontrado.')
+      throw createHttpError(404, 'Usuario não encontrado.')
     }
   
     return usuario
@@ -41,7 +41,7 @@ const {
     const atualizadores = {
       cpf: {
         obrigatorio: 'CPF obrigatorio',
-        duplicado: 'Ja existe usuario com o CPF informado',
+        duplicado: 'Já existe usuario com o CPF informado',
         executar: updateUsuarioCPF
       },
       nome: {
@@ -50,7 +50,7 @@ const {
       },
       email: {
         obrigatorio: 'E-mail obrigatorio',
-        duplicado: 'Ja existe usuario com o e-mail informado',
+        duplicado: 'Já existe usuario com o e-mail informado',
         executar: updateUsuarioEmail
       },
       senha: {
@@ -77,7 +77,7 @@ const {
       const result = await config.executar(idUsuario, valor)
   
       if (!result) {
-        throw createHttpError(404, 'Usuario nao encontrado')
+        throw createHttpError(404, 'Usuario não encontrado')
       }
   
       return buscarUsuarioLogado(result.id_usuario)
