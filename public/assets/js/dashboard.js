@@ -34,7 +34,7 @@ const normalizeModule = (module) => {
 
   return {
     id: Number(module.nivel),
-    nome: module.titulo || "Modulo " + module.nivel,
+    nome: module.titulo || `Modulo ${module.nivel}`,
     status: module.status,
     // melhor nota válida, ou null se ainda não tem nota
     nota: bestGrade || null,
@@ -50,68 +50,51 @@ const normalizeModule = (module) => {
   };
 };
 
-    function stats(modules) {
-        var complete = modules.filter(function (module) { return module.status === "concluido"; }).length;
-        var notes = modules.filter(function (module) { return module.nota !== null; }).map(function (module) { return module.nota; });
-        var best = notes.length ? Math.max.apply(null, notes) : 0;
-        var lastModule = modules.slice().reverse().find(function (module) { return module.ultimaNota > 0; });
-        var last = lastModule ? lastModule.ultimaNota : 0;
-        var average = notes.length ? Math.round(notes.reduce(function (sum, note) { return sum + note; }, 0) / notes.length) : 0;
-        var progress = modules.length ? (complete / modules.length) * 100 : 0;
-        return { complete: complete, best: best, last: last, average: average, progress: progress };
-    }
+// Calcula as estatísticas gerais a partir da lista de módulos
+const stats = (modules) => {
+  // módulos com status "concluido"
+  const complete = modules.filter((m) => m.status === "concluido").length;
 
-    function moduleProgressPercent(module) {
-        return clampPercent(module.percentualAcertos);
-    }
+  // notas dos módulos que já têm resultado
+  const notes = modules.filter((m) => m.nota !== null).map((m) => m.nota);
 
-    function isModuleProgressComplete(module, progress) {
-        return progress >= PASSING_AVERAGE || module.tentativasUsadas >= module.tentativas;
-    }
+  const best = notes.length ? Math.max(...notes) : 0;
 
-    function updateProgressBars(containerSelector) {
-        document.querySelectorAll(containerSelector + " [data-width]").forEach(function (bar) {
-            bar.style.width = bar.dataset.width + "%";
-        });
-    }
+  // último módulo que teve alguma nota (percorre de trás pra frente)
+  const lastModule = [...modules].reverse().find((m) => m.ultimaNota > 0);
+  const last = lastModule ? lastModule.ultimaNota : 0;
 
-    function moduleProgressTemplate(module) {
-        var progress = moduleProgressPercent(module);
-        var barClass = isModuleProgressComplete(module, progress) ? "success" : "";
-        var progressLabel = progress > 0 ? formatPercent(progress) : "";
+  const average = notes.length
+    ? Math.round(notes.reduce((sum, n) => sum + n, 0) / notes.length)
+    : 0;
 
-        return '<div class="module-progress-row"><strong>' + module.nome + '</strong><div class="module-progress-details"><div class="progress"><div class="progress-bar ' + barClass + '" data-width="' + progress + '"></div></div><span class="module-progress-percent">' + progressLabel + '</span></div></div>';
-    }
+  // progresso geral: percentual de módulos concluídos
+  const progress = modules.length ? (complete / modules.length) * 100 : 0;
 
-    function renderProgress(modules) {
-        $(selectors.dashboardProgress).innerHTML = modules.map(moduleProgressTemplate).join("");
-        updateProgressBars(selectors.dashboardProgress);
-    }
+  return { complete, best, last, average, progress };
+};
 
-    function statusBadgeClass(status) {
-        if (status === "concluido") return "badge-success";
-        if (status === "disponivel") return "badge-primary";
-        return "badge-muted";
-    }
+// Retorna o percentual de acertos de um módulo (entre 0 e 100)
+const moduleProgressPercent = (module) => clampPercent(module.percentualAcertos);
 
-    function moduleStatusTemplate(module) {
-        return '<div class="status-item"><span class="badge ' + statusBadgeClass(module.status) + '">' + module.status + '</span><div><strong>' + module.nome + '</strong><p class="muted">' + module.tentativasUsadas + '/' + module.tentativas + ' tentativas usadas</p></div></div>';
-    }
+// Um módulo é considerado "encerrado" na barra se foi aprovado ou esgotou as tentativas
+const isModuleProgressComplete = (module, progress) =>
+  progress >= PASSING_AVERAGE || module.tentativasUsadas >= module.tentativas;
 
-    function renderStatus(modules) {
-        $(selectors.dashboardStatus).innerHTML = modules.map(moduleStatusTemplate).join("");
-    }
+// Monta a lista de tarefas necessárias para emitir o certificado
+const buildTasks = (modules, user, average) => {
+  // uma task por módulo
+  const tasks = modules.map((m) => [
+    `Complete o ${m.nome}`
+    m.status === "concluido",
+  ]);
 
-    function buildTasks(modules, user, average) {
-        var tasks = modules.map(function (module) {
-            return ["Complete o " + module.nome, module.status === "concluido"];
-        });
+  // tasks extras além dos módulos
+  tasks.push(["Atinja media geral de " + PASSING_AVERAGE + "% ou superior", average >= PASSING_AVERAGE]);
+  tasks.push(["Preencha seus dados no perfil", Boolean(user && user.nome)]);
 
-        tasks.push(["Atinja media geral de " + PASSING_AVERAGE + "% ou superior", average >= PASSING_AVERAGE]);
-        tasks.push(["Preencha seus dados no perfil", Boolean(user && user.nome)]);
-
-        return tasks;
-    }
+  return tasks;
+};
 
     function taskTemplate(task) {
         return '<div class="task-item ' + (task[1] ? "is-done" : "") + '"><span>' + (task[1] ? "OK" : "--") + '</span><span>' + task[0] + '</span></div>';
