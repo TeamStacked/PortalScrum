@@ -19,7 +19,7 @@ function requireAuth() {
     }
 }
 
-// Para pagnas ppublicas (login, cadastro, index)
+// Para paginas publicas (index, login, cadastro)
 function requireGuest() {
     const autenticado = tokenValido();
 
@@ -49,4 +49,22 @@ async function apiFetch(url, options = {}) {
     }
 
     return response;
+}
+
+// Função específica para logout
+async function logout() {
+    try {
+        const response = await apiFetch("/api/auth/logout", {
+            method: "POST",
+        });
+
+        if (response.ok) {
+            localStorage.removeItem("token");
+            window.location.href = "/";
+        } else {
+            console.error("Erro ao fazer logout");
+        }
+    } catch (error) {
+        console.error("Erro ao fazer logout:", error);
+    }
 }

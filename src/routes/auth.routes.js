@@ -1,8 +1,7 @@
-const { Router } = require('express')
-const authController = require('../controllers/auth.controller')
+const { Router } = require("express");
+const authController = require("../controllers/auth.controller");
 
-const router = Router()
-
+const router = Router();
 /*
 POST /api/auth/login
 Como testar:
@@ -13,11 +12,9 @@ Payload esperado: { "cpf": "12345678900", "senha": "123456" }
 Resposta 200: { "token": "jwt", "nome": "Nome do aluno" }
 Codigos possiveis: 200, 400, 401, 500
 */
-
-
-router.post('/login', authController.login)
+router.post("/login", authController.login);
 
 //http://localhost:3000/api/auth/logout
-router.get('/logout', authController.logout)
+router.post("/logout", authController.logout);
 
-module.exports = router
+module.exports = router;

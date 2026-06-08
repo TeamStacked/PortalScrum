@@ -2,48 +2,83 @@ const { verifyToken } = require("../utils/jwt");
 const { findUsuarioById } = require("../repositories/usuario.repositories");
 
 async function authMiddleware(req, res, next) {
-    const cookie = req.cookies?.token;
+    // Primeiro tenta obter o token do header Authorization
+    const authHeader = req.headers.authorization;
 
-    if (!cookie) {
-        return res.status(401).json({ message: "token não informado" });
-    }
-    try {
-        const payload = verifyToken(cookie);
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+        const token = authHeader.split(" ")[1];
 
-        const usuario = await findUsuarioById(payload.id_usuario);
-        if (!usuario) {
-            return res
-                .status(401)
-                .json({ message: "usuário não identificado" });
+        if (token) {
+            try {
+                const payload = verifyToken(token);
+                const usuario = await findUsuarioById(payload.id_usuario);
+                if (usuario) {
+                    req.usuario = usuario;
+                    return next();
+                }
+            } catch (e) {
+                // Token inválido, continua verificando
+            }
         }
-
-        req.usuario = usuario;
-
-        return next();
-    } catch (e) {
-        return res.status(401).json({ message: "token inválido ou expirado" });
     }
+
+    // Se não encontrou token válido no header, verifica cookies (para compatibilidade)
+    const tokenFromCookie = req.cookies?.token;
+    if (tokenFromCookie) {
+        try {
+            const payload = verifyToken(tokenFromCookie);
+            const usuario = await findUsuarioById(payload.id_usuario);
+            if (usuario) {
+                req.usuario = usuario;
+                return next();
+            }
+        } catch (e) {
+            // Token de cookie inválido também
+        }
+    }
+
+    return res.status(401).json({ message: "token não informado" });
 }
 
 async function blockAuthMiddleware(req, res, next) {
-    const cookie = req.cookies?.token;
-    if (!cookie) {
-        return next()
-    }
-    try {
-        const token = verifyToken(cookie)
-        if(!token){
-            return next()
+    // Verifica se há token válido no header ou cookie
+    const authHeader = req.headers.authorization;
+
+    // Verifica se há token válido no cookie (para compatibilidade)
+    const tokenFromCookie = req.cookies?.token;
+    if (tokenFromCookie) {
+        try {
+            const payload = verifyToken(tokenFromCookie);
+            // Se o token é válido, redireciona para o hub
+            if (payload) {
+                return res.redirect("/hub.html");
+            }
+        } catch (e) {
+            // Token inválido, continua a execução normal
         }
-        return res.redirect('/hub.html');
-        
-    } catch (e) {
-        console.log(e.message)
-        return res.redirect('/');
     }
+
+    // Verifica se há token válido no header
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+        const token = authHeader.split(" ")[1];
+        if (token) {
+            try {
+                const payload = verifyToken(token);
+                // Se o token é válido, redireciona para o hub
+                if (payload) {
+                    return res.redirect("/hub.html");
+                }
+            } catch (e) {
+                // Token inválido, continua a execução normal
+            }
+        }
+    }
+
+    // Se não encontrou token válido, permite o acesso à página inicial
+    return next();
 }
 
 module.exports = {
     authMiddleware,
-    blockAuthMiddleware
+    blockAuthMiddleware,
 };
