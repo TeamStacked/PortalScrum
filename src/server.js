@@ -1,11 +1,11 @@
 const express = require('express')
-const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser')
 require('dotenv').config({
   quiet: true
 })
 const path = require('path')
 const router = require('./routes')
-const {blockAuthMiddleware} = require('./middlewares/auth.middleware')
+const { blockAuthMiddleware } = require('./middlewares/auth.middleware')
 
 const PORT = process.env.PORT
 const app = express()
@@ -38,43 +38,29 @@ app.use('/imagens/questoes', express.static(imagensQuestoesPath))
 
 app.use('/api', router)
 
-app.get("/", blockAuthMiddleware, (req, res)=>{
-    res.sendFile(
-      path.join(
-        pagesPublicPath,
-        'index.html'
-      )
-    );
+app.get('/', blockAuthMiddleware, (req, res) => {
+  res.sendFile(path.join(pagesPublicPath, 'index.html'))
 })
 
-
-app.get("/login.html",  (req, res)=>{
-    res.sendFile(
-      path.join(
-        pagesPublicPath,
-        'login.html'
-      )
-    );
+app.get('/login.html', (req, res) => {
+  res.sendFile(path.join(pagesPublicPath, 'login.html'))
 })
 
-app.get("/cadastro.html",   (req, res)=>{
-    res.sendFile(
-      path.join(
-        pagesPublicPath,
-        'cadastro.html'
-      )
-    );
+app.get('/cadastro.html', (req, res) => {
+  res.sendFile(path.join(pagesPublicPath, 'cadastro.html'))
 })
 
-app.get("/404",  (req, res)=>{
-    res.sendFile(
-      path.join(
-        pagesPublicPath,
-        '404.html'
-      )
-    );
+app.get('/certificado', (req, res) => {
+  res.sendFile(path.join(pagesPublicPath, 'certificado.html'))
 })
 
+app.get('/certificado/:hash', (req, res) => {
+  res.sendFile(path.join(pagesPublicPath, 'certificado.html'))
+})
+
+app.get('/404', (req, res) => {
+  res.sendFile(path.join(pagesPublicPath, '404.html'))
+})
 
 app.use(function (req, res) {
   res.redirect('/404')
