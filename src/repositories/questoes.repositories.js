@@ -372,12 +372,6 @@ async function usuarioConcluiuExame(idExame) {
   )
 }
 
-async function usuarioConcluiuModuloAtual(usuarioId) {
-  const exame = await findExameEmAndamento(usuarioId)
-  if (!exame) return false
-  return usuarioConcluiuExame(exame.id_exame)
-}
-
 async function findModuloAtualByUsuario(usuarioId) {
   const exame = await findExameEmAndamento(usuarioId)
   if (!exame) return null
@@ -872,7 +866,6 @@ module.exports = {
   findRespostaByExameEQuestao,
   inserirRespostaQuestao,
   atualizarRespostaQuestao,
-  usuarioConcluiuModuloAtual,
   usuarioConcluiuExame,
   findModuloAtualByUsuario,
   findExameEmAndamento,
