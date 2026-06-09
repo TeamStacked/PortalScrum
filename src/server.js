@@ -42,20 +42,16 @@ app.get('/', blockAuthMiddleware, (req, res) => {
   res.sendFile(path.join(pagesPublicPath, 'index.html'))
 })
 
+app.get('/certificado/:hash', (req, res) => {
+  res.sendFile(path.join(pagesPublicPath, 'certificado.html'))
+})
+
 app.get('/login.html', (req, res) => {
   res.sendFile(path.join(pagesPublicPath, 'login.html'))
 })
 
 app.get('/cadastro.html', (req, res) => {
   res.sendFile(path.join(pagesPublicPath, 'cadastro.html'))
-})
-
-app.get('/certificado', (req, res) => {
-  res.sendFile(path.join(pagesPublicPath, 'certificado.html'))
-})
-
-app.get('/certificado/:hash', (req, res) => {
-  res.sendFile(path.join(pagesPublicPath, 'certificado.html'))
 })
 
 app.get('/404', (req, res) => {

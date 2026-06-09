@@ -293,35 +293,8 @@ function popularCamposDoCertificado(data) {
   gerarQRCodeValidador(data.certificado.certificadoHash)
 }
 
-/* ================================================================
- * MOCK — dados fictícios (substitui a chamada à API)
- * ================================================================ */
-
-const MOCK_DATA = {
-  aluno: {
-    nome: 'Maria da Silva Santos',
-    cpf: '12345678901',
-    email: 'maria.santos@portalscrum.com.br'
-  },
-  certificado: {
-    inicioEm: '2026-02-10T00:00:00Z',
-    fimEm: '2026-05-28T00:00:00Z',
-    emitidoEm: '2026-06-08T14:32:00Z',
-    certificadoHash: 'a3f9c1d8e2b7f4a0'
-  },
-  progresso: {
-    modulosConcluidos: [
-      { id_modulo: 1, notasTentativas: [{ nota: 72 }, { nota: 92 }] },
-      { id_modulo: 2, notasTentativas: [{ nota: 88 }] },
-      { id_modulo: 3, notasTentativas: [{ nota: 75 }, { nota: 95 }] },
-      { id_modulo: 4, notasTentativas: [{ nota: 90 }] },
-      { id_modulo: 5, notasTentativas: [{ nota: 83 }, { nota: 87 }] }
-    ]
-  },
-  mediaFinal: 90.4
-}
 /* ── Inicialização ─────────────────────────────────────────────── */
-function init() {
+async function init() {
   const loading = document.getElementById('loading-state')
   const wrapper = document.getElementById('certificate-wrapper')
   const errorState = document.getElementById('error-state')
@@ -330,15 +303,31 @@ function init() {
   const pathParts = window.location.pathname.split('/')
   const hashDaUrl = pathParts[pathParts.length - 1]
 
-  // Simula um breve delay de "carregamento" para ver o spinner
-  setTimeout(() => {
-    // No futuro, aqui você faria: fetch(`/api/certificados/${hashDaUrl}`)
-    const dataParaExibir = { ...MOCK_DATA }
-    if (hashDaUrl && hashDaUrl !== 'emitir' && hashDaUrl !== 'certificado') {
-      dataParaExibir.certificado.certificadoHash = hashDaUrl
+  if (!hashDaUrl || hashDaUrl === 'certificado.html') {
+    loading.style.display = 'none'
+    errorState.style.display = 'block'
+    return
+  }
+
+  try {
+    const response = await apiFetch(`/api/certificados/hash/${hashDaUrl}`)
+
+    if (!response.ok) {
+      throw new Error('Certificado não encontrado')
     }
 
-    popularCamposDoCertificado(dataParaExibir)
+    const data = await response.json()
+
+    // RF07/RF08: Calcula a média baseada na melhor nota de cada módulo
+    const notasFinaisPorModulo = data.progresso.modulosConcluidos.map((m) =>
+      Math.max(...m.notasTentativas.map((n) => n.nota))
+    )
+
+    data.mediaFinal =
+      notasFinaisPorModulo.reduce((a, b) => a + b, 0) /
+      notasFinaisPorModulo.length
+
+    popularCamposDoCertificado(data)
 
     loading.style.display = 'none'
     wrapper.style.display = 'flex'
@@ -350,7 +339,15 @@ function init() {
         exportarCertificadoParaPDF()
       })
     })
-  }, 800)
+  } catch (err) {
+    console.error(err)
+    loading.style.display = 'none'
+    errorState.style.display = 'block'
+    document.getElementById('error-message').textContent =
+      err.message === 'Certificado não encontrado'
+        ? 'Este certificado é inválido ou ainda não foi emitido.'
+        : 'Erro de conexão com o servidor.'
+  }
 }
 
 // DOM já está pronto (script ao final do body, CDN síncronos acima)
