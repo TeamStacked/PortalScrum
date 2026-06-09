@@ -19,7 +19,7 @@ async function loginUsuario({ cpf, senha } = {}, res) {
     };
   } catch (error) {
     if (
-      error.message === "usuario inexistente" ||
+      error.message === "Usuario inexistente" ||
       error.message === "Dados de login incorretos"
     ) {
       throw createHttpError(401, "CPF ou senha incorretos.");

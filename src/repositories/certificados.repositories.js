@@ -6,7 +6,7 @@ const { NOTA_MINIMA_APROVACAO } = require('../utils/calcule')
 
 async function findUsuarioByCertificadoHash(certificadoHash) {
   const result = await pool.query(
-    `SELECT id_usuario, nome, cpf, certificado_hash
+    `SELECT id_usuario, nome, cpf, email,certificado_hash
       FROM usuarios 
       WHERE certificado_hash = $1`,
     [certificadoHash]
@@ -68,6 +68,23 @@ function getCertificatePeriod(modulosConcluidos) {
   }
 }
 
+async function gerarMediaFinal(id_usuario) {
+  try {
+    const response =
+      await pool.query(`SELECT ROUND(AVG(r.nota) * 100, 2) AS media_certificado
+                              FROM exames e
+                              JOIN respostas r
+                                  ON r.id_exame = e.id_exame
+                              WHERE e.id_usuario =${id_usuario}`)
+    if (!response) {
+      return { message: 'Certificado inexistente' }
+    }
+    return response.rows[0]
+  } catch (error) {
+    return { message: 'erro do servidor' }
+  }
+}
+
 async function findCertificadoByHash(certificadoHash) {
   const usuario = await findUsuarioByCertificadoHash(certificadoHash)
 
@@ -114,11 +131,12 @@ async function findCertificadoByHash(certificadoHash) {
   }
 
   const periodo = getCertificatePeriod(modulosConcluidos)
-
+  const mediaFinal = await gerarMediaFinal(usuario.id_usuario)
   return {
     aluno: {
       nome: usuario.nome,
-      cpf: usuario.cpf
+      cpf: usuario.cpf,
+      email: usuario.email
     },
     certificado: {
       certificadoHash: usuario.certificado_hash,
@@ -129,7 +147,8 @@ async function findCertificadoByHash(certificadoHash) {
     },
     progresso: {
       modulosConcluidos
-    }
+    },
+    mediaFinal: parseFloat(mediaFinal.media_certificado)
   }
 }
 

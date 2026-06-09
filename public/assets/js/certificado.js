@@ -157,8 +157,7 @@ function exportarCertificadoParaPDF() {
       })
 
       const pdfLargura = 297
-      // Proporção exata baseada no SVG (535/372 = 1.438). 297 / 1.438 = 206.5mm
-      const pdfAltura = 206.5
+      const pdfAltura = 210 // Mantém a proporção 535:372 perfeita
       const yOffset = (210 - pdfAltura) / 2 // Centraliza verticalmente no A4
 
       // Insere o canvas renderizado centralizado verticalmente na folha A4

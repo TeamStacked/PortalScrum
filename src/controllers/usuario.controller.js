@@ -56,7 +56,7 @@ const {
   function tratarErroUnico(error) {
     if (error && error.code === '23505') {
       error.statusCode = 409
-      error.message = 'Ja existe usuario com os dados informados'
+      error.message = 'Já existe usuario com os dados informados'
     }
   
     return error
