@@ -160,7 +160,16 @@ function exportarCertificadoParaPDF() {
         const yOffset = (210 - pdfAltura) / 2; // Centraliza verticalmente no A4
 
         // Insere o canvas renderizado centralizado verticalmente na folha A4
-        pdf.addImage(imgData, "PNG", 0, yOffset, pdfLargura, pdfAltura);
+        pdf.addImage(
+imgData,
+        'PNG',
+        0,
+yOffset,
+pdfLargura,
+pdfAltura,
+        undefined,
+        'FAST'
+      )
         
         // Cria um nome de arquivo amigável a partir do nome do aluno
         const nomeParticipanteSlug = dadosCertificado.aluno.nome
@@ -296,11 +305,22 @@ function criarCaminhoOnduladoSelo(cx, cy, r, numScallops, depth) {
        /* ── Inicialização ─────────────────────────────────────────────── */
       function init() {
         const loading = document.getElementById("loading-state");
-        const wrapper = document.getElementById("certificate-wrapper");
+        const wrapper = document.getElementById("certificate-wrapper')
+  const errorState = document.getElementById('error-state')
+
+  // Tenta pegar o hash da URL (ex: /certificado/a3f9c1...)
+  const pathParts = window.location.pathname.split('/')
+  const hashDaUrl = pathParts[pathParts.length - 1]
  
         // Simula um breve delay de "carregamento" para ver o spinner
         setTimeout(() => {
-          popularCamposDoCertificado(MOCK_DATA);
+// No futuro, aqui você faria: fetch(`/api/certificados/${hashDaUrl}`)
+    const dataParaExibir = { ...MOCK_DATA }
+    if (hashDaUrl && hashDaUrl !== 'emitir' && hashDaUrl !== 'certificado') {
+      dataParaExibir.certificado.certificadoHash = hashDaUrl
+    }
+
+          popularCamposDoCertificado(dataParaExibir)
  
           loading.style.display = "none";
           wrapper.style.display = "flex";
