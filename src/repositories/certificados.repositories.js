@@ -2,9 +2,7 @@ const pool = require('../database/db')
 const {
   findModulosRespondidosByUsuario
 } = require('../repositories/questoes.repositories')
-const {
-  NOTA_MINIMA_APROVACAO
-} = require('../utils/calcule')
+const { NOTA_MINIMA_APROVACAO } = require('../utils/calcule')
 
 async function findUsuarioByCertificadoHash(certificadoHash) {
   const result = await pool.query(
@@ -93,8 +91,11 @@ async function findCertificadoByHash(certificadoHash) {
     let moduloConcluido = false
 
     for (const tentativa of modulo.notasTentativas) {
- if (tentativa.concluida && Number(tentativa.nota) >= NOTA_MINIMA_APROVACAO) {
-          moduloConcluido = true
+      if (
+        tentativa.concluida &&
+        Number(tentativa.nota) >= NOTA_MINIMA_APROVACAO
+      ) {
+        moduloConcluido = true
         break
       }
     }
@@ -108,7 +109,7 @@ async function findCertificadoByHash(certificadoHash) {
     return {
       indisponivel: true,
       motivo:
-        'Certificado indisponÃƒÂ­vel: ConclusÃƒÂ£o de todos os mÃƒÂ³dulos obrigatÃƒÂ³ria.'
+        'Certificado indisponível: Conclusão de todos os módulos obrigatória.'
     }
   }
 
@@ -149,7 +150,10 @@ async function findProgressoByUsuarioId(idUsuario) {
     let moduloConcluido = false
 
     for (const tentativa of modulo.notasTentativas) {
-      if (tentativa.concluida && Number(tentativa.nota) >= NOTA_MINIMA_APROVACAO) {
+      if (
+        tentativa.concluida &&
+        Number(tentativa.nota) >= NOTA_MINIMA_APROVACAO
+      ) {
         moduloConcluido = true
         break
       }
@@ -163,11 +167,12 @@ async function findProgressoByUsuarioId(idUsuario) {
   if (!modulos.length || modulosConcluidos.length !== modulos.length) {
     return {
       indisponivel: true,
-      motivo: 'Certificado indisponivel pois nao foi concluido todos os modulos.'
+      motivo:
+        'Certificado indisponivel pois nao foi concluido todos os modulos.'
     }
   }
 
- return null
+  return null
 }
 
 module.exports = {
