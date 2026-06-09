@@ -643,48 +643,6 @@ async function insertProximaTentativa(idExameReferencia) {
   return findQuestoesPorExame(exame.id_exame, base.id_usuario)
 }
 
-async function findProximoModuloByUsuario(idUsuario) {
-  const result = await pool.query(
-    `
-      SELECT m.id_modulo, m.titulo
-      FROM modulos m
-      WHERE m.id_modulo > (
-        SELECT COALESCE(MAX(e.id_modulo), 0)
-        FROM exames e
-        INNER JOIN (
-          SELECT
-            ex.id_exame,
-            CASE
-              WHEN COUNT(q.id_questao) > 0
-              THEN ROUND((COALESCE(SUM(r.nota), 0)::numeric / COUNT(q.id_questao)) * 100)::int
-              ELSE 0
-            END AS nota,
-            (
-              COUNT(r.id_resposta) >= COUNT(q.id_questao)
-              AND COUNT(q.id_questao) = ${QUESTOES_POR_TENTATIVA}
-            ) AS concluida
-          FROM exames ex
-          INNER JOIN questoes q
-            ON q.id_modulo = ex.id_modulo
-            AND q.grupo IS NOT DISTINCT FROM ex.grupo
-          LEFT JOIN respostas r
-            ON r.id_exame = ex.id_exame
-            AND r.id_questao = q.id_questao
-          WHERE ex.id_usuario = $1
-          GROUP BY ex.id_exame
-        ) avaliacoes ON avaliacoes.id_exame = e.id_exame
-        WHERE avaliacoes.concluida
-          AND avaliacoes.nota >= ${NOTA_MINIMA_APROVACAO}
-      )
-      ORDER BY m.id_modulo ASC
-      LIMIT 1
-    `,
-    [idUsuario]
-  )
-
-  return result.rows[0]?.id_modulo || null
-}
-
 async function findExamesByUsuario(usuarioId) {
   const result = await pool.query(
     `
@@ -754,19 +712,6 @@ async function findExamesByUsuario(usuarioId) {
   return result.rows
 }
 
-async function countQuestoesRespondidasByUsuario(usuarioId) {
-  const result = await pool.query(
-    `
-      SELECT COUNT(r.id_resposta)::int AS total
-      FROM respostas r
-      INNER JOIN exames e ON e.id_exame = r.id_exame
-      WHERE e.id_usuario = $1
-    `,
-    [usuarioId]
-  )
-  return Number(result.rows[0]?.total ?? 0)
-}
-
 async function findModulosRespondidosByUsuario(idUsuario) {
   const result = await pool.query(
     `
@@ -802,13 +747,6 @@ async function findModulosRespondidosByUsuario(idUsuario) {
   )
 
   return result.rows
-}
-
-async function jaExiste(idUsuario, idModulo) {
-  return pool.query(
-    `SELECT id_exame FROM exames WHERE id_usuario = $1 AND id_modulo = $2 LIMIT 1`,
-    [idUsuario, idModulo]
-  )
 }
 
 async function sincronizarDesbloqueioModulos(usuarioId) {
@@ -875,11 +813,8 @@ module.exports = {
   findGrupoDisponivelParaTentativa,
   insertProximaTentativa,
   criarExameModulo,
-  findProximoModuloByUsuario,
   findExamesByUsuario,
-  countQuestoesRespondidasByUsuario,
   findModulosRespondidosByUsuario,
-  jaExiste,
   sincronizarDesbloqueioModulos,
   moduloAnteriorAprovado,
   contarTentativasModulo
