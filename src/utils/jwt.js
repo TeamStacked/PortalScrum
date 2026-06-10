@@ -7,26 +7,19 @@ dotenv.config({
     path: path.resolve(__dirname, "..", "..", ".env"),
 });
 
-function createToken(payload, res) {
-    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+// Gera e assina o token JWT com JWT_SECRET e validade definida em expiresIn
+function createToken(payload) {
+    return jwt.sign(payload, process.env.JWT_SECRET, {
         expiresIn: Number(process.env.DEFAULT_EXPIRES_IN_SECONDS),
     });
-    //O token apaga apos o fechamento do navegador
-    res.cookie('token',token, {httpOnly: true, secure: false, sameSite: 'strict', maxAge:process.env.DEFAULT_EXPIRES_IN_SECONDS*1000});
-    return token;
 }
 
+// Valida a assinatura e a expiração do token
 function verifyToken(token) {
     return jwt.verify(token, process.env.JWT_SECRET);
-}
-
-function deletarToken(res){
-    res.clearCookie('token');
-    return res.redirect('/')
 }
 
 module.exports = {
     createToken,
     verifyToken,
-    deletarToken
 };
