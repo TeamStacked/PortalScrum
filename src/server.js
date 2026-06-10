@@ -3,17 +3,9 @@ const cookieParser = require("cookie-parser");
 require("dotenv").config({
     quiet: true,
 });
-const path = require("path");
 const router = require("./routes");
 const { blockAuthMiddleware } = require("./middlewares/auth.middleware");
-const express = require('express')
-const cookieParser = require('cookie-parser')
-require('dotenv').config({
-  quiet: true
-})
 const path = require('path')
-const router = require('./routes')
-const { blockAuthMiddleware } = require('./middlewares/auth.middleware')
 
 const PORT = process.env.PORT;
 const app = express();
@@ -86,6 +78,3 @@ app.use(function (req, res) {
 app.listen(PORT, function () {
     console.log(`Rodando em: http://localhost:${PORT}`);
 });
-
-  console.log(`Rodando em: http://localhost:${PORT}`)
-})
