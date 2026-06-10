@@ -30,12 +30,6 @@ async function loginUsuario({ cpf, senha } = {}) {
     }
 }
 
-// Sem ação no servidor nesta versão; a remoção do token acontece no front-end
-async function logoutUsuario() {
-    return { success: true, message: "Logout realizado com sucesso", redirect: "/" };
-}
-
 module.exports = {
     loginUsuario,
-    logoutUsuario,
 };

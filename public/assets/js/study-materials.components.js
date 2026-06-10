@@ -1,4 +1,5 @@
 (function () {
+// Essa funcao cria um elemento HTML com classe e texto opcionais
     function createElement(tagName, className, text) {
         var element = document.createElement(tagName);
         if (className) element.className = className;
@@ -6,6 +7,7 @@
         return element;
     }
 
+// Essa funcao cria e renderiza uma lista nao ordenada de textos
     function renderTextList(items) {
         var list = createElement("ul", "study-list");
         items.forEach(function (item) {
@@ -14,9 +16,10 @@
         return list;
     }
 
+// Essa funcao cria o card HTML para um modulo de estudos na listagem
     function renderStudyModuleCard(module) {
         var card = createElement("a", "card module-card is-available study-module-card");
-        card.href = "material-estudo.html?moduleId=" + encodeURIComponent(module.id);
+        card.href = "material-estudo?moduleId=" + encodeURIComponent(module.id);
         card.dataset.studyModuleId = module.id;
 
         var main = createElement("div", "module-main");
@@ -43,6 +46,7 @@
         return card;
     }
 
+// Essa funcao renderiza uma secao teorica do material de estudos
     function renderStudySection(section, index) {
         var article = createElement("article", "card study-content-card");
         article.appendChild(createElement("span", "badge badge-muted", "Seção " + (index + 1)));

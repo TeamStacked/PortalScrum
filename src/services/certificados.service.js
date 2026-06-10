@@ -18,10 +18,7 @@ const { findUsuarioById } = require('../repositories/usuario.repositories')
       throw createHttpError(404, 'Certificado inexistente para o hash informado.')
     }
   
-    if (certificado.indisponivel) {
-      throw createHttpError(409, certificado.motivo)
-    }
-  
+    // Ajustado para retornar 200 com indisponivel: true em vez de lancar erro 409
     return certificado
   }
   

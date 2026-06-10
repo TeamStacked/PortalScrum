@@ -5,11 +5,13 @@ const {
   } = require('../repositories/questoes.repositories')
   const { createHttpError } = require('../utils/http-error')
   
-  async function listarModulosDoUsuario(idUsuario) {
+  // Essa funcao lista os modulos do usuario e seus status
+async function listarModulosDoUsuario(idUsuario) {
     return sincronizarDesbloqueioModulos(idUsuario)
   }
   
-  async function buscarResultadoAtual(idUsuario, { id_exame, modulo } = {}) {
+  // Essa funcao busca o resultado do exame atual do usuario
+async function buscarResultadoAtual(idUsuario, { id_exame, modulo } = {}) {
     const idExame = id_exame ? Number(id_exame) : null
     const idModulo = modulo ? Number(modulo) : null
   
@@ -26,7 +28,8 @@ const {
     return resultado
   }
   
-  async function buscarResultadoPorId(idUsuario, idExameParam) {
+  // Essa funcao busca o resultado de um exame pelo seu ID
+async function buscarResultadoPorId(idUsuario, idExameParam) {
     const idExame = Number(idExameParam)
     const resultado = await findResultadoExame(idExame, idUsuario)
   
@@ -37,7 +40,8 @@ const {
     return resultado
   }
   
-  function validarResultado(
+  // Essa funcao valida o resultado de um exame
+function validarResultado(
     resultado,
     { notFoundMessage, incluirDetalhesConflito }
   ) {

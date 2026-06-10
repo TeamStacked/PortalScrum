@@ -1,3 +1,4 @@
+// Essa funcao valida se o token JWT existe e nao expirou
 function tokenValido() {
     const token = localStorage.getItem("token");
     if (!token) return false;
@@ -12,22 +13,25 @@ function tokenValido() {
 }
 
 // Para paginas autenticadas (painel, perfil, etc.)
+// Essa funcao garante que o usuario esteja autenticado para acessar a pagina
 function requireAuth() {
     if (!tokenValido()) {
         localStorage.removeItem("token");
-        window.location.href = "/login.html";
+        window.location.href = "/login";
     }
 }
 
 // Para paginas publicas (index, login, cadastro)
+// Essa funcao garante que o usuario autenticado seja redirecionado para o hub
 function requireGuest() {
     const autenticado = tokenValido();
 
     if (autenticado) {
-        window.location.href = "/hub.html";
+        window.location.href = "/hub";
     }
 }
 
+// Essa funcao gera os cabecalhos de autenticacao com o token Bearer
 function authHeaders() {
     const token = localStorage.getItem("token");
     return {
@@ -36,6 +40,7 @@ function authHeaders() {
     };
 }
 
+// Essa funcao realiza requisicoes HTTP com o token Bearer e trata expiracao
 async function apiFetch(url, options = {}) {
     const response = await fetch(url, {
         ...options,
@@ -44,7 +49,7 @@ async function apiFetch(url, options = {}) {
 
     if (response.status === 401) {
         localStorage.removeItem("token");
-        window.location.href = "/login.html";
+        window.location.href = "/login";
         return;
     }
 
@@ -52,6 +57,7 @@ async function apiFetch(url, options = {}) {
 }
 
 // Função específica para logout
+// Essa funcao limpa os dados locais e faz a requisicao de logout para o backend
 async function logout() {
     try {
         const response = await apiFetch("/api/auth/logout", {

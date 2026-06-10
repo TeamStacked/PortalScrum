@@ -1,10 +1,12 @@
 (function () {
+// Essa funcao preenche o avatar com a primeira letra do nome
     function fillAvatar(avatar, name) {
         if (!avatar) return;
 
         avatar.textContent = (name || "U").charAt(0).toUpperCase();
     }
 
+// Essa funcao busca os dados do perfil do usuario logado
     async function fetchProfile() {
         var response = await apiFetch("/api/usuarios/me");
 
@@ -21,6 +23,7 @@
         return data;
     }
 
+// Essa funcao envia uma requisicao PATCH para atualizar um campo especifico do perfil
     async function updateField(url, body) {
         var response = await apiFetch(url, {
             method: "PATCH",
@@ -42,6 +45,7 @@
         return data;
     }
 
+// Essa funcao valida se o formato do e-mail e valido
     function isValidEmail(email) {
         var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 

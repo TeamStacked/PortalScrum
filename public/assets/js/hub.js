@@ -1,4 +1,5 @@
 (function () {
+// Essa funcao exibe as informacoes do perfil do usuario no cabecalho
     function renderProfile(user) {
         var name = document.querySelector("[data-user-name]");
         var email = document.querySelector("[data-user-email]");
@@ -9,6 +10,7 @@
         if (avatar) avatar.textContent = displayName.charAt(0).toUpperCase();
     }
 
+// Essa funcao calcula e renderiza as metricas de progresso e notas no hub
     function renderMetrics(modules) {
         var complete = modules.filter(function (module) {
             return module.status === "concluido";
@@ -31,6 +33,7 @@
         document.querySelector("[data-hub-best]").textContent = best + "%";
     }
 
+// Essa funcao faz requisicao GET para buscar dados no formato JSON
     async function fetchJson(url) {
         var response = await apiFetch(url);
         if (!response) return null;
@@ -66,12 +69,12 @@
         document
             .querySelector("[data-start-exam]")
             .addEventListener("click", function () {
-                window.location.href = "modulos.html";
+                window.location.href = "modulos";
             });
         document
             .querySelector("[data-open-profile]")
             .addEventListener("click", function () {
-                window.location.href = "perfil.html";
+                window.location.href = "perfil";
             });
         document
             .querySelector("[data-logout]")

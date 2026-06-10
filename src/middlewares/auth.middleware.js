@@ -42,42 +42,23 @@ async function authMiddleware(req, res, next) {
     return res.status(401).json({ message: "token não informado" });
 }
 
-// Redireciona para /hub.html se o usuário já tiver sessão ativa
+// Redireciona para /hub.html se o usuario ja tiver sessao ativa
 async function blockAuthMiddleware(req, res, next) {
-    // Verifica se há token válido no header ou cookie
-    const authHeader = req.headers.authorization;
-
-    // Verifica se há token válido no cookie (para compatibilidade)
+    // Verifica se ha token valido no cookie (para compatibilidade)
     const tokenFromCookie = req.cookies?.token;
     if (tokenFromCookie) {
         try {
             const payload = verifyToken(tokenFromCookie);
-            // Se o token é válido, redireciona para o hub
+            // Se o token e valido, redireciona para o hub
             if (payload) {
                 return res.redirect("/hub.html");
             }
         } catch (e) {
-            // Token inválido, continua a execução normal
+            // Token invalido, continua a execucao normal
         }
     }
 
-    // Verifica se há token válido no header
-    if (authHeader && authHeader.startsWith("Bearer ")) {
-        const token = authHeader.split(" ")[1];
-        if (token) {
-            try {
-                const payload = verifyToken(token);
-                // Se o token é válido, redireciona para o hub
-                if (payload) {
-                    return res.redirect("/hub.html");
-                }
-            } catch (e) {
-                // Token inválido, continua a execução normal
-            }
-        }
-    }
-
-    // Se não encontrou token válido, permite o acesso à página inicial
+    // Se nao encontrou token valido, permite o acesso a pagina inicial
     return next();
 }
 

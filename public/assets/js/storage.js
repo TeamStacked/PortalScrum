@@ -1,10 +1,1 @@
-(function () {
-    window.PortalSession = {
-        logout: async function () {
-           
-            localStorage.removeItem("token");
-
-            window.location.href = '/'
-        },
-    };
-})();
+// Esse arquivo foi desativado pois a funcionalidade de session/logout foi unificada no api.js

@@ -2,7 +2,10 @@ const pool = require('../database/db')
 const {
   findModulosRespondidosByUsuario
 } = require('../repositories/questoes.repositories')
-const { NOTA_MINIMA_APROVACAO } = require('../utils/calcule')
+const {
+  NOTA_MINIMA_APROVACAO,
+  QUESTOES_POR_TENTATIVA
+} = require('../utils/calcule')
 
 async function findUsuarioByCertificadoHash(certificadoHash) {
   const result = await pool.query(
@@ -23,6 +26,7 @@ async function findModulos() {
 }
 
 // Organiza a lista de tentativas em um Map indexado por id_modulo
+// Essa funcao agrupa as tentativas de exame por modulo
 function groupTentativasByModulo(tentativas) {
   return tentativas.reduce((groups, tentativa) => {
     const idModulo = Number(tentativa.id_modulo)
@@ -37,6 +41,7 @@ function groupTentativasByModulo(tentativas) {
   }, new Map())
 }
 
+// Essa funcao mapeia os dados do modulo e suas respectivas tentativas
 function mapModulo(modulo, tentativas) {
   return {
     id_modulo: modulo.id_modulo,
@@ -54,7 +59,7 @@ function mapModulo(modulo, tentativas) {
   }
 }
 
-// Percorre as datas de tentativas concluídas e retorna { dataInicio, dataFim }
+// Essa funcao calcula o periodo de inicio e fim das tentativas concluidas
 function getCertificatePeriod(modulosConcluidos) {
   const dates = modulosConcluidos
     .flatMap((modulo) => modulo.notasTentativas)
@@ -72,27 +77,39 @@ function getCertificatePeriod(modulosConcluidos) {
 }
 
 // Calcula a média das melhores notas por módulo conforme RF08
+// Essa funcao gera a media final das melhores notas por modulo
 async function gerarMediaFinal(id_usuario) {
   const response = await pool.query(
-    `SELECT ROUND(AVG(melhor_nota), 2) AS media_certificado
-     FROM (
-       SELECT e.id_modulo,
-         MAX(ROUND((COALESCE(SUM(r.nota), 0)::numeric / COUNT(q.id_questao)) * 100)) AS melhor_nota
+    `WITH tentativas_concluidas AS (
+       SELECT
+         e.id_exame,
+         e.id_modulo,
+         ROUND((COALESCE(SUM(r.nota), 0)::numeric / COUNT(q.id_questao)) * 100) AS nota
        FROM exames e
        INNER JOIN questoes q
-         ON q.id_modulo = e.id_modulo AND q.grupo IS NOT DISTINCT FROM e.grupo
+         ON q.id_modulo = e.id_modulo
+         AND q.grupo IS NOT DISTINCT FROM e.grupo
        LEFT JOIN respostas r
-         ON r.id_exame = e.id_exame AND r.id_questao = q.id_questao
+         ON r.id_exame = e.id_exame
+         AND r.id_questao = q.id_questao
        WHERE e.id_usuario = $1
        GROUP BY e.id_exame, e.id_modulo
        HAVING COUNT(r.id_resposta) >= COUNT(q.id_questao)
-     ) tentativas_concluidas
-     GROUP BY id_modulo`,
+         AND COUNT(q.id_questao) = ${QUESTOES_POR_TENTATIVA}
+     ),
+     melhores_por_modulo AS (
+       SELECT id_modulo, MAX(nota) AS melhor_nota
+       FROM tentativas_concluidas
+       GROUP BY id_modulo
+     )
+     SELECT ROUND(AVG(melhor_nota), 2) AS media_certificado
+     FROM melhores_por_modulo`,
     [id_usuario]
   )
   return response.rows[0]
 }
 
+// Essa funcao busca as informacoes do certificado pelo hash
 async function findCertificadoByHash(certificadoHash) {
   const usuario = await findUsuarioByCertificadoHash(certificadoHash)
 
@@ -156,11 +173,11 @@ async function findCertificadoByHash(certificadoHash) {
     progresso: {
       modulosConcluidos
     },
-    mediaFinal: parseFloat(mediaFinal.media_certificado)
+    mediaFinal: parseFloat(mediaFinal?.media_certificado ?? 0)
   }
 }
 
-// Retorna o progresso de cada módulo; todos precisam estar aprovados para emitir o certificado
+// Essa funcao busca o progresso do usuario pelo id
 async function findProgressoByUsuarioId(idUsuario) {
   const modulosRows = await findModulos()
   const tentativas = await findModulosRespondidosByUsuario(idUsuario)

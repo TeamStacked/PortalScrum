@@ -199,9 +199,8 @@ function exportarCertificadoParaPDF() {
       }
     })
 }
-/* ================================================================
- * A partir daqui apenas teste, apagar futuramente
- * ================================================================ */
+
+// Essa funcao gera a string SVG do caminho ondulado para o selo
 function criarCaminhoOnduladoSelo(cx, cy, r, numScallops, depth) {
   const path = []
   const step = Math.PI / numScallops
@@ -225,6 +224,7 @@ function criarCaminhoOnduladoSelo(cx, cy, r, numScallops, depth) {
   return path.join(' ')
 }
 
+// Essa funcao gera o QR code de validacao do certificado
 function gerarQRCodeValidador(hash) {
   const container = document.getElementById('qrcode-container')
   if (!container) return
@@ -244,6 +244,7 @@ function gerarQRCodeValidador(hash) {
   }
 }
 
+// Essa funcao popula a tabela de notas dos modulos concluido
 function popularTabelaNotas(modulosConcluidos, mediaFinal) {
   if (!modulosConcluidos) return
   for (let i = 1; i <= 5; i++) {
@@ -261,6 +262,7 @@ function popularTabelaNotas(modulosConcluidos, mediaFinal) {
   if (avg) avg.textContent = `${Math.round(mediaFinal)}%`
 }
 
+// Essa funcao popula todos os campos visiveis do certificado
 function popularCamposDoCertificado(data) {
   definirDadosCertificado(data)
 
@@ -294,6 +296,7 @@ function popularCamposDoCertificado(data) {
 }
 
 /* ── Inicialização ─────────────────────────────────────────────── */
+// Essa funcao inicializa a busca dos dados do certificado e configura a tela
 async function init() {
   const loading = document.getElementById('loading-state')
   const wrapper = document.getElementById('certificate-wrapper')
@@ -303,7 +306,7 @@ async function init() {
   const pathParts = window.location.pathname.split('/')
   const hashDaUrl = pathParts[pathParts.length - 1]
 
-  if (!hashDaUrl || hashDaUrl === 'certificado.html') {
+  if (!hashDaUrl || hashDaUrl === 'certificado.html' || hashDaUrl === 'certificado') {
     loading.style.display = 'none'
     errorState.style.display = 'block'
     return
@@ -335,7 +338,6 @@ async function init() {
     // Vincula todos os botões PDF
     document.querySelectorAll('.btn-pdf').forEach((btn) => {
       btn.addEventListener('click', () => {
-        console.log('BOTÃO CLICADO')
         exportarCertificadoParaPDF()
       })
     })

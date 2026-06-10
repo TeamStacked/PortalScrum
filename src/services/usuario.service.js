@@ -8,6 +8,7 @@ const {
   } = require('../repositories/usuario.repositories')
   const { createHttpError } = require('../utils/http-error')
   
+// Essa funcao valida se a senha atende aos requisitos minimos
   function validarSenha(senha) {
     if (!senha) {
       throw createHttpError(400, 'Senha obrigatoria')
@@ -18,6 +19,7 @@ const {
     }
   }
   
+// Essa funcao cria um novo usuario no sistema
   async function criarUsuario({ nome, email, cpf, senha } = {}) {
     if (!nome || !email || !cpf || !senha) {
       throw createHttpError(400, 'Nome, email, CPF e senha são obrigatorios')
@@ -27,6 +29,7 @@ const {
     return createUsuarios(nome, email, cpf, senha)
   }
   
+// Essa funcao busca os dados do usuario autenticado
   async function buscarUsuarioLogado(idUsuario) {
     const usuario = await findUsuarioById(idUsuario)
   
@@ -37,6 +40,7 @@ const {
     return usuario
   }
   
+// Essa funcao atualiza um campo especifico do cadastro do usuario
   async function atualizarUsuario(idUsuario, campo, valor) {
     const atualizadores = {
       cpf: {
