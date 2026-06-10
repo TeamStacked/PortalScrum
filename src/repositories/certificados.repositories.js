@@ -2,9 +2,7 @@ const pool = require('../database/db')
 const {
   findModulosRespondidosByUsuario
 } = require('../repositories/questoes.repositories')
-const {
-  NOTA_MINIMA_APROVACAO
-} = require('../utils/calcule')
+const { NOTA_MINIMA_APROVACAO } = require('../utils/calcule')
 
 async function findUsuarioByCertificadoHash(certificadoHash) {
   const result = await pool.query(
@@ -70,25 +68,21 @@ function getCertificatePeriod(modulosConcluidos) {
   }
 }
 
-async function gerarMediaFinal(id_usuario){
-  try{
-    const response = await pool.query(`SELECT ROUND(AVG(r.nota) * 100, 2) AS media_certificado
+async function gerarMediaFinal(id_usuario) {
+  try {
+    const response =
+      await pool.query(`SELECT ROUND(AVG(r.nota) * 100, 2) AS media_certificado
                               FROM exames e
                               JOIN respostas r
                                   ON r.id_exame = e.id_exame
                               WHERE e.id_usuario =${id_usuario}`)
-  if(!response){
-
-    return {"message":"Certificado inexistente"};
-    
+    if (!response) {
+      return { message: 'Certificado inexistente' }
+    }
+    return response.rows[0]
+  } catch (error) {
+    return { message: 'erro do servidor' }
   }
-  return response.rows[0];
-  
-
-  }catch(error){
-    return {"message":"erro do servidor"}
-  }
-
 }
 
 async function findCertificadoByHash(certificadoHash) {
@@ -114,9 +108,12 @@ async function findCertificadoByHash(certificadoHash) {
     let moduloConcluido = false
 
     for (const tentativa of modulo.notasTentativas) {
-      if (tentativa.concluida && Number(tentativa.nota) >= NOTA_MINIMA_APROVACAO) {
-          moduloConcluido = true
-          break
+      if (
+        tentativa.concluida &&
+        Number(tentativa.nota) >= NOTA_MINIMA_APROVACAO
+      ) {
+        moduloConcluido = true
+        break
       }
     }
 
@@ -129,17 +126,17 @@ async function findCertificadoByHash(certificadoHash) {
     return {
       indisponivel: true,
       motivo:
-        'Certificado indisponivél: Conclusão de todos os módulos obrigatória.'
+        'Certificado indisponível: Conclusão de todos os módulos obrigatória.'
     }
   }
-  
+
   const periodo = getCertificatePeriod(modulosConcluidos)
   const mediaFinal = await gerarMediaFinal(usuario.id_usuario)
   return {
     aluno: {
       nome: usuario.nome,
       cpf: usuario.cpf,
-      email:usuario.email
+      email: usuario.email
     },
     certificado: {
       certificadoHash: usuario.certificado_hash,
@@ -155,6 +152,49 @@ async function findCertificadoByHash(certificadoHash) {
   }
 }
 
+async function findProgressoByUsuarioId(idUsuario) {
+  const modulosRows = await findModulos()
+  const tentativas = await findModulosRespondidosByUsuario(idUsuario)
+  const tentativasByModulo = groupTentativasByModulo(tentativas)
+  const modulos = []
+  const modulosConcluidos = []
+
+  for (const moduloRow of modulosRows) {
+    const idModulo = Number(moduloRow.id_modulo)
+    const tentativasDoModulo = tentativasByModulo.get(idModulo) || []
+    const modulo = mapModulo(moduloRow, tentativasDoModulo)
+
+    modulos.push(modulo)
+
+    let moduloConcluido = false
+
+    for (const tentativa of modulo.notasTentativas) {
+      if (
+        tentativa.concluida &&
+        Number(tentativa.nota) >= NOTA_MINIMA_APROVACAO
+      ) {
+        moduloConcluido = true
+        break
+      }
+    }
+
+    if (moduloConcluido) {
+      modulosConcluidos.push(modulo)
+    }
+  }
+
+  if (!modulos.length || modulosConcluidos.length !== modulos.length) {
+    return {
+      indisponivel: true,
+      motivo:
+        'Certificado indisponivel pois nao foi concluido todos os modulos.'
+    }
+  }
+
+  return null
+}
+
 module.exports = {
-  findCertificadoByHash
+  findCertificadoByHash,
+  findProgressoByUsuarioId
 }

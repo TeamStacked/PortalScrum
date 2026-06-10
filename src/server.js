@@ -6,6 +6,14 @@ require("dotenv").config({
 const path = require("path");
 const router = require("./routes");
 const { blockAuthMiddleware } = require("./middlewares/auth.middleware");
+const express = require('express')
+const cookieParser = require('cookie-parser')
+require('dotenv').config({
+  quiet: true
+})
+const path = require('path')
+const router = require('./routes')
+const { blockAuthMiddleware } = require('./middlewares/auth.middleware')
 
 const PORT = process.env.PORT;
 const app = express();
@@ -45,14 +53,31 @@ app.get("/", blockAuthMiddleware, (req, res) => {
 app.get("/login.html", (req, res) => {
     res.sendFile(path.join(pagesPublicPath, "login.html"));
 });
+app.get('/', blockAuthMiddleware, (req, res) => {
+  res.sendFile(path.join(pagesPublicPath, 'index.html'))
+})
+
+app.get('/certificado/:hash', (req, res) => {
+  res.sendFile(path.join(pagesPublicPath, 'certificado.html'))
+})
+
+app.get('/login.html', (req, res) => {
+  res.sendFile(path.join(pagesPublicPath, 'login.html'))
+})
 
 app.get("/cadastro.html", (req, res) => {
     res.sendFile(path.join(pagesPublicPath, "cadastro.html"));
 });
+app.get('/cadastro.html', (req, res) => {
+  res.sendFile(path.join(pagesPublicPath, 'cadastro.html'))
+})
 
 app.get("/404", (req, res) => {
     res.sendFile(path.join(pagesPublicPath, "404.html"));
 });
+app.get('/404', (req, res) => {
+  res.sendFile(path.join(pagesPublicPath, '404.html'))
+})
 
 app.use(function (req, res) {
     res.redirect("/404");
@@ -61,3 +86,6 @@ app.use(function (req, res) {
 app.listen(PORT, function () {
     console.log(`Rodando em: http://localhost:${PORT}`);
 });
+
+  console.log(`Rodando em: http://localhost:${PORT}`)
+})
