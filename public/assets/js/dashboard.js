@@ -191,7 +191,7 @@ const renderSummary = (modules, data) => {
 }
 
 // Renderiza o CTA do certificado (aprovado ou incentivo para continuar)
-const renderCertificateCta = (modules, data) => {
+const renderCertificateCta = (user,modules, data) => {
   const canIssue =
     modules.length > 0 &&
     data.complete === modules.length &&
@@ -200,7 +200,7 @@ const renderCertificateCta = (modules, data) => {
   $(selectors.certificateCta).innerHTML = canIssue
     ? `<h2>Parabens! Voce esta aprovado.</h2>
        <p class="lead">Voce completou todos os modulos com media de <strong class="text-success">${data.average}%</strong>.</p>
-       <a class="button button-secondary" href="certificado.html">Emitir Meu Certificado</a>`
+       <a class="button button-secondary" href="/certificado/${user.certificado_hash}">Emitir Meu Certificado</a>`
     : `<h2>Continue sua jornada</h2>
        <p class="lead">Faltam ${modules.length - data.complete} modulo(s) para concluir a certificacao.</p>
        <a class="button button-primary" href="modulos.html">Continuar Estudando</a>`
@@ -213,7 +213,7 @@ const renderDashboard = (user, modules) => {
   renderProgress(modules)
   renderStatus(modules)
   renderTasks(modules, user, data.average)
-  renderCertificateCta(modules, data)
+  renderCertificateCta(user,modules, data)
 }
 
 // Busca JSON de uma URL usando a função apiFetch já existente no projeto
