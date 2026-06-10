@@ -105,6 +105,16 @@
 .menu-item:hover {
   background: rgba(75, 85, 99, 0.45);
 }
+.icon-button {
+  border-radius: 8px;
+  transition: 0.16s ease;
+}
+.icon-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  transition: 0.16s ease;
+  transform: translateY(-2px);
+}
 .header-title-spaced {
   min-width: 0;
 }
@@ -288,6 +298,12 @@
     color: var(--success);
     text-decoration: line-through;
 }
+
+.task-item.is-done:last-child {
+  padding-bottom: 14px;
+   border-bottom: 1px solid rgba(16, 185, 129, 0.42);
+}
+
 
 .dashboard-certificate-cta {
     padding: 30px;
