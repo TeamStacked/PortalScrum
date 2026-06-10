@@ -7,6 +7,14 @@ const {
   calcularNotaResposta
 } = require('../utils/calcule')
 
+/**
+ * Conceito de GRUPO:
+ * Conjunto fixo de questões (3 fáceis, 4 médias, 3 difíceis) por módulo.
+ * Cada tentativa usa um grupo diferente. O grupo é identificado por um valor
+ * (ex: 'A', 'B', 'C') armazenado na coluna `grupo` da tabela `questoes`.
+ * Um exame referencia um grupo e puxa apenas as questões daquele grupo para o módulo.
+ */
+
 function mapQuestaoRow(row) {
   return {
     id_exame: row.id_exame,
@@ -26,6 +34,7 @@ function mapQuestaoRow(row) {
   }
 }
 
+// Verifica se o grupo tem a composição correta antes de associá-lo a um exame
 async function validarComposicaoGrupo(idModulo, grupo) {
   const result = await pool.query(
     `
@@ -120,6 +129,7 @@ async function findExamePorIdParaUsuario(idExame, usuarioId) {
   return result.rows[0] || null
 }
 
+// Retorna o exame ativo do usuário no módulo; o HAVING filtra exames com questões ainda sem resposta
 async function findExameEmAndamento(usuarioId, idModulo = null) {
   const params = [usuarioId]
   let filtroModulo = ''
@@ -160,6 +170,7 @@ async function findExameEmAndamento(usuarioId, idModulo = null) {
   return result.rows[0] || null
 }
 
+// Retorna o último exame onde todas as questões foram respondidas
 async function findUltimoExameFinalizado(usuarioId, idModulo = null) {
   const params = [usuarioId]
   let filtroModulo = ''
@@ -372,6 +383,12 @@ async function usuarioConcluiuExame(idExame) {
   )
 }
 
+async function usuarioConcluiuModuloAtual(usuarioId) {
+  const exame = await findExameEmAndamento(usuarioId)
+  if (!exame) return false
+  return usuarioConcluiuExame(exame.id_exame)
+}
+
 async function findModuloAtualByUsuario(usuarioId) {
   const exame = await findExameEmAndamento(usuarioId)
   if (!exame) return null
@@ -443,6 +460,7 @@ async function findResultadoExameAtualByUsuario(
   return findResultadoExame(ultimo.id_exame, usuarioId)
 }
 
+// Verifica se o módulo anterior foi aprovado antes de liberar o acesso ao próximo
 async function moduloAnteriorAprovado(usuarioId, idModulo) {
   if (Number(idModulo) <= 1) return true
 
@@ -493,6 +511,8 @@ async function contarTentativasModulo(usuarioId, idModulo) {
   return Number(result.rows[0]?.total ?? 0)
 }
 
+// Orquestra a criação de um novo exame: verifica módulo anterior, tentativas, aprovação,
+// grupo disponível e insere
 async function criarExameModulo(usuarioId, idModulo) {
   const idModuloNum = Number(idModulo)
 
@@ -512,6 +532,9 @@ async function criarExameModulo(usuarioId, idModulo) {
     idModuloNum
   )
 
+  // DUPLICAÇÃO DE LÓGICA: esta query manual repete a lógica de findResultadoExame
+  // que já calcula nota/concluida por exame. Futuramente, refatorar para
+  // reutilizar findResultadoExame ou findExamesByUsuario em vez de query raw.
   const aprovadoAnterior = await pool.query(
     `
       SELECT BOOL_OR(concluida AND nota >= ${NOTA_MINIMA_APROVACAO}) AS aprovado
@@ -804,6 +827,7 @@ module.exports = {
   findRespostaByExameEQuestao,
   inserirRespostaQuestao,
   atualizarRespostaQuestao,
+  usuarioConcluiuModuloAtual,
   usuarioConcluiuExame,
   findModuloAtualByUsuario,
   findExameEmAndamento,
