@@ -304,7 +304,6 @@
    border-bottom: 1px solid rgba(16, 185, 129, 0.42);
 }
 
-
 .dashboard-certificate-cta {
     padding: 30px;
     margin-top: 32px;
@@ -319,6 +318,9 @@
 .dashboard-certificate-cta .lead {
   margin-top: -25px;
   margin-bottom: 16px;
+}
+.dashboard-certificate-cta .button-secondary {
+  background: var(--primary);
 }
 @media (max-width: 720px) {
     .dashboard-task-header {
