@@ -300,7 +300,10 @@
         rgba(6, 182, 212, 0.15)
     );
 }
-
+.dashboard-certificate-cta .lead {
+  margin-top: -25px;
+  margin-bottom: 16px;
+}
 @media (max-width: 720px) {
     .dashboard-task-header {
         align-items: flex-start;
