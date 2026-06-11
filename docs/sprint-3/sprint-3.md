@@ -128,6 +128,10 @@ As funcionalidades incluem:
 - Dados exibidos corretamente;
 - Segurança validada no back-end.
 
+# Burndown da Sprint
+
+[Burndown Chart](./burndown_chart_sprint_3.png)
+
 # Retrospectiva da Sprint
 
 ## Pontos positivos
