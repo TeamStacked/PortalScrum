@@ -59,8 +59,8 @@ O backlog foi organizado para atender aos requisitos funcionais (RF) e não func
 | **US04** | **Realização de Avaliação por Nível**: Como usuário, quero realizar provas de 10 questões (com mix de dificuldades) para validar meu conhecimento em cada nível. |          [RF03](#rf03), [RF04](#rf04), [RF05](#rf05)           |   2    |  ✅   |
 | **US05** | **Gestão de Tentativas e Notas**: Como usuário, quero ter até 2 tentativas por nível, com o sistema retendo minha melhor nota para o cálculo final.              |          [RF06](#rf06), [RF07](#rf07), [RF08](#rf08)           |   2    |  ✅   |
 | **US07** | **Auditoria de Histórico**: Como sistema, devo registrar a data/hora e questões de cada tentativa para fins de auditoria.                                        |                         [RF10](#rf10)                          |   2    |  ✅   |
-| **US03** | **Visualização de Progresso**: Como estudante, quero consultar meu progresso, níveis concluídos e notas para saber quanto falta para minha certificação.         |                 [RF11](#rf11), [RNF01](#rnf01)                 |   3    |       |
-| **US06** | **Emissão de Certificado**: Como usuário aprovado, quero gerar um certificado em PDF com meus dados e média final para comprovar minha competência.              |                         [RF09](#rf09)                          |   3    |       |
+| **US03** | **Visualização de Progresso**: Como estudante, quero consultar meu progresso, níveis concluídos e notas para saber quanto falta para minha certificação.         |                 [RF11](#rf11), [RNF01](#rnf01)                 |   3    |   ✅  |
+| **US06** | **Emissão de Certificado**: Como usuário aprovado, quero gerar um certificado em PDF com meus dados e média final para comprovar minha competência.              |                         [RF09](#rf09)                          |   3    |   ✅  |
 
 ---
 
