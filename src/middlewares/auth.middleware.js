@@ -51,7 +51,7 @@ async function blockAuthMiddleware(req, res, next) {
             const payload = verifyToken(tokenFromCookie);
             // Se o token e valido, redireciona para o hub
             if (payload) {
-                return res.redirect("/hub.html");
+                return res.redirect("/hub");
             }
         } catch (e) {
             // Token invalido, continua a execucao normal
