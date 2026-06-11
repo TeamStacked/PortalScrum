@@ -67,6 +67,7 @@ async function validarComposicaoGrupo(idModulo, grupo) {
   )
 }
 
+// Essa funcao busca um grupo de questoes disponivel para tentativa
 async function findGrupoDisponivelParaTentativa(usuarioId, idModulo) {
   const result = await pool.query(
     `
@@ -96,6 +97,7 @@ async function findGrupoDisponivelParaTentativa(usuarioId, idModulo) {
   return null
 }
 
+// Essa funcao insere um novo registro de exame no banco
 async function insertExame(idModulo, idUsuario, grupo, tentativa) {
   const result = await pool.query(
     `
@@ -210,6 +212,7 @@ async function findUltimoExameFinalizado(usuarioId, idModulo = null) {
   return result.rows[0] || null
 }
 
+// Essa funcao busca as questoes associadas a um exame
 async function findQuestoesPorExame(idExame, usuarioId) {
   const exame = await findExamePorIdParaUsuario(idExame, usuarioId)
   if (!exame) return null
@@ -270,6 +273,7 @@ async function findQuestoesPorExame(idExame, usuarioId) {
   }
 }
 
+// Essa funcao busca as questoes do exame atual do usuario
 async function findQuestoesDoExameAtualByUsuario(usuarioId, idModulo = null) {
   const emAndamento = await findExameEmAndamento(usuarioId, idModulo)
   if (emAndamento) {
@@ -286,6 +290,7 @@ async function findQuestoesDoExameAtualByUsuario(usuarioId, idModulo = null) {
   return findQuestoesPorExame(ultimoFinalizado.id_exame, usuarioId)
 }
 
+// Essa funcao busca uma questao especifica do exame do usuario
 async function findQuestaoDoExameByUsuario(idUsuario, idExame, idQuestao) {
   const result = await pool.query(
     `
@@ -355,6 +360,7 @@ async function atualizarRespostaQuestao(idExame, idQuestao, resposta, nota) {
   return result.rows[0] || null
 }
 
+// Essa funcao verifica se o usuario respondeu todas as questoes do exame
 async function usuarioConcluiuExame(idExame) {
   const result = await pool.query(
     `
@@ -383,12 +389,14 @@ async function usuarioConcluiuExame(idExame) {
   )
 }
 
+// Essa funcao verifica se o usuario concluiu o modulo atual
 async function usuarioConcluiuModuloAtual(usuarioId) {
   const exame = await findExameEmAndamento(usuarioId)
   if (!exame) return false
   return usuarioConcluiuExame(exame.id_exame)
 }
 
+// Essa funcao busca o modulo atual em andamento do usuario
 async function findModuloAtualByUsuario(usuarioId) {
   const exame = await findExameEmAndamento(usuarioId)
   if (!exame) return null
@@ -445,6 +453,7 @@ async function findResultadoExame(idExame, usuarioId) {
   return result.rows[0] || null
 }
 
+// Essa funcao busca o resultado do exame atual do usuario
 async function findResultadoExameAtualByUsuario(
   usuarioId,
   idExame = null,
@@ -455,7 +464,14 @@ async function findResultadoExameAtualByUsuario(
   }
 
   const ultimo = await findUltimoExameFinalizado(usuarioId, idModulo)
-  if (!ultimo) return null
+  if (!ultimo) {
+    // Ajustado para buscar o exame em andamento caso nao exista um finalizado, para retornar 409 ao inves de 404
+    const emAndamento = await findExameEmAndamento(usuarioId, idModulo)
+    if (emAndamento) {
+      return findResultadoExame(emAndamento.id_exame, usuarioId)
+    }
+    return null
+  }
 
   return findResultadoExame(ultimo.id_exame, usuarioId)
 }
@@ -497,6 +513,7 @@ async function moduloAnteriorAprovado(usuarioId, idModulo) {
   return Boolean(result.rows[0]?.aprovado)
 }
 
+// Essa funcao conta o numero de tentativas ja realizadas no modulo
 async function contarTentativasModulo(usuarioId, idModulo) {
   const result = await pool.query(
     `
@@ -596,6 +613,7 @@ async function criarExameModulo(usuarioId, idModulo) {
   return findQuestoesPorExame(exame.id_exame, usuarioId)
 }
 
+// Essa funcao insere uma nova tentativa de exame no banco
 async function insertProximaTentativa(idExameReferencia) {
   const referencia = await pool.query(
     `
@@ -666,6 +684,7 @@ async function insertProximaTentativa(idExameReferencia) {
   return findQuestoesPorExame(exame.id_exame, base.id_usuario)
 }
 
+// Essa funcao busca todos os exames realizados pelo usuario
 async function findExamesByUsuario(usuarioId) {
   const result = await pool.query(
     `
@@ -735,6 +754,7 @@ async function findExamesByUsuario(usuarioId) {
   return result.rows
 }
 
+// Essa funcao busca os modulos respondidos pelo usuario
 async function findModulosRespondidosByUsuario(idUsuario) {
   const result = await pool.query(
     `
@@ -772,6 +792,7 @@ async function findModulosRespondidosByUsuario(idUsuario) {
   return result.rows
 }
 
+// Essa funcao sincroniza o desbloqueio de modulos do usuario
 async function sincronizarDesbloqueioModulos(usuarioId) {
   return findExamesByUsuario(usuarioId)
 }
@@ -782,44 +803,6 @@ module.exports = {
   MAX_TENTATIVAS,
   normalizarAlternativa,
   calcularNotaResposta,
-  findProximaQuestaoByUsuario: async (usuarioId) => {
-    const exame = await findExameEmAndamento(usuarioId)
-    if (!exame) return null
-
-    const result = await pool.query(
-      `
-        SELECT
-          e.id_exame,
-          q.id_questao,
-          q.id_modulo,
-          q.grupo,
-          q.numero,
-          q.dificuldade,
-          q.enunciado,
-          q.alternativa_a,
-          q.alternativa_b,
-          q.alternativa_c,
-          q.alternativa_d,
-          q.imagem
-        FROM exames e
-        INNER JOIN questoes q
-          ON q.id_modulo = e.id_modulo
-          AND q.grupo IS NOT DISTINCT FROM e.grupo
-        WHERE e.id_exame = $1
-          AND NOT EXISTS (
-            SELECT 1
-            FROM respostas r
-            WHERE r.id_exame = e.id_exame
-              AND r.id_questao = q.id_questao
-          )
-        ORDER BY q.numero ASC NULLS LAST, q.id_questao ASC
-        LIMIT 1
-      `,
-      [exame.id_exame]
-    )
-
-    return result.rows[0] || null
-  },
   findQuestoesDoExameAtualByUsuario,
   findQuestoesPorExame,
   findExamePorIdParaUsuario,

@@ -140,6 +140,7 @@ A organização segue o padrão de camadas para garantir separação de responsa
    ```
 2. Configure o arquivo `.env` na raiz do projeto seguindo o modelo:
    ```env
+   DATABASE_URL=postgresql://usuario:senha@host:porta/banco?sslmode=require
    PORT=3000
    POSTGRES_HOST=localhost
    POSTGRES_USER=seu_usuario

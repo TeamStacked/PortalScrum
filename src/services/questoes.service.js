@@ -23,6 +23,7 @@ const {
 
 const { createHttpError } = require('../utils/http-error')
 
+// Recebe a lista do repositório e monta a URL completa para cada imagem de questão
 function mapQuestoesResponse(exame) {
   return {
     ...exame,
@@ -33,6 +34,7 @@ function mapQuestoesResponse(exame) {
   }
 }
 
+// Essa funcao inicia um novo modulo de exame para o usuario
 async function iniciarModulo(idUsuario, idModulo) {
   const idModuloNumber = Number(idModulo)
 
@@ -44,6 +46,7 @@ async function iniciarModulo(idUsuario, idModulo) {
   return mapQuestoesResponse(exame)
 }
 
+// Essa funcao busca o exame atual em andamento do usuario
 async function buscarExameAtual(idUsuario, { modulo, id_exame } = {}) {
   const idModulo = modulo ? Number(modulo) : null
   const idExame = id_exame ? Number(id_exame) : null
@@ -62,6 +65,7 @@ async function buscarExameAtual(idUsuario, { modulo, id_exame } = {}) {
   return mapQuestoesResponse(exame)
 }
 
+// Essa funcao valida o payload enviado na resposta de uma questao
 function validarRespostaPayload({ id_exame, id_questao, resposta } = {}) {
   if (!id_exame || !id_questao || !resposta) {
     throw createHttpError(400, 'Exame, questão e resposta sao obrigatorios.')
@@ -76,6 +80,7 @@ function validarRespostaPayload({ id_exame, id_questao, resposta } = {}) {
   return respostaNormalizada
 }
 
+// Valida se o exame e a questão pertencem ao usuário, calcula a nota e persiste a resposta
 async function responderQuestao(idUsuario, payload) {
   const { id_exame, id_questao } = payload
   const respostaNormalizada = validarRespostaPayload(payload)
@@ -132,6 +137,7 @@ async function responderQuestao(idUsuario, payload) {
   }
 }
 
+// Retorna o estado atual do exame para o front-end sem precisar de nova requisição
 async function buscarProximoEstado(idUsuario, exame, idExame) {
   if (!(await usuarioConcluiuExame(idExame))) {
     return null
@@ -166,6 +172,7 @@ async function buscarProximoEstado(idUsuario, exame, idExame) {
   }
 }
 
+// Essa funcao cria uma nova tentativa de exame para um modulo
 async function criarProximaTentativa(idUsuario, { id_exame, id_modulo } = {}) {
   let idExameReferencia = id_exame ? Number(id_exame) : null
 
@@ -186,6 +193,7 @@ async function criarProximaTentativa(idUsuario, { id_exame, id_modulo } = {}) {
   return mapQuestoesResponse(exame)
 }
 
+// Essa funcao busca o modulo atual em andamento do usuario
 async function buscarModuloAtual(idUsuario) {
   const modulo = await findModuloAtualByUsuario(idUsuario)
 
@@ -196,6 +204,7 @@ async function buscarModuloAtual(idUsuario) {
   return modulo
 }
 
+// Essa funcao lista todos os exames e tentativas do usuario
 async function listarExamesUsuario(idUsuario) {
   return findExamesByUsuario(idUsuario)
 }

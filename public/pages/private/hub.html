@@ -4,10 +4,13 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Hub | Portal Scrum</title>
-        <link rel="shortcut icon" href="../assets/images/logoEscuro.png" type="image/x-icon"/>
+        <link
+            rel="shortcut icon"
+            href="../assets/images/logoEscuro.png"
+            type="image/x-icon"
+        />
         <link rel="stylesheet" href="../assets/css/base.css" />
         <link rel="stylesheet" href="../assets/css/app.css" />
-        <script src="../assets/js/storage.js" defer></script>
         <script src="../assets/js/api.js" defer></script>
         <script src="../assets/js/ui.js" defer></script>
         <script src="../assets/js/theme.js" defer></script>
@@ -17,7 +20,7 @@
         <div class="page">
             <header class="site-header">
                 <div class="container header-row">
-                    <a class="brand" href="hub.html">
+                    <a class="brand" href="hub">
                         <img
                             class="brand-logo"
                             src="../assets/images/logoBranca.png"
@@ -31,7 +34,7 @@
                         </span>
                     </a>
                     <div class="nav-actions">
-                        <a class="button button-outline" href="dashboard.html"
+                        <a class="button button-outline" href="dashboard"
                             >Dashboard</a
                         >
                         <div class="profile-menu-wrap">
@@ -53,7 +56,7 @@
                                 </div>
                                 <a
                                     class="menu-item"
-                                    href="perfil.html"
+                                    href="perfil"
                                     data-open-profile
                                     >Meu Perfil</a
                                 >
@@ -62,7 +65,7 @@
                                     type="button"
                                     data-logout
                                 >
-                                Sair
+                                    Sair
                                 </button>
                             </div>
                         </div>
@@ -81,7 +84,7 @@
                 <section class="grid grid-2" aria-label="Acoes principais">
                     <a
                         class="card action-card is-active"
-                        href="modulos.html"
+                        href="modulos"
                         data-start-exam
                     >
                         <span class="card-icon" aria-hidden="true">📝</span>
@@ -94,15 +97,20 @@
                             >Começar agora -&gt;</strong
                         >
                     </a>
-                    <article class="card action-card is-disabled">
+                    <a
+                        class="card action-card is-active"
+                        href="material-estudos"
+                    >
                         <span class="card-icon" aria-hidden="true">📖</span>
                         <h2>Material de Estudo</h2>
                         <p class="muted">
-                            Em breve: acesse conteúdos complementares e
-                            materiais de apoio.
+                            Acesse conteudos do material de estudos para revisar
+                            os principais conceitos do Scrum.
                         </p>
-                        <strong class="muted">Em breve</strong>
-                    </article>
+                        <strong class="text-primary"
+                            >Acessar material -&gt;</strong
+                        >
+                    </a>
                 </section>
 
                 <section

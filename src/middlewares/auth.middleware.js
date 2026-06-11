@@ -1,49 +1,68 @@
 const { verifyToken } = require("../utils/jwt");
 const { findUsuarioById } = require("../repositories/usuario.repositories");
 
+// Lê o Bearer token do header, verifica a assinatura JWT e injeta req.usuario;
+// retorna 401 se inválido ou ausente
 async function authMiddleware(req, res, next) {
-    const cookie = req.cookies?.token;
+    // Primeiro tenta obter o token do header Authorization
+    const authHeader = req.headers.authorization;
 
-    if (!cookie) {
-        return res.status(401).json({ message: "token não informado" });
-    }
-    try {
-        const payload = verifyToken(cookie);
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+        const token = authHeader.split(" ")[1];
 
-        const usuario = await findUsuarioById(payload.id_usuario);
-        if (!usuario) {
-            return res
-                .status(401)
-                .json({ message: "usuário não identificado" });
+        if (token) {
+            try {
+                const payload = verifyToken(token);
+                const usuario = await findUsuarioById(payload.id_usuario);
+                if (usuario) {
+                    req.usuario = usuario;
+                    return next();
+                }
+            } catch (e) {
+                // Token inválido, continua verificando
+            }
         }
-
-        req.usuario = usuario;
-
-        return next();
-    } catch (e) {
-        return res.status(401).json({ message: "token inválido ou expirado" });
     }
+
+    // Se não encontrou token válido no header, verifica cookies (para compatibilidade)
+    const tokenFromCookie = req.cookies?.token;
+    if (tokenFromCookie) {
+        try {
+            const payload = verifyToken(tokenFromCookie);
+            const usuario = await findUsuarioById(payload.id_usuario);
+            if (usuario) {
+                req.usuario = usuario;
+                return next();
+            }
+        } catch (e) {
+            // Token de cookie inválido também
+        }
+    }
+
+    return res.status(401).json({ message: "token não informado" });
 }
 
+// Redireciona para /hub.html se o usuario ja tiver sessao ativa
 async function blockAuthMiddleware(req, res, next) {
-    const cookie = req.cookies?.token;
-    if (!cookie) {
-        return next()
-    }
-    try {
-        const token = verifyToken(cookie)
-        if(!token){
-            return next()
+    // Verifica se ha token valido no cookie (para compatibilidade)
+    const tokenFromCookie = req.cookies?.token;
+    if (tokenFromCookie) {
+        try {
+            const payload = verifyToken(tokenFromCookie);
+            // Se o token e valido, redireciona para o hub
+            if (payload) {
+                return res.redirect("/hub");
+            }
+        } catch (e) {
+            // Token invalido, continua a execucao normal
         }
-        return res.redirect('/hub.html');
-        
-    } catch (e) {
-        console.log(e.message)
-        return res.redirect('/');
     }
+
+    // Se nao encontrou token valido, permite o acesso a pagina inicial
+    return next();
 }
 
 module.exports = {
     authMiddleware,
-    blockAuthMiddleware
+    blockAuthMiddleware,
 };

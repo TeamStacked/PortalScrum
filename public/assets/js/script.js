@@ -1,3 +1,4 @@
+// Essa funcao gerencia as classes ativas e inativas nos campos de input
 function setActivateInput() {
     // Seleciona todos os inputs que estão dentro de .input-box
     const inputs = document.querySelectorAll('.input-box input');
