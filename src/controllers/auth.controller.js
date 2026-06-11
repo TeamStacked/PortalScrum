@@ -10,11 +10,10 @@ async function login(req, res) {
   }
 }
 async function logout(req, res) {
-  try{
-    const result = await logoutUsuario(res)
-    return result
-    
-  }catch(e){
+  try {
+    await logoutUsuario(res)
+    return res.redirect('/login.html')
+  } catch (e) {
     return sendErrorResponse(res, e, 'Erro interno do servidor.')
   }
 }
