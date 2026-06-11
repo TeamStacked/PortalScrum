@@ -256,3 +256,7 @@ As branches devem ser criadas a partir de uma Issue:
 ### 🔗 Links Importantes
 
 - [Pasta de Documentação](./docs) (Contém Checklists de DoR/DoD).
+- [Sprint 1](./docs/sprint-1/sprint-1.md)
+- [Sprint 2](./docs/sprint-2/sprint-2.md)
+- [Sprint 3](./docs/sprint-3/sprint-3.md)
+- [Doc API](./docs/docApi/documentacaoApi.md)
