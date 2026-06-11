@@ -78,25 +78,6 @@
             });
         document
             .querySelector("[data-logout]")
-            .addEventListener("click", async function () {
-                try {
-                    const response = await apiFetch("/api/auth/logout", {
-                        method: "POST",
-                    });
-
-                    if (response.ok) {
-                        const result = await response.json();
-                        localStorage.removeItem("token");
-                        window.location.href = result.redirect || "/";
-                    } else {
-                        console.error("Erro ao fazer logout");
-                    }
-                } catch (error) {
-                    console.error("Erro ao fazer logout:", error);
-                    // Mesmo em caso de erro, removemos o token e redirecionamos
-                    localStorage.removeItem("token");
-                    window.location.href = "/";
-                }
-            });
+            .addEventListener("click", logout);
     });
 })();

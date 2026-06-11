@@ -65,12 +65,17 @@ async function logout() {
         });
 
         if (response.ok) {
+            const result = await response.json();
             localStorage.removeItem("token");
-            window.location.href = "/";
+            window.location.href = result.redirect || "/login";
         } else {
             console.error("Erro ao fazer logout");
+            localStorage.removeItem("token");
+            window.location.href = "/login";
         }
     } catch (error) {
         console.error("Erro ao fazer logout:", error);
+        localStorage.removeItem("token");
+        window.location.href = "/login";
     }
 }

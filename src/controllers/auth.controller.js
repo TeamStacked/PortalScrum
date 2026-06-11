@@ -32,8 +32,12 @@ Códigos possíveis: 200, 401, 500
 */
 async function logout(req, res) {
     try {
-        await logoutUsuario(res);
-        return res.redirect("/login");
+        res.clearCookie("token");
+        return res.status(200).json({
+            success: true,
+            message: "Logout realizado com sucesso",
+            redirect: "/login",
+        });
     } catch (e) {
         return sendErrorResponse(res, e, "Erro interno do servidor.");
     }
