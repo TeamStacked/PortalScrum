@@ -158,14 +158,14 @@ function exportarCertificadoParaPDF() {
 
       const pdfLargura = 297
       const pdfAltura = 210 // Mantém a proporção 535:372 perfeita
-      const yOffset = (210 - pdfAltura) / 2 // Centraliza verticalmente no A4
+      const yOffset = (210.05 - pdfAltura) / 2 // Centraliza verticalmente no A4
 
       // Insere o canvas renderizado centralizado verticalmente na folha A4
       pdf.addImage(
         imgData,
         'PNG',
         0,
-        yOffset,
+        yOffset,  
         pdfLargura,
         pdfAltura,
         undefined,
