@@ -340,6 +340,12 @@
     object-fit: contain;
 }
 
+/* Botão de ir ao módulo de estudo*/
+.back-btn {
+    background: var(--primary);
+    color: #fff;
+  }
+
 /* Ajustes de Responsividade Geral para a Página */
 @media (max-width: 600px) {
     .main-container {

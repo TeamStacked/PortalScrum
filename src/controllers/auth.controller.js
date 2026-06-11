@@ -32,18 +32,14 @@ Códigos possíveis: 200, 401, 500
 */
 async function logout(req, res) {
     try {
-        // Retorna sucesso e indica que o frontend deve redirecionar para a página inicial
-        return res.status(200).json({
-            success: true,
-            message: "Logout realizado com sucesso",
-            redirect: "/",
-        });
+        await logoutUsuario(res);
+        return res.redirect("/login");
     } catch (e) {
         return sendErrorResponse(res, e, "Erro interno do servidor.");
     }
 }
 
 module.exports = {
-    login,
     logout,
+    login,
 };
