@@ -5,15 +5,18 @@
         light: "../assets/images/logoEscuro.png",
     };
 
+// Essa funcao busca a preferencia de tema no localStorage
     function getTheme() {
         return localStorage.getItem(THEME_KEY) || "dark";
     }
 
+// Essa funcao define a preferencia de tema e altera o dataset
     function setTheme(theme) {
         localStorage.setItem(THEME_KEY, theme);
         document.documentElement.dataset.theme = theme;
     }
 
+// Essa funcao atualiza a logo da marca correspondente ao tema atual
     function applyBrandLogos(theme) {
         var logoSrc = LOGO_BY_THEME[theme] || LOGO_BY_THEME.dark;
         document.querySelectorAll(".brand-logo").forEach(function (img) {
@@ -21,15 +24,17 @@
         });
     }
 
+// Essa funcao aplica o tema ativo na pagina e altera o icone
     function applyTheme() {
         var theme = getTheme();
         document.documentElement.dataset.theme = theme;
         document.querySelectorAll("[data-theme-icon]").forEach(function (element) {
-            element.textContent = theme === "dark" ? "L" : "D";
+            element.textContent = theme === "dark" ? "🌞" : "🌑";
         });
         applyBrandLogos(theme);
     }
 
+// Essa funcao alterna o tema entre claro e escuro
     function toggleTheme() {
         var current = document.documentElement.dataset.theme || "dark";
         setTheme(current === "dark" ? "light" : "dark");

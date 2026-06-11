@@ -5,10 +5,12 @@
   let currentQuestion = 0
   let salvando = false
 
+// Essa funcao obtem o valor de um parametro da URL
   function queryParam(name) {
     return new URLSearchParams(window.location.search).get(name)
   }
 
+// Essa funcao atualiza o cabecalho e a barra de progresso do exame
   function updateHeader() {
     const totalQuestoes = questoes.length || 1
     const count = document.querySelector('[data-question-count]')
@@ -23,10 +25,12 @@
     }
   }
 
+// Essa funcao retorna o objeto da questao correspondente ao indice atual
   function questaoAtual() {
     return questoes[currentQuestion]
   }
 
+// Essa funcao normaliza a string de dificuldade removendo acentos e espacos
   function normalizarDificuldade(valor) {
     return String(valor || '')
       .normalize('NFD')
@@ -35,6 +39,7 @@
       .trim()
   }
 
+// Essa funcao retorna o rotulo formatado da dificuldade para exibicao
   function rotuloDificuldade(valor) {
     const nivel = normalizarDificuldade(valor)
     if (nivel.includes('facil')) return 'Fácil'
@@ -43,6 +48,7 @@
     return valor ? String(valor) : 'N/A'
   }
 
+// Essa funcao retorna a classe CSS correspondente a dificuldade da questao
   function classeDificuldade(valor) {
     const nivel = normalizarDificuldade(valor)
     if (nivel.includes('facil')) return 'easy'
@@ -50,6 +56,7 @@
     return 'medium'
   }
 
+// Essa funcao renderiza o card HTML da questao atual e configura os eventos
   function renderQuestion() {
     const questao = questaoAtual()
     const shell = document.querySelector('[data-question-shell]')
@@ -261,7 +268,7 @@
 
   function finalizarAvaliacao() {
     if (!exameAtual?.id_exame) {
-      window.location.href = 'modulos.html'
+      window.location.href = 'modulos'
       return
     }
 
@@ -272,7 +279,7 @@
     if (count) count.textContent = 'Avaliação concluído'
 
     window.location.href =
-      'resultado.html?id_exame=' + encodeURIComponent(exameAtual.id_exame)
+      'resultado?id_exame=' + encodeURIComponent(exameAtual.id_exame)
   }
 
   function mostrarAviso(msg) {
@@ -300,7 +307,7 @@
       <div class="exam-error">
         <h2>Erro</h2>
         <p>${msg}</p>
-        <a class="button button-primary" href="modulos.html">Voltar aos modulos</a>
+        <a class="button button-primary" href="modulos">Voltar aos modulos</a>
       </div>
     `
   }

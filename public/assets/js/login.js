@@ -1,4 +1,7 @@
-form &&
+
+ document.addEventListener("DOMContentLoaded", async function () {
+  requireGuest()
+  form &&
   form.addEventListener('submit', async (e) => {
     e.preventDefault()
 
@@ -28,9 +31,9 @@ form &&
 
       localStorage.setItem('token', result.token)
 
-      window.location.href = '/hub.html'
+      window.location.href = '/hub'
     } catch (error) {
       console.error(error)
       alert('Erro ao conectar com o servidor')
     }
-  })
+  })})

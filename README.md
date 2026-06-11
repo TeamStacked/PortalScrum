@@ -80,7 +80,7 @@ graph TD
 | :------------------------------: | :------------------------------------------: | :---------------------------------------: |
 | **Sprint 1:** 13/04 a 30/04/2026 | [Sprint Review](./docs/sprint-1/sprint-1.md) | [▶ YouTube](https://youtu.be/stGfCEhU9n4) |
 | **Sprint 2:** 04/05 a 21/05/2026 | [Sprint Review](./docs/sprint-2/sprint-2.md) | [▶ YouTube](https://youtu.be/FIshcp9V2EM) |
-| **Sprint 3:** 25/05 a 11/06/2026 | [Sprint Review](./docs/sprint-3/sprint-3.md) |                    🔜                     |
+| **Sprint 3:** 25/05 a 11/06/2026 | [Sprint Review](./docs/sprint-3/sprint-3.md) | [▶ YouTube](https://youtu.be/2L-BPbvUl8U) |
 
 ---
 
@@ -136,10 +136,11 @@ A organização segue o padrão de camadas para garantir separação de responsa
 
 1. Clone o repositório e instale as dependências:
    ```bash
-   npm install express dotenv bcryptjs
+   npm i
    ```
 2. Configure o arquivo `.env` na raiz do projeto seguindo o modelo:
    ```env
+   DATABASE_URL=postgresql://usuario:senha@host:porta/banco?sslmode=require
    PORT=3000
    POSTGRES_HOST=localhost
    POSTGRES_USER=seu_usuario
@@ -153,6 +154,29 @@ A organização segue o padrão de camadas para garantir separação de responsa
    ```bash
    npm run db:init
    ```
+   #### Carga manual do seed (caso o `db:init` falhe por permissão)
+
+Se o comando `npm run db:init` retornar erro de permissão no `COPY`, execute via psql:
+
+```bash
+& "C:\Program Files\PostgreSQL\15\bin\psql.exe" -U postgres -d abp -c "\copy public.modulos (id_modulo, titulo) FROM '<caminho_do_projeto>/src/infra/init/seed-data/modulos.csv' WITH (FORMAT csv, HEADER true, DELIMITER ';', ENCODING 'UTF8')"
+
+& "C:\Program Files\PostgreSQL\15\bin\psql.exe" -U postgres -d abp -c "\copy public.questoes (id_questao, id_modulo, grupo, numero, dificuldade, enunciado, alternativa_correta, alternativa_a, alternativa_b, alternativa_c, alternativa_d, imagem) FROM '<caminho_do_projeto>/src/infra/init/seed-data/questoes.csv' WITH (FORMAT csv, HEADER true, DELIMITER ';', ENCODING 'UTF8')"
+```
+
+> **Atenção:** substitua `<caminho_do_projeto>` pelo caminho absoluto da pasta do projeto na sua máquina.
+> Exemplo: `C:/Users/SEU_USUARIO/Desktop/PortalScrum`
+
+Para verificar se o seed foi carregado corretamente, execute o script:
+
+```bash
+src/infra/init/verify_seed.sql
+```
+
+```bash
+src/infra/init/verify_seed.sql
+```
+
 4. Execute o servidor:
    ```bash
    npm run dev

@@ -8,11 +8,13 @@ const emailError = document.getElementById("email-error");
 const nameError = document.getElementById("name-error");
 const form = document.getElementById("form");
 
+// Essa funcao valida se o e-mail possui um formato valido
 function validarEmail(email) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
 }
 
+// Essa funcao valida o CPF calculando os digitos verificadores
 function validarCPF(cpf) {
     cpf = cpf.replace(/\D/g, "");
 
@@ -41,6 +43,7 @@ function validarCPF(cpf) {
     return resto === parseInt(cpf.substring(10, 11));
 }
 
+// Essa funcao aplica a mascara visual de CPF no input
 function mascaraCPF(valor) {
     valor = valor.replace(/\D/g, "");
     valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
@@ -49,6 +52,7 @@ function mascaraCPF(valor) {
     return valor;
 }
 
+// Essa funcao ativa ou desativa a exibicao do erro no campo nome
 function setNameError(show) {
     if (show) {
         inputName.classList.add("input-error");
@@ -59,6 +63,7 @@ function setNameError(show) {
     }
 }
 
+// Essa funcao ativa ou desativa a exibicao do erro no campo email
 function setEmailError(show) {
     if (show) {
         inputEmail.classList.add("input-error");
@@ -69,6 +74,7 @@ function setEmailError(show) {
     }
 }
 
+// Essa funcao ativa ou desativa a exibicao do erro no campo CPF
 function setCPFError(show) {
     if (show) {
         inputCPF.classList.add("input-error");
@@ -79,6 +85,7 @@ function setCPFError(show) {
     }
 }
 
+// Essa funcao ativa ou desativa a exibicao do erro no campo senha
 function setPasswordError(show) {
     if (show) {
         inputPassword.classList.add("input-error");
@@ -109,6 +116,7 @@ inputCPF &&
         setCPFError(false);
     });
 
+// Essa funcao valida todos os campos do formulario antes do envio
 function validarFormulario() {
     let valido = true;
 

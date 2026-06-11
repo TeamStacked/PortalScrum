@@ -1,3 +1,5 @@
+ document.addEventListener("DOMContentLoaded", async function () {
+requireGuest()
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -13,7 +15,7 @@ form.addEventListener("submit", async (e) => {
     };
 
     try {
-        const response = await fetch("http://localhost:3000/api/usuarios", {
+        const response = await fetch("/api/usuarios", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -29,9 +31,10 @@ form.addEventListener("submit", async (e) => {
         }
 
         alert("Cadastro realizado!");
-        window.location.href = "/login.html";
+        window.location.href = "/login";
     } catch (error) {
         console.error(error);
         alert("Erro ao conectar com o servidor");
     }
 });
+ })

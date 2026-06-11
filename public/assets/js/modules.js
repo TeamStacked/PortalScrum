@@ -5,9 +5,10 @@
         2: "Scrum Master, Product Owner e Time",
         3: "Sprints, Daily, Review e Retrospectiva",
         4: "Product Backlog e Sprint Backlog",
-        5: "Prova completa de certificacao",
+        5: "Finalização de conceitos sobre o Scrum",
     };
 
+// Essa funcao calcula a quantidade de tentativas ja utilizadas no modulo
     function attemptsUsed(module) {
         return Math.max(
             Number(module.tentativas_iniciadas || 0),
@@ -16,6 +17,7 @@
         );
     }
 
+// Essa funcao define a nota a ser exibida para o modulo conforme status
     function displayGrade(module) {
         if (module.status === "concluido") {
             return Number(module.melhor_nota || 0);
@@ -26,10 +28,12 @@
         return null;
     }
 
+// Essa funcao retorna a quantidade de tentativas restantes no modulo
     function remaining(module) {
         return Math.max(0, 2 - attemptsUsed(module));
     }
 
+// Essa funcao verifica se as tentativas do modulo foram esgotadas sem aprovacao
     function isExhausted(module) {
         return (
             module.status !== "concluido" &&
@@ -38,6 +42,7 @@
         );
     }
 
+// Essa funcao retorna o rotulo amigavel do status do modulo
     function statusLabel(status) {
         return {
             bloqueado: "Bloqueado",
@@ -46,6 +51,7 @@
         }[status] || status;
     }
 
+// Essa funcao normaliza o objeto do modulo retornado pela API
     function normalizeModule(module) {
         return {
             id: Number(module.nivel),
@@ -269,7 +275,7 @@
             try {
                 if (selectedModule.status === "concluido") {
                     window.location.href =
-                        "resultado.html?modulo=" +
+                        "resultado?modulo=" +
                         encodeURIComponent(selectedModule.id);
                     return;
                 }
@@ -280,7 +286,7 @@
                 );
                 if (exame && exame.id_exame) {
                     window.location.href =
-                        "exame.html?id_exame=" +
+                        "exame?id_exame=" +
                         encodeURIComponent(exame.id_exame) +
                         "&modulo=" +
                         encodeURIComponent(selectedModule.id);

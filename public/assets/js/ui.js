@@ -1,4 +1,5 @@
 (function () {
+// Essa funcao exibe um alerta com mensagem e tipo na tela
     function showAlert(element, message, type) {
         if (!element) return;
         element.textContent = message;
@@ -6,6 +7,7 @@
             "alert is-visible " +
             (type === "success" ? "alert-success" : "alert-error");
     }
+// Essa funcao limpa as mensagens e oculta a caixa de alerta
     function clearAlert(element) {
         if (!element) return;
         element.textContent = "";
@@ -14,7 +16,7 @@
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll("[data-back]").forEach(function (button) {
             button.addEventListener("click", function () {
-                window.location.href = button.dataset.back || "hub.html";
+                window.location.href = button.dataset.back || "hub";
             });
         });
     });

@@ -1,7 +1,1 @@
-(function () {
-    window.PortalSession = {
-        logout: function () {
-            localStorage.removeItem("token");
-        },
-    };
-})();
+// Esse arquivo foi desativado pois a funcionalidade de session/logout foi unificada no api.js

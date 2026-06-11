@@ -55,13 +55,13 @@ Esta sprint focou na implementação do motor de avaliação, gerenciamento de t
 
 ![Burndown Chart](/docs/sprint-2/burndown_chart_sprint_2.png)
 
-### ⚓ Análise de Execução
+<!-- ### ⚓ Análise de Execução
 
 **Observação sobre o ritmo:**
 
 [Adicionar análise de execução da sprint aqui baseada no Burndown.]
 
----
+--- -->
 
 ## 🚀 Entregas e Resultados
 

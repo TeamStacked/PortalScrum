@@ -1,8 +1,10 @@
 (function () {
+// Essa funcao obtem o valor de um parametro da URL
   function queryParam(name) {
     return new URLSearchParams(window.location.search).get(name)
   }
 
+// Essa funcao renderiza as informacoes de resultado e define a possibilidade de retry
   function renderResult(result) {
     var approved = Number(result.nota) >= 70
     var total = Number(result.total) || 0
@@ -82,7 +84,7 @@
           }
 
           window.location.href =
-            'exame.html?id_exame=' +
+            'exame?id_exame=' +
             encodeURIComponent(data.id_exame) +
             '&modulo=' +
             encodeURIComponent(result.id_modulo)
@@ -94,6 +96,7 @@
     }
   }
 
+// Essa funcao exibe uma mensagem de erro na tela de resultado
   function renderError(message) {
     document.querySelector('[data-result-title]').textContent =
       'Resultado indisponivel'
