@@ -178,7 +178,7 @@ As funcionalidades incluem:
 
 ## Vídeo de Demonstração
 
-- Inserir link do YouTube
+- [Vídeo de apresentação Sprint 3](https://youtu.be/2L-BPbvUl8U)
 
 ## Manual do Usuário
 
